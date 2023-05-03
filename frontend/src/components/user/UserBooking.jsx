@@ -65,7 +65,7 @@ const UserBooking = () => {
       {!loading && booked &&
         booked.map((booking) => (
           <div style={{ borderBottom: '1px solid black', marginBottom: '1px' }} key={booking._id}>
-              <p>Details: {booking.booking.service}</p> 
+              <p>Service: {booking.booking.service}</p> 
              <p>Date Booked: {new Date(booking.createdAt).toLocaleString('en-US', {
               year: 'numeric',
               month: '2-digit',
@@ -80,10 +80,12 @@ const UserBooking = () => {
             <p>Pick Up Address: {booking.booking.booking.address.pickUpAdress}</p> 
             <p>Rider: {booking.booking.booking.rider}</p> 
             <p>Status: {booking.booking.booking.status}</p> 
-            <p>Item: {booking.booking.item}</p> 
-            <p>Details: {booking.booking.itemDetails}</p> 
-            <p>Service: {booking.booking.service}</p> 
-            {booking.booking.booking.status === 'For Pick Up' ? 
+            {booking.booking.item ? <div><p>Item: {booking.booking.item}</p>
+            <p>Details: {booking.booking.itemDetails}</p></div>  : null}
+            {booking.booking.items ? (<p>Items: {booking.booking.items.map((item) => 
+            <li>{item.item} - {item.store}</li>)}</p>) : null}
+                 
+                      {booking.booking.booking.status === 'For Pick Up' ? 
   <button onClick={() => handleCallRider(booking.booking.booking.riderPhone)}>Call Rider</button> :
   <button onClick={() => handleCancel(booking)}>Cancel</button>
 }         

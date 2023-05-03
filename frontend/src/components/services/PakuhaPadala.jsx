@@ -47,11 +47,14 @@ const PakuhaPadala = () => {
 
 const handleSubmitBooking = () => {
   axios.post(`${url}/booking`, booked, setHeaders)
+  .then(response => {
+    console.log(response.data);
      toast('Booked successfully!');
-    navigate('/user/userBooking')
-    .catch(error => {
-    console.log(error);
-  });
+     navigate('/user/userBooking');
+   })
+   .catch(error => {
+     console.log(error);
+   });
 }
   
   return (

@@ -2,6 +2,10 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DistanceCalculator from "../DistanceCalculator";
+import axios from "axios";
+import { setHeaders, url } from "../../slices/api";
+import { toast } from 'react-toastify';
+
 
 const Pabili = () => {
   const auth = useSelector(state => state.auth)
@@ -47,7 +51,7 @@ const Pabili = () => {
   };
 
   const handleAddItem = () => {
-    console.log(items.length)
+    console.log(booking)
     const lastItemFare = items.length > 0 ? Number(items[items.length - 1].Fare) + 10 : booking.totalAmount;
   
     const newItem = {
@@ -69,8 +73,23 @@ const Pabili = () => {
     setItems(updatedItems);
   };
 
+
+  const booked = {
+    user: {_id: auth._id, name: auth.name} ,
+    motorcycle: '',
+    booking: {booking, items, totalAmount: items.Fare, service: 'Pabili'},
+  };
+
   const handleBooking = () => {
-    
+    axios.post(`${url}/booking`, booked, setHeaders)
+  .then(response => {
+   console.log(response.data);
+    toast('Booked successfully!');
+    navigate('/user/userBooking');
+  })
+  .catch(error => {
+    console.log(error);
+  });
   }
 
   return (
@@ -133,7 +152,7 @@ const Pabili = () => {
           <ul>
             {items.map((item, index) => (
               <li key={index} style={{ backgroundColor: index % 2 === 0 ? 'lightgray' : 'white' }}>
-                {item.item} - {item.store} -{item.address} - {item.Fare}
+                {item.item} - {item.store} -{item.address}
                 <button
                   style={{
                     borderRadius: '50%',
