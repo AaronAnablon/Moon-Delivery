@@ -83,7 +83,9 @@ const UserBooking = () => {
             {booking.booking.item ? <div><p>Item: {booking.booking.item}</p>
             <p>Details: {booking.booking.itemDetails}</p></div>  : null}
             {booking.booking.items ? (<p>Items: {booking.booking.items.map((item) => 
-            <li>{item.item} - {item.store}</li>)}</p>) : null}
+            <li>{item.item} - {item.store}</li>)}
+              <p>Fare: {booking.booking.items.slice(-1)[0].Fare}</p>
+            </p>) : null}
                  
                       {booking.booking.booking.status === 'For Pick Up' ? 
   <button onClick={() => handleCallRider(booking.booking.booking.riderPhone)}>Call Rider</button> :

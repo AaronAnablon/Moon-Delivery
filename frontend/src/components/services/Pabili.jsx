@@ -77,7 +77,7 @@ const Pabili = () => {
   const booked = {
     user: {_id: auth._id, name: auth.name} ,
     motorcycle: '',
-    booking: {booking, items, totalAmount: items.Fare, service: 'Pabili'},
+    booking: {booking, items, service: 'Pabili'},
   };
 
   const handleBooking = () => {
@@ -147,32 +147,37 @@ const Pabili = () => {
  </div>
       <button onClick={handleAddItem}>Add item</button>
       {items.length > 0 && (
-        <div>
-          <h3>Items to purchase:</h3>
-          <ul>
-            {items.map((item, index) => (
-              <li key={index} style={{ backgroundColor: index % 2 === 0 ? 'lightgray' : 'white' }}>
-                {item.item} - {item.store} -{item.address}
-                <button
-                  style={{
-                    borderRadius: '50%',
-                    width: '30px',
-                    height: '30px',
-                    backgroundColor: 'red',
-                    color: 'white',
-                    fontWeight: 'bold',
-                    fontSize: '1.2rem',
-                    lineHeight: '1rem',
-                    cursor: 'pointer',
-                  }}
-                  onClick={() => handleDeleteItem(index)}
-                >X</button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    
+  <div>
+    <h3>Items to purchase:</h3>
+    <ul>
+      {items.map((item, index) => (
+        <li key={index} style={{ backgroundColor: index % 2 === 0 ? 'lightgray' : 'white' }}>
+          {item.item} - {item.store} -{item.address}
+          <button
+            style={{
+              borderRadius: '50%',
+              width: '30px',
+              height: '30px',
+              backgroundColor: 'red',
+              color: 'white',
+              fontWeight: 'bold',
+              fontSize: '1.2rem',
+              lineHeight: '1rem',
+              cursor: 'pointer',
+            }}
+            onClick={() => handleDeleteItem(index)}
+          >X</button>
+        </li>
+      ))}
+     
+    </ul>
+    <li>
+       Total Fare: {items.slice(-1)[0].Fare}
+      </li>
+  </div>
+)}
+
+   
         {auth._id ? (
                <button onClick={handleBooking}>Book</button>
               ) : (
@@ -183,7 +188,7 @@ const Pabili = () => {
                   Login to submit Booking
                 </button>
               )}
-                <p>Payment varies Depending on the Purchases made. Receipt will always be presented be the rider and recorded by our system</p>
+                <p>Payment varies Depending on the Purchases made. Receipt will always be presented by the rider and recorded by our system</p>
     </div>
   );
 };
