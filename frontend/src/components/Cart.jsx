@@ -71,7 +71,7 @@ const Cart = () => {
                       </button></span>
                   <div className="cart-product">
                     <div>
-                    <img src={cartItem.image?.url} alt={cartItem.name} />
+                    <img src={cartItem.image} alt={cartItem.name} />
                       <h3>{cartItem.name}</h3>
                       <p>Brand: {cartItem.brand}</p>
                       </div>
