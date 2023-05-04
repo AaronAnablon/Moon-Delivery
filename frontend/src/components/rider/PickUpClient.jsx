@@ -21,7 +21,6 @@ const PickUpClient = () => {
       setLoading(loading)
     })
   }
-  
 
     useEffect(() => {
         getBooking();
@@ -43,9 +42,13 @@ const PickUpClient = () => {
                 status: 'Completed',
                 riderDelete: booking.booking.booking.riderDelete,
                 userDelete: booking.booking.booking.userDelete,
+                active: true,
                 riderId: auth._id,
                 rider: auth.name,
-              }, service: booking.booking.service,
+              }, items: booking.booking.items, 
+              item: booking.booking.item,
+              itemDetails: booking.booking.itemDetails,
+              service: booking.booking.service,
             completedAt: Date.now()}
           };
           await axios.put(`${url}/booking/${booking._id}`, updatedBooking, setHeaders()).then((response) => {
@@ -70,7 +73,15 @@ const PickUpClient = () => {
         booked.map((booking) => (
           <div style={{ borderBottom: '1px solid black', marginBottom: '1px' }} key={booking._id}>
                   <p>Service: {booking.booking.service}</p> 
-             <p>Date Booked: {booking.createdAt}</p> 
+                  <p>Date Booked: {new Date(booking.createdAt).toLocaleString('en-US', {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+              hour: '2-digit',
+              minute: '2-digit',
+              second: '2-digit',
+              timeZoneName: 'short',
+            })}</p> 
             <p>Client Name: {booking.user.name}</p>
             <p onClick={() => handleCallClient(booking.booking.booking.phoneNumber)}>
               Client Phone Number: 📞🟢{booking.booking.booking.phoneNumber}</p>

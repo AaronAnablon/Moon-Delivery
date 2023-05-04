@@ -37,8 +37,14 @@ const DropOff = () => {
                 status: 'Completed',
                 riderDelete: true,
                 userDelete: booking.booking.booking.userDelete,
+                active: true,
+                riderId: auth._id,
                 rider: auth.name,
-              }, service: booking.booking.service}
+              }, items: booking.booking.items, 
+              item: booking.booking.item,
+              itemDetails: booking.booking.itemDetails,
+              service: booking.booking.service,
+            completedAt: booking.booking.completedAt}
           };
           await axios.put(`${url}/booking/${booking._id}`, updatedBooking, setHeaders()).then((response) => {
             console.log(response.data)
@@ -58,6 +64,7 @@ const DropOff = () => {
             {booked &&
         booked.map((booking) => (
           <div style={{ borderBottom: '1px solid black', marginBottom: '1px' }} key={booking._id}>
+              <p>Service: {booking.booking.service}</p> 
              <p>Date Booked: {new Date(booking.createdAt).toLocaleString('en-US', {
               year: 'numeric',
               month: '2-digit',
@@ -81,6 +88,15 @@ const DropOff = () => {
             <p>Pick Up Address: {booking.booking.booking.address.pickUpAdress}</p> 
             <p>Fare: {booking.booking.booking.totalAmount}</p> 
             <p>Status: {booking.booking.booking.status}</p> 
+
+            {booking.booking.item ? <div><p>Item: {booking.booking.item}</p>
+            <p>Details: {booking.booking.itemDetails}</p></div>  : null}
+
+            {booking.booking.items ? (<div>Items: {booking.booking.items.map((item, index) => 
+            <ul><li key={index}>{item.item} - {item.store} </li></ul>)}
+              <p>Fare: {booking.booking.items.slice(-1)[0].Fare}</p>
+            </div>) : null}
+
             <button onClick={() => handleDelete(booking)}>Delete</button>
           </div>
         ))}

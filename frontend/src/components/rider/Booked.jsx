@@ -44,7 +44,10 @@ const Booked = () => {
           active: true,
           riderId: auth._id,
           rider: auth.name,
-        }, items: booking.booking.items, service: booking.booking.service},
+        }, items: booking.booking.items,
+        item: booking.booking.item,
+        itemDetails: booking.booking.itemDetails,
+        service: booking.booking.service},
       
       };
       await axios.put(`${url}/booking/${booking._id}`, updatedBooking, setHeaders()).then((response) => {

@@ -43,7 +43,11 @@
               userDelete: true,
               riderId: booking.booking.booking.riderId,
               rider: booking.booking.booking.name,
-            }, service: booking.booking.service}
+            },  item: booking.booking.item,
+            itemDetails: booking.booking.itemDetails,
+            service: booking.booking.service,
+            completedAt: booking.booking.completedAt,
+          }
         };
         await axios.put(`${url}/booking/${booking._id}`, updatedBooking, setHeaders()).then((response) => {
           console.log(response.data)
@@ -65,6 +69,7 @@
         {booked &&
           booked.map((booking) => (
             <div style={{ borderBottom: '1px solid black', marginBottom: '1px' }} key={booking._id}>
+                  <p>Service: {booking.booking.service}</p> 
                <p>Date Booked: {new Date(booking.createdAt).toLocaleString('en-US', {
                 year: 'numeric',
                 month: '2-digit',
@@ -88,6 +93,14 @@
               <p>Pick Up Address: {booking.booking.booking.address.pickUpAdress}</p> 
               <p>Fare: {booking.booking.booking.totalAmount}</p> 
               <p>Status: {booking.booking.booking.status}</p> 
+              {booking.booking.item ? <div><p>Item: {booking.booking.item}</p>
+            <p>Details: {booking.booking.itemDetails}</p></div>  : null}
+
+            {booking.booking.items ? (<div>Items: {booking.booking.items.map((item) => 
+            <li>{item.item} - {item.store}</li>)}
+              <p>Fare: {booking.booking.items.slice(-1)[0].Fare}</p>
+            </div>) : null}
+
               {booking.booking.booking.status === 'For Pick Up' ? 
   <button onClick={() => handleCallRider(booking.booking.booking.riderPhone)}>Call Rider</button> :
   booking.booking.booking.status === 'Completed' ?  <button onClick={() => handleDelete(booking)}>Delete</button> :
