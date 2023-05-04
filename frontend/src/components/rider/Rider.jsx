@@ -31,7 +31,7 @@ const Rider = () => {
             }
             to="/rider/pickUpClient"
           >
-            Pick Up Client
+            Pick Up Booked
           </NavLink>
           <NavLink
             className={({ isActive }) =>

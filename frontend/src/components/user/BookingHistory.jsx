@@ -6,15 +6,21 @@
   const BookingHistory = () => {
     const [booked, setBooked] = useState([]);
     const auth = useSelector(state => state.auth)
-  
-    const getBooking = () => {axios
-    .get(`${url}/booking/user/${auth._id}/Completed`, setHeaders)
-    .then((response) => {
-      setBooked(response.data);
-      })
-    .catch((error) => {
-      console.log(error);
-    });}
+    const [loading, setLoading] = useState(false);
+
+    const getBooking = () => {
+      setLoading(true); // Set loading to true before the axios call
+      axios.get(`${url}/booking/user/${auth._id}/Completed`, setHeaders)
+        .then((response) => {
+          setBooked(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          setLoading(false); // Set loading to false after the axios call
+        });
+    };
   
     useEffect(() => {
       getBooking()
@@ -48,11 +54,14 @@
       }
     };
     
-   
+    const handleCallRider = (riderNumber) => {
+      window.open(`tel:${riderNumber}`);
+    }
   
     return (
       <div>
         <h2>Booking History</h2>
+        {loading && <p>Loading...</p>}
         {booked &&
           booked.map((booking) => (
             <div style={{ borderBottom: '1px solid black', marginBottom: '1px' }} key={booking._id}>
@@ -79,7 +88,14 @@
               <p>Pick Up Address: {booking.booking.booking.address.pickUpAdress}</p> 
               <p>Fare: {booking.booking.booking.totalAmount}</p> 
               <p>Status: {booking.booking.booking.status}</p> 
-            <button onClick={() => handleDelete(booking)}>Delete</button>
+              {booking.booking.booking.status === 'For Pick Up' ? 
+  <button onClick={() => handleCallRider(booking.booking.booking.riderPhone)}>Call Rider</button> :
+  booking.booking.booking.status === 'Completed' ?  <button onClick={() => handleDelete(booking)}>Delete</button> :
+ null
+}         
+
+
+         
             
             </div>
           ))}

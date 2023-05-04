@@ -114,7 +114,7 @@ const Pabili = () => {
         )}
       </div>
       <div>
-      <label htmlFor="address">Select a Route:</label>
+      <label htmlFor="address">Select a Store Address:</label>
         <select id="address" name="address" value={addressInput} onChange={handleAddressChange}>
           <option value="">Please select a Route</option>
           <option value="Lagawe Trading, Lagawe, Ifugao">Lagawe Trading, Lagawe, Ifugao</option>
@@ -142,7 +142,7 @@ const Pabili = () => {
     />
     Use Default Address
   </label>
-      <DistanceCalculator pickupAddress={useDefaultAddress ? auth.address : userAddress} destination={addressInput === 'Other' ? otherAddress: addressInput} phoneNumber={auth.phoneNumber}/>
+      <DistanceCalculator pickupAddress={addressInput === 'Other' ? otherAddress: addressInput} destination={useDefaultAddress ? auth.address : userAddress} phoneNumber={auth.phoneNumber}/>
       <div>
  </div>
       <button onClick={handleAddItem}>Add item</button>

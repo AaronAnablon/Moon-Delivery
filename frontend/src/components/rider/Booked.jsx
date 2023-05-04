@@ -6,15 +6,20 @@ import { useSelector } from "react-redux";
 const Booked = () => {
   const [booked, setBooked] = useState([]);
   const auth = useSelector(state => state.auth)
+  const [loading, setLoading] = useState(false)
 
-  const getBooking = () => {axios
-  .get(`${url}/booking/booked`, setHeaders)
+  const getBooking = () => {
+  setLoading(true);
+  axios.get(`${url}/booking/booked`, setHeaders)
   .then((response) => {
     setBooked(response.data);
     })
   .catch((error) => {
     console.log(error);
-  });}
+  })
+  .finally(() => {
+    setLoading(false)
+  })}
 
   useEffect(() => {
           getBooking();
@@ -39,7 +44,8 @@ const Booked = () => {
           active: true,
           riderId: auth._id,
           rider: auth.name,
-        }, service: booking.booking.service}
+        }, items: booking.booking.items, service: booking.booking.service},
+      
       };
       await axios.put(`${url}/booking/${booking._id}`, updatedBooking, setHeaders()).then((response) => {
         console.log(response.data)
@@ -54,9 +60,12 @@ const Booked = () => {
 
   return (
     <div>
+      <h2>Booked</h2>
+        {loading && <p>Loading...</p>}
       {booked &&
         booked.map((booking) => (
           <div style={{ borderBottom: '1px solid black', marginBottom: '1px' }} key={booking._id}>
+             <p>Service: {booking.booking.service}</p> 
              <p>Date Booked: {new Date(booking.createdAt).toLocaleString('en-US', {
               year: 'numeric',
               month: '2-digit',

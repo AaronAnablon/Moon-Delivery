@@ -6,23 +6,26 @@ import { useSelector } from "react-redux";
 const PickUpClient = () => {
   const auth = useSelector((state) => state.auth);
   const [booked, setBooked] = useState([]);
-
+  const [loading, setLoading] = useState(false)
   
-  const getBooking = () => {axios
-     .get(`${url}/booking/${auth._id}/For Pick Up`, setHeaders)
+  const getBooking = () => {
+    setLoading(!loading)
+    axios.get(`${url}/booking/${auth._id}/For Pick Up`, setHeaders)
        .then((response) => {
       setBooked(response.data);
     })
     .catch((error) => {
         console.log(error);
-    });}
+    })
+    .finally(() => {
+      setLoading(loading)
+    })
+  }
   
 
     useEffect(() => {
-      const intervalId = setInterval(() => {
         getBooking();
-      }, 3000); // call getBooking every 5 seconds
-      return () => clearInterval(intervalId); // cleanup function to clear the interval when component unmounts
+        console.log(booked)
     }, []);
   
     
@@ -54,25 +57,36 @@ const PickUpClient = () => {
         }
       };
 
- 
+      const handleCallClient = (ClientNumber) => {
+        window.open(`tel:${ClientNumber}`);
+      }
 
   return (
     <div>
-      <h2>Pick Up Client</h2>
+      <h2>Pick Up Booked</h2>
+      {loading && <p>Loading...</p>}
           <ul>
             {booked &&
         booked.map((booking) => (
           <div style={{ borderBottom: '1px solid black', marginBottom: '1px' }} key={booking._id}>
+                  <p>Service: {booking.booking.service}</p> 
              <p>Date Booked: {booking.createdAt}</p> 
             <p>Client Name: {booking.user.name}</p>
-            <a style={{ all: 'unset' }} href={booking.booking.booking.phoneNumber}>
-              Client Phone Number: 📞🟢{booking.booking.booking.phoneNumber}</a>
+            <p onClick={() => handleCallClient(booking.booking.booking.phoneNumber)}>
+              Client Phone Number: 📞🟢{booking.booking.booking.phoneNumber}</p>
             <p>Destination: {booking.booking.booking.address.destination}</p>  
             <p>Pick Up Address: {booking.booking.booking.address.pickUpAdress}</p> 
             <p>Fare: {booking.booking.booking.totalAmount}</p> 
             <p>Rider: {booking.booking.booking.rider}</p> 
-            <p>Rider Phone Number: {booking.booking.booking.riderPhone}</p>
             <p>Status: {booking.booking.booking.status}</p> 
+            {booking.booking.item ? <div><p>Item: {booking.booking.item}</p>
+            <p>Details: {booking.booking.itemDetails}</p></div>  : null}
+
+            {booking.booking.items ? (<div>Items: {booking.booking.items.map((item) => 
+            <ul><li>{item.item} - {item.store} </li></ul>)}
+              <p>Fare: {booking.booking.items.slice(-1)[0].Fare}</p>
+            </div>) : null}
+
             <button onClick={() => handleCompleted(booking)}>Completed</button>
           </div>
         ))}
