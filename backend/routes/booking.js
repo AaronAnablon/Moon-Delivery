@@ -33,6 +33,7 @@ router.get('/:id/:status', async (req, res) => {
   try {
     const bookings = await Booking.find({
       "booking.booking.riderId": req.params.id,
+      "booking.booking.riderDelete": false,
       "booking.booking.status": req.params.status
     });
     if (!bookings) {

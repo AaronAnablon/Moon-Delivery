@@ -93,7 +93,8 @@
               <p>Pick Up Address: {booking.booking.booking.address.pickUpAdress}</p> 
               <p>Fare: {booking.booking.booking.totalAmount}</p> 
               <p>Status: {booking.booking.booking.status}</p> 
-              {booking.booking.item ? <div><p>Item: {booking.booking.item}</p>
+
+             {booking.booking.item ? <div><p>Item: {booking.booking.item}</p>
             <p>Details: {booking.booking.itemDetails}</p></div>  : null}
 
             {booking.booking.items ? (<div>Items: {booking.booking.items.map((item) => 

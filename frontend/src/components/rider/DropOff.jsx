@@ -55,9 +55,7 @@ const DropOff = () => {
         }
       };
 
- 
-
-  return (
+   return (
     <div>
       <h2>Pick Up Client</h2>
           <ul>
@@ -88,6 +86,8 @@ const DropOff = () => {
             <p>Pick Up Address: {booking.booking.booking.address.pickUpAdress}</p> 
             <p>Fare: {booking.booking.booking.totalAmount}</p> 
             <p>Status: {booking.booking.booking.status}</p> 
+          
+           <p>RiderDelete: {booking.booking.booking.riderDelete}</p>
 
             {booking.booking.item ? <div><p>Item: {booking.booking.item}</p>
             <p>Details: {booking.booking.itemDetails}</p></div>  : null}

@@ -1,4 +1,4 @@
-import Charts from "./Chart";
+import Chart from "./Chart";
 import LineChart from "./LineChart";
 import { useState, useEffect, useCallback } from "react";
 import { setHeaders, url } from "../../slices/api";
@@ -36,8 +36,8 @@ const Summary = () => {
 
   return (
     <>
-      {/* <Charts /> */}
-  {/* {orders.length > 0 && <LineChart labels={data} />} */}
+      <Chart />
+  {orders.length > 0 && <LineChart labels={data} />}
     </>
   );
 };
