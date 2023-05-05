@@ -49,9 +49,9 @@ const Orders = () => {
       <h2>Orders</h2>
       {loading && <p>Loading..</p>}
       {error && <div>{error}</div>}
-      <ul>
+      <ul style={{display: 'flex', flexWrap: 'wrap'}}>
       {orders && orders.map((order) => (
-          <li style={{ borderBottom: '1px solid black', marginBottom: '1px' }} key={order._id}>
+          <li style={{  borderColor: 'white', borderWidth: '12px', borderStyle: 'solid' }} key={order._id}>
             <p>Client ID: {order.userId}</p>
             <p>ProductId: {order.products[0].productId}</p>
             <p>Items: {order.products[0].quantity}</p>

@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Doughnut } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { setHeaders, url } from '../../slices/api';
 
+ChartJS.register(ArcElement, Tooltip, Legend);
+
 export default function Chart() {
   const auth = useSelector((state) => state.auth);
-  const [chartData, setChartData] = useState({});
+  const [ordered, setOrders] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -15,31 +18,9 @@ export default function Chart() {
           `${url}/orders/seller-orders/${auth._id}/pending`,
           setHeaders()
         );
-        const orders = response.data;
-
-        setChartData({
-          labels: ['Orders', 'Completed', 'For Pick Up', 'Cancelled'],
-          datasets: [
-            {
-              label: '# of Votes',
-              data: [orders.length, 1, 3, 4],
-              backgroundColor: [
-                'rgb(255, 165, 0)',
-                'rgb(60, 179, 113)',
-                'rgb(56, 255, 255)',
-                'rgb(255, 0, 0)',
-              ],
-              borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-              ],
-              borderWidth: 1,
-            },
-          ],
-        });
-      } catch (error) {
+        const orders = response.data.length;
+         setOrders(orders)
+           } catch (error) {
         console.log(error);
       }
     };
@@ -47,5 +28,30 @@ export default function Chart() {
     fetchData();
   }, [auth._id]);
 
-  return <Doughnut data={chartData} />;
+const options = {
+  responsive: true,
+  plugins: {
+    legend: true,
+    title: {
+      display: true,
+      text: 'Summary',
+    },
+  },
+}
+const labels = ['Orders', 'Completed', 'For Pick Up', 'Cancelled']
+const data = {
+  labels: labels,
+  datasets: [{
+    data: [ordered,3, 2,4],
+    backgroundColor: ['orange', 'green', 'yellow', 'red'],
+    borderColor: ['orange', 'green', 'yellow', 'red']
+  }]
+}
+  return (
+  <div> <Doughnut 
+        data={data} 
+        options = {options}
+        />
+        </div>
+ )
 }
