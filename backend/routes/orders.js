@@ -1,7 +1,7 @@
 const { Order } = require("../models/order");
 const { isRider, isUser, isAdmin } = require("../middleware/auth");
 const cloudinary = require("../utils/cloudinary");
-
+const moment = require('moment');
 const router = require("express").Router();
 
 //CREATE
@@ -115,7 +115,13 @@ router.get("/seller-orders/:seller/:status", isAdmin, async (req, res) => {
       $elemMatch: {
         storeId: req.params.seller
       }
-    }, delivery_status: req.params.status });
+    },  $or: [
+      { delivery_status: req.params.status },
+      { delivery_status: 'Delivered' },
+      {delivery_status: 'Cancelled'},
+      {delivery_status: 'For Pick Up'},
+      {delivery_status: 'For Delivery'},
+    ] });
     res.status(200).send(orders);
   } catch (err) {
     console.log(err)
@@ -164,6 +170,55 @@ router.get("/income/:id", isAdmin, async (req, res) => {
     res.status(200).send(orders);
   } catch (err) {
     res.status(500).send(err);
+  }
+});
+
+
+//get orders-by-status-and-date
+router.get('/orders-by-status-and-date', async (req, res) => {
+  try {
+    const startDate = moment().subtract(7, 'days').startOf('day'); // get the start date 7 days ago
+    const endDate = moment().endOf('day'); // get the end date of today
+
+    const completedOrders = await Order.countDocuments({ delivery_status: 'Delivered', createdAt: { $gte: startDate, $lte: endDate } });
+    const cancelledOrders = await Order.countDocuments({ delivery_status: 'Cancelled', createdAt: { $gte: startDate, $lte: endDate } });
+    const pendingOrders = await Order.countDocuments({ delivery_status: 'pending', createdAt: { $gte: startDate, $lte: endDate } });
+
+    const ordersByDate = await Order.aggregate([
+      {
+        $match: {
+          createdAt: {
+            $gte: startDate.toDate(),
+            $lte: endDate.toDate(),
+          },
+        },
+      },
+      {
+        $group: {
+          _id: {
+            year: { $year: '$createdAt' },
+            month: { $month: '$createdAt' },
+            day: { $dayOfMonth: '$createdAt' },
+          },
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $sort: { _id: 1 },
+      },
+    ]);
+
+    const data = {
+      completedOrders,
+      cancelledOrders,
+      pendingOrders,
+      ordersByDate,
+    };
+
+    res.json(data);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 

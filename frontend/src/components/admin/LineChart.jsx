@@ -10,10 +10,6 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import { setHeaders, url } from '../../slices/api';
-import axios from 'axios';
-import { useSelector } from 'react-redux';
-import { useState, useEffect } from 'react';
 
 
   ChartJS.register(
@@ -26,29 +22,8 @@ import { useState, useEffect } from 'react';
     Legend
   );
 
-const LineChart = () => {
-
-  const auth = useSelector((state) => state.auth);
-  const [ordered, setOrders] = useState({});
-  const [pending, setPending] = useState('')
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `${url}/orders/seller-orders/${auth._id}/pending`,
-          setHeaders()
-        );
-        setPending(response.data)
-        const orders = response.data.length;
-         setOrders(orders)
-           } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchData();
-  }, [auth._id]);
+const LineChart = ({date, pending, cancelled}) => {
+ console.log(date)
 
   const options = {
     responsive: true,
@@ -61,29 +36,21 @@ const LineChart = () => {
     },
     };
 
+    const day = date && date.map((order) => 
+   `${order._id.year}-${order._id.month}-${order._id.day}`
+    )
+    
+    
     
 
   const data = {
-    labels: pending && pending.map((order) =>
-    new Date(order.createdAt).toLocaleString('en-US', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-       })
-  ),
+    labels: day,
     datasets: [{
       label: 'Orders of the week',
-      data: pending && pending.map((order, index) =>
-      index ),
+      data: date && date.map((order) => 
+   order.count
+    ),
       backgroundColor: 'aqua',
-      borderColor: 'black', 
-      pointBorderColor: 'aqua',
-      tension: 0.4,
-    },  {
-      label: 'Cancelled this week',
-      data: pending && pending.map((order, index) =>
-     index),
-      backgroundColor: 'red',
       borderColor: 'black', 
       pointBorderColor: 'aqua',
       tension: 0.4,
@@ -97,10 +64,15 @@ const LineChart = () => {
   <div>
     <Line options={options} data={data} />
 
-    {pending && pending.filter(order => order.
-delivery_status === "pending").length}
      </div>
          )
 };
 
 export default LineChart;
+
+
+
+
+
+
+

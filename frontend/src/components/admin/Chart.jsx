@@ -10,13 +10,16 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 export default function Chart() {
   const auth = useSelector((state) => state.auth);
   const [ordered, setOrders] = useState({});
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(!loading)
       try {
         const response = await axios.get(
           `${url}/orders/seller-orders/${auth._id}/pending`,
-          setHeaders()
+          setHeaders(),
+          setLoading(false)
         );
         const orders = response.data.length;
          setOrders(orders)
@@ -48,7 +51,9 @@ const data = {
   }]
 }
   return (
-  <div> <Doughnut 
+  <div>
+    {loading && <p>Loading...</p>} 
+    <Doughnut 
         data={data} 
         options = {options}
         />
