@@ -67,7 +67,7 @@ const Summary = () => {
       <ul>
         {ordersByDate.map((order) => (
           <li key={`${order._id.year}-${order._id.month}-${order._id.day}`}>{`${moment(
-            `${order._id.year}-${order._id.month}-${order._id.day}`,
+            `${order._id.year}-${order._id.month}-${order._id.day}-${order._id.hour}-${order._id.minute}`,
             'YYYY-M-D'
           ).format('MMMM D, YYYY')}: ${order.count}`}</li>
         ))}

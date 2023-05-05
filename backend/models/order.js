@@ -15,7 +15,7 @@ const orderSchema = new mongoose.Schema(
     payment_status: { type: String, required: true },
     image: { type: Object }, 
   },
-    { timestamps: { currentTime: () => new Date().getTime() + 28800000 } }
+    { timestamps: true }
 );
 
 const Order = mongoose.model("Order", orderSchema);

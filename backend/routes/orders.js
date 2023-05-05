@@ -199,9 +199,10 @@ router.get('/orders-by-status-and-date', async (req, res) => {
             year: { $year: '$createdAt' },
             month: { $month: '$createdAt' },
             day: { $dayOfMonth: '$createdAt' },
-          },
+               },
           count: { $sum: 1 },
         },
+        
       },
       {
         $sort: { _id: 1 },

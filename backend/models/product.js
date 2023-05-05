@@ -13,7 +13,7 @@ const productSchema = new mongoose.Schema(
     price: { type: Number, required: true },
     image: { type: Object, required: true },
   },
-  { timestamps: { currentTime: () => new Date().getTime() + 28800000 } }
+  { timestamps: true }
 );
 
 const Product = mongoose.model("Product", productSchema);

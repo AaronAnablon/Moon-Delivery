@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema(
     isRider: { type: Boolean, default: false },
     activeLocation: {type: Object},
   },
-  { timestamps: { currentTime: () => new Date().getTime() + 28800000 } }
+  { timestamps: true }
 );
 
 const User = mongoose.model("User", userSchema);
