@@ -113,7 +113,7 @@ router.get("/seller-orders/:seller/:status", isAdmin, async (req, res) => {
   try {
     const orders = await Order.find({  products: {
       $elemMatch: {
-        sellerId: req.params.seller
+        storeId: req.params.seller
       }
     }, delivery_status: req.params.status });
     res.status(200).send(orders);

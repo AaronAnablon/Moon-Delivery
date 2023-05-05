@@ -7,11 +7,14 @@ const Orders = () => {
   const auth = useSelector((state) => state.auth);
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false)
 
   const fetchOrders = useCallback(async () => {
+    setLoading(!loading)
     try {
       const res = await axios.get(`${url}/orders/seller-orders/${auth._id}/pending`, setHeaders());
       setOrders(res.data);
+      setLoading(false)
     } catch (err) {
       console.log(err)
       setError(err.response.data);
@@ -44,6 +47,7 @@ const Orders = () => {
   return (
     <div>
       <h2>Orders</h2>
+      {loading && <p>Loading..</p>}
       {error && <div>{error}</div>}
       <ul>
       {orders && orders.map((order) => (
