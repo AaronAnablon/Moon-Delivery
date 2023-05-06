@@ -77,7 +77,8 @@ const UserBooking = () => {
             })}</p> 
             <p>Client Name: {booking.user.name}</p>
             <p>Destination: {booking.booking.booking.address.destination}</p>  
-            <p>Pick Up Address: {booking.booking.booking.address.pickUpAdress}</p> 
+            <p>{booking.booking.service === 'Pabili' ? "Store Address: ": "Pick Up Address: "} 
+            {booking.booking.booking.address.pickUpAdress}</p> 
             <p>Rider: {booking.booking.booking.rider}</p> 
             <p>Status: {booking.booking.booking.status}</p> 
             {booking.booking.item ? <div><p>Item: {booking.booking.item}</p>

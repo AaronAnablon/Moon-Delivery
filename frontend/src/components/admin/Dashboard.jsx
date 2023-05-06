@@ -61,15 +61,16 @@ export default Dashboard;
 const StyledDashboard = styled.div`
   display: flex;
   height: 100vh;
+ 
 `;
 
 const ToggleNavButton = styled.button`
   display: block;
   position: fixed;
-  top: 1rem;
-  right: .2rem;
+  top: -.3rem;
+  left: 5rem;
   z-index: 9999999;
-  width: clamp(24px, 2vw, 24px);
+  width: clamp(30px, 2vw, 24px);
   background: #4b70e2;
   color: #f9f9f9;
 `;
@@ -78,13 +79,13 @@ const SideNav = styled.div`
   height: calc(100vh - 70px);
   position: fixed;
   overflow-y: auto;
-  width: 20%;
+  width: 40%;
   display: flex;
   flex-direction: column;
   padding: 1rem;
   transition: transform 0.3s ease-in-out;
   transform: ${({ showSideNav }) =>
-    showSideNav ? "translateX(0)" : "translateX(-60%)"};
+    showSideNav ? "translateX(0)" : "translateX(-30%)"};
 
   h3 {
     margin: 1.5rem 0 1rem 0;
@@ -107,7 +108,7 @@ const Content = styled.div`
   flex-direction: column;
   align-items: center;
 
-  margin-left: ${({ showSideNav }) => (showSideNav ? "20vw" : "10vw")};
+  margin-left: ${({ showSideNav }) => (showSideNav ? "34vw" : "10vw")};
   width: 80%;
   transition: margin-left 0.3s ease-in-out;
 `;

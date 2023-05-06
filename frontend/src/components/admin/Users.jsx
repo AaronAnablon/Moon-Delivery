@@ -57,7 +57,7 @@ const styles = {
     flexDirection: "column",
     alignItems: "center",
     margin: "20px auto",
-    width: "100%"
+    width: "90%"
   },
   
   label: {

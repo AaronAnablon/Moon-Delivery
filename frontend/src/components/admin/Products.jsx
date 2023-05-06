@@ -114,7 +114,7 @@ const Products = () => {
 <div className="SellerDetails">
 <h3>{product.name}</h3>
 <div title={product.desc}>{product.desc}</div>
-<div className="SellerPrice">{product.price} USD</div>
+<div className="SellerPrice">PHP {product.price} </div>
 <div className="SelleAddress">{product.address}</div>
 <div className="buttons">
 <button onClick={() => handleEditProduct(product._id)}>Edit</button>
