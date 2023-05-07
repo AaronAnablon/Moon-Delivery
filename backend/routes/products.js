@@ -62,9 +62,9 @@ router.get("/", async (req, res) => {
     if (qbrand) {
       products = await Product.find({
         brand: qbrand,
-      });
+      }).sort({ createdAt: -1 });
     } else {
-      products = await Product.find();
+      products = await Product.find().sort({ createdAt: -1 });
     }
 
     res.status(200).send(products);
@@ -72,6 +72,27 @@ router.get("/", async (req, res) => {
     res.status(500).send(error);
   }
 });
+
+//get the highest Rating product
+router.get("/highRating", async (req, res) => {
+  const qbrand = req.query.brand;
+  try {
+    let products;
+
+    if (qbrand) {
+      products = await Product.find({
+        brand: qbrand,
+      }).sort({ rating: -1 });
+    } else {
+      products = await Product.find().sort({ rating: -1 });
+    }
+
+    res.status(200).send(products);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 
 //GET PRODUCT
 

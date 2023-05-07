@@ -587,7 +587,19 @@ button {
   cursor: grab;
 }
 
+.carousel-container {
+  width: calc(30% - 4px);
+}
+
+.carousel .carousel-indicators {
+  justify-content: center;
+}
+
 @media (max-width: 768px) {
+  .carousel-container {
+    width: 100%;
+  }
+
   .product-description {
     max-width: 90%;
   }
@@ -604,7 +616,7 @@ button {
     }
 }
 
-/* Selle Products */
+/* Seller Products */
 .SellerProducts {
   display: flex;
   flex-wrap: wrap;

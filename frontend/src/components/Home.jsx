@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link, NavLink } from "react-router-dom";
 import { addToCart } from "../slices/cartSlice";
 import ProductDescription from "./ProductDescription";
+import HighRating from "./HighRating";
 
 const Home = () => {
   const { items: data, status } = useSelector((state) => state.products);
@@ -33,6 +34,7 @@ const Home = () => {
 
   return (
     <div>
+       <HighRating />
       <div className="home-container">
         <nav>
           <ul>
@@ -69,6 +71,7 @@ const Home = () => {
 
           </ul>
         </nav>
+       
         {status === "success" ? (
           <>
             <h2>New Arrivals</h2>
@@ -102,6 +105,7 @@ const Home = () => {
         ) : (
           <p>Unexpected error occurred...</p>
         )}
+      
       </div>
     </div>
   );

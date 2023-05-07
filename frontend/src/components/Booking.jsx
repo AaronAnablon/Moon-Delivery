@@ -4,6 +4,14 @@ const Booking = () => {
   return (
     <div className="home-container">
      <ul>
+     <li>  <NavLink
+          className={({ isActive }) =>
+            isActive ? "link-active" : "link-inactive"
+          }
+          to= "/"
+        >
+      <p>Home</p>
+        </NavLink></li>
       <li>  <NavLink
           className={({ isActive }) =>
             isActive ? "link-active" : "link-inactive"
