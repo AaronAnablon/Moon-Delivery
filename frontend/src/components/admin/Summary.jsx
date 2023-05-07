@@ -13,6 +13,7 @@ const Summary = () => {
   const [cancelledOrders, setCancelledOrders] = useState(0);
   const [pendingOrders, setPendingOrders] = useState(0);
   const [ordersByDate, setOrdersByDate] = useState([]);
+  const [forPickUpOrders , setForPickUp] = useState(0)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,6 +39,7 @@ const Summary = () => {
         setCancelledOrders(response.data.cancelledOrders);
         setPendingOrders(response.data.pendingOrders);
         setOrdersByDate(response.data.ordersByDate);
+        setForPickUp(response.data.forPickUpOrders)
         } catch (err) {
         console.error(err);
       }
@@ -49,7 +51,7 @@ const Summary = () => {
  
   return (
     <div style={{display: 'flex', flexWrap: 'wrap'}}>
-      <Chart />
+      <Chart orders={pendingOrders} completed={completedOrders} forPickUp={forPickUpOrders} cancelled={cancelledOrders}/>
     <LineChart date={ordersByDate} pending={pendingOrders} cancelled={cancelledOrders}/>
       <div><h2>Recent Sales: </h2>{orders && orders.map((order) => 
       <li>

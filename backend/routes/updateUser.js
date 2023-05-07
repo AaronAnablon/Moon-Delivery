@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const { User } = require("../models/user");
 const bcrypt = require('bcrypt');
+const { isUser } = require('../middleware/auth');
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", isUser , async (req, res) => {
   const { name, email, password, phoneNumber, address } = req.body;
 
   try {

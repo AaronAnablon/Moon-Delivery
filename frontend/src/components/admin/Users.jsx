@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { url } from "../../slices/api";
+import { setHeaders, url } from "../../slices/api";
 import { toast } from "react-toastify";
 
 const User = () => {
@@ -21,7 +21,7 @@ const User = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`${url}/user/${auth._id}`, user);
+      const response = await axios.put(`${url}/user/${auth._id}`, user, setHeaders());
       console.log(response.data);
       toast.success("Updated successfully");
     } catch (error) {

@@ -16,6 +16,7 @@ const userSchema = new mongoose.Schema(
     isAdmin: { type: Boolean, default: false },
     isRider: { type: Boolean, default: false },
     activeLocation: {type: Object},
+    rating: {type: Number},
   },
   { timestamps: true }
 );

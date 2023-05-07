@@ -44,6 +44,13 @@ const Orders = () => {
     }
   };
 
+  const callRider = (RiderNumber) => {
+    window.open(`tel:${RiderNumber}`);
+  }
+  const callClient = (ClientNumber) => {
+    window.open(`tel:${ClientNumber}`);
+  }
+
   return (
     <div>
       <h2>Orders</h2>
@@ -67,7 +74,10 @@ const Orders = () => {
             <p>Delivery Status: {order.delivery_status}</p>
             <p>Payment Status: {order.payment_status}</p>
             <p>Total: {order.total}</p>
-            <button onClick={() => updateOrder(order._id)}>Request Delivery</button>
+            {order.delivery_status === 'For Pick Up' ? 
+            <p><button onClick={() => callRider(order.shipping.phoneNumber)}>Call Rider</button>
+            <button onClick={() => callClient(order.shipping.phoneNumber)}>Call Client</button></p>: 
+            <button onClick={() => updateOrder(order._id)}>Request Delivery</button>}
           </li>
         ))}
      

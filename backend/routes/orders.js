@@ -183,6 +183,7 @@ router.get('/orders-by-status-and-date', async (req, res) => {
     const completedOrders = await Order.countDocuments({ delivery_status: 'Delivered', createdAt: { $gte: startDate, $lte: endDate } });
     const cancelledOrders = await Order.countDocuments({ delivery_status: 'Cancelled', createdAt: { $gte: startDate, $lte: endDate } });
     const pendingOrders = await Order.countDocuments({ delivery_status: 'pending', createdAt: { $gte: startDate, $lte: endDate } });
+    const forPickUpOrders = await Order.countDocuments({ delivery_status: 'For Pick Up', createdAt: { $gte: startDate, $lte: endDate } });
 
     const ordersByDate = await Order.aggregate([
       {
@@ -214,6 +215,7 @@ router.get('/orders-by-status-and-date', async (req, res) => {
       cancelledOrders,
       pendingOrders,
       ordersByDate,
+      forPickUpOrders,
     };
 
     res.json(data);
