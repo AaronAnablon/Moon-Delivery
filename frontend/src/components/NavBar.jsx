@@ -26,6 +26,7 @@ const NavBar = () => {
             {
             ! auth.isAdmin && ! auth.isRider && (
                 <>
+                
                     <Link to="/">
                         <h2>Moon Delivery</h2>
                     </Link>

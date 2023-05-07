@@ -8,7 +8,7 @@ import { Carousel } from 'react-responsive-carousel';
 import { setHeaders, url } from "../slices/api";
 import axios from "axios";
 
-const Home = () => {
+const HighRating = () => {
     const auth = useSelector(state => state.auth)
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -84,4 +84,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HighRating;

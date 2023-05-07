@@ -57,8 +57,7 @@ function App() {
         <div className="content-container">
           <Routes>
             <Route path="/" element={<Home />} />
-          
-            <Route path="/booking" element={<Booking />}>
+                   <Route path="/booking" element={<Booking />}>
               <Route path="pabili" element={<Pabili />} />
               <Route path="pahatidSundo" element={<PahatidSundo />} />
               <Route path="pakuhaPadala" element={<PakuhaPadala />} />

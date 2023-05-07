@@ -1,16 +1,49 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link, NavLink } from "react-router-dom";
 import { addToCart } from "../slices/cartSlice";
 import ProductDescription from "./ProductDescription";
 import HighRating from "./HighRating";
+import { url } from "../slices/api";
+import axios from "axios";
 
 const Home = () => {
-  const { items: data, status } = useSelector((state) => state.products);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const [data, setData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [sortedBrand, setSortedBrand] = useState("");
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const [hide, setHide] = useState(false)
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const fetchProducts = async () => {
+        const response = await axios.get(`${url}/products/increment?page=${currentPage}`);
+    const newData = response.data.products;
+    setData(prevData => {
+         const filteredData = newData.filter(product => !prevData.find(p => p._id === product._id));
+           return [...prevData, ...filteredData];
+    });
+  };
+  
+  const handleSearch = () => {
+    setHide(!hide)
+    setCurrentPage(1); // reset current page to 1 when searching
+    axios.get(`${url}/products/search?keyword=${searchKeyword}`)
+      .then((response) => {
+        setData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, [currentPage]);
+
+ 
 
   const handleAddToCart = (product) => {
     dispatch(addToCart(product));
@@ -32,10 +65,24 @@ const Home = () => {
     ? data?.filter((product) => product.category === sortedBrand)
     : data;
 
+    const handleLoadMore = () => {
+      setCurrentPage((prevPage) => prevPage + 1);
+      };
+
+      const handleKeywordChange = (event) => {
+        setSearchKeyword(event.target.value);
+        setHide(false)
+      };
+    
+  
   return (
     <div>
-       <HighRating />
-      <div className="home-container">
+         <div>
+        <input type="text" value={searchKeyword} onChange={handleKeywordChange} />
+        <button onClick={handleSearch}>Search</button>
+      </div>
+          {!hide && <HighRating />}
+          <div className="home-container">
         <nav>
           <ul>
             <li>
@@ -71,8 +118,7 @@ const Home = () => {
 
           </ul>
         </nav>
-       
-        {status === "success" ? (
+              
           <>
             <h2>New Arrivals</h2>
             <div className="products">
@@ -91,6 +137,11 @@ const Home = () => {
                     </button>
                   </div>
                 ))}
+                {filteredData.length > 0 ? 
+                <button onClick={handleLoadMore}>Load more</button> :
+               <div> <p>No Products found</p>
+               <button onClick={() => fetchProducts()}>Refresh</button></div> }
+            
             </div>
             {selectedProduct && (
               <ProductDescription
@@ -99,13 +150,7 @@ const Home = () => {
                 handleAddToCart={() => handleAddToCart(selectedProduct)}
               />
             )}
-          </>
-        ) : status === "pending" ? (
-          <p>Loading...</p>
-        ) : (
-          <p>Unexpected error occurred...</p>
-        )}
-      
+          </>    
       </div>
     </div>
   );
