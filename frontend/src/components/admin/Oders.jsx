@@ -2,12 +2,13 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { setHeaders, url } from "../../slices/api";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Orders = () => {
   const auth = useSelector((state) => state.auth);
   const [orders, setOrders] = useState([]);
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false)
+  const [sortedBrand, setSortedBrand] = useState("");
 
   const fetchOrders = useCallback(async () => {
     setLoading(!loading)
@@ -17,8 +18,7 @@ const Orders = () => {
       setLoading(false)
     } catch (err) {
       console.log(err)
-      setError(err.response.data);
-    }
+     }
   }, [auth.token]);
   
   useEffect(() => {
@@ -39,8 +39,7 @@ const Orders = () => {
       });
       fetchOrders();
     } catch (err) {
-      setError(err.response.data);
-      console.log(err)
+        console.log(err)
     }
   };
 
@@ -51,13 +50,53 @@ const Orders = () => {
     window.open(`tel:${ClientNumber}`);
   }
 
+  const handleSortByBrand = (brand) => {
+    setSortedBrand(brand);
+  };
+
+  const filteredData = sortedBrand
+    ? orders?.filter((order) => order.delivery_status === sortedBrand)
+    : orders;
+ 
   return (
     <div>
-      <h2>Orders</h2>
+      <h2 style={{top: 0}}>Orders</h2>
+      <nav>
+      <ul style={{listStyle: 'none', display: 'flex', flexDirection: 'row', 
+      justifyContent: 'center', alignItems: 'center', position: 'sticky', 
+      top: 0}}>
+
+          <li style={{marginInline: '20px'}}>
+              <Link to="/admin/orders" onClick={() => handleSortByBrand("")}>
+              All
+              </Link>
+            </li>
+          <li style={{marginInline: '20px'}}>
+              <Link to="/admin/orders" onClick={() => handleSortByBrand("pending")}>
+              Pending
+              </Link>
+            </li>
+            <li style={{marginInline: '20px'}}>
+              <Link to="/admin/orders" onClick={() => handleSortByBrand("Delivered")}>
+                Delivered
+              </Link>
+            </li>
+            <li style={{marginInline: '20px'}}>
+              <Link to="/admin/orders" onClick={() => handleSortByBrand("For Pick Up")}>
+              For Pick Up
+              </Link>
+            </li>
+            <li style={{marginInline: '2px'}}>
+              <Link to="/admin/orders" onClick={() => handleSortByBrand("Cancelled")}>
+              Cancelled
+              </Link>
+            </li>
+          </ul>
+        </nav>
+        <div>
       {loading && <p>Loading..</p>}
-      {error && <div>{error}</div>}
-      <ul style={{display: 'flex', flexWrap: 'wrap'}}>
-      {orders && orders.map((order) => (
+         <ul className="products">
+      {filteredData && filteredData.map((order) => (
           <li style={{  borderColor: 'white', borderWidth: '12px', borderStyle: 'solid' }} key={order._id}>
             <p>Client ID: {order.userId}</p>
             <p>ProductId: {order.products[0].productId}</p>
@@ -77,11 +116,13 @@ const Orders = () => {
             {order.delivery_status === 'For Pick Up' ? 
             <p><button onClick={() => callRider(order.shipping.phoneNumber)}>Call Rider</button>
             <button onClick={() => callClient(order.shipping.phoneNumber)}>Call Client</button></p>: 
+            order.delivery_status === 'Delivered' ? null :
             <button onClick={() => updateOrder(order._id)}>Request Delivery</button>}
           </li>
         ))}
      
       </ul>
+      </div>
     </div>
   );
 };

@@ -8,7 +8,7 @@ const productSchema = new mongoose.Schema(
     stores: {type: String, required: true},
     storeId: {type: String, required: true},
     address: {type: String, required: true},
-    rating: { type: Object, required: true},
+    rating: { type: Object},
     category: { type: String, required: true},
     price: { type: Number, required: true },
     image: { type: Object, required: true },

@@ -57,7 +57,7 @@ const CreateProduct = () => {
           stores: auth.name,
           storeId: auth._id,
           address: auth.address,
-          rating: 5,
+          rating: {rating: 0, count: 0,},
           category,
           price,
           image: productImages[0],

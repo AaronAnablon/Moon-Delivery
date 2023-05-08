@@ -1,4 +1,5 @@
 import { useState } from "react";
+import StarRating from "./StarRating";
 
 const ProductDescription = ({ product, onClose, handleAddToCart }) => {
   const [imageZoom, setImageZoom] = useState(false);
@@ -19,6 +20,7 @@ const ProductDescription = ({ product, onClose, handleAddToCart }) => {
   return (
     <div className="product-description-container" onClick={onClose}>
       <div className="product-description">
+        <div className="product-image">
         <img
           src={product.image}
           alt={product.name}
@@ -31,13 +33,18 @@ const ProductDescription = ({ product, onClose, handleAddToCart }) => {
             transformOrigin: `${imagePosition.x}% ${imagePosition.y}%`,
           }}
         />
-        <h3>{product.name}</h3>
-        <div className="details">{product.desc}</div>
-        <div className="price">₱{product.price}</div>
-        <div className="stores">{product.stores}</div>
-        <div>{product.rating}</div>
+        </div>
+          <div className="product-details">
+          <div><h3>{product.name}</h3>
+          <StarRating rating={product.rating.rating} overAll={product.rating.count}/>
+          </div>
+      
+        <div >{product.desc}</div>
+        <div>₱{product.price}</div>
+        <div>{product.stores}</div>
         <div className="storeAddress">Lagawe, Ifugao</div>
         <button onClick={handleAddToCart}>Add To Cart</button>
+        </div>
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import ProductDescription from "./ProductDescription";
 import HighRating from "./HighRating";
 import { url } from "../slices/api";
 import axios from "axios";
+import StarRating from "./StarRating";
 
 const Home = () => {
   const [data, setData] = useState([]);
@@ -74,7 +75,7 @@ const Home = () => {
         setHide(false)
       };
     
-  
+  console.log(filteredData)
   return (
     <div>
          <div>
@@ -127,15 +128,13 @@ const Home = () => {
                   <div key={product._id} className="product">
                     <div onClick={() => handleProductClick(product)}>
                       {product.image && <img src={product.image} alt={product.name} />}
-                      <h3>{product.name}</h3>
-                      <div className="price">₱{product.price}</div>
-                      <div>{product.rating}</div>
-                      <div className="storeAddress">{product.address}</div>
+                      <h3 style={{ width: '100%', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{product.name}</h3>
+                      <h3>₱{product.price}</h3>
+                      <StarRating rating={product.rating.rating} overAll={product.rating.count}/>
+                      <div style={{ width: '100%', whiteSpace: 'nowrap', overflow: 'hidden',
+                       textOverflow: 'ellipsis', fontSize: '10px' }}>{product.address}</div>
                     </div>
-                    <button onClick={() => handleAddToCart(product)}>
-                      Add To Cart
-                    </button>
-                  </div>
+                   </div>
                 ))}
                 {filteredData.length > 0 ? 
                 <button onClick={handleLoadMore}>Load more</button> :

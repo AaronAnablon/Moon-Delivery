@@ -43,10 +43,12 @@ const Order = () => {
     }
   };
 
+  
+
   return (
     <div>
       <h2>Orders</h2>
-      {error && <div>{error}</div>}
+          {error && <div>{error}</div>}
       <ul>
         {orders.map((order) => (
           <li style={{ borderBottom: '1px solid black', marginBottom: '1px' }} key={order._id}>

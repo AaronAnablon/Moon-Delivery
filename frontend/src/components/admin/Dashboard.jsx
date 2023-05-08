@@ -79,13 +79,13 @@ const SideNav = styled.div`
   height: calc(100vh - 70px);
   position: fixed;
   overflow-y: auto;
-  width: 40%;
+  width: 30%;
   display: flex;
   flex-direction: column;
   padding: 1rem;
   transition: transform 0.3s ease-in-out;
   transform: ${({ showSideNav }) =>
-    showSideNav ? "translateX(0)" : "translateX(-30%)"};
+    showSideNav ? "translateX(0)" : "translateX(-20%)"};
 
   h3 {
     margin: 1.5rem 0 1rem 0;

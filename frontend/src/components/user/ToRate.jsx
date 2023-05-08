@@ -7,6 +7,17 @@ const ToRate = () => {
   const auth = useSelector((state) => state.auth);
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState("");
+  const [rating, setRating] = useState(null);
+  const [hover, setHover] = useState(null);
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
+  const [comment, setComment] = useState("");
+
+  const handleRating = (value) => {
+    setRating(value);
+  };
+  const handleComment = (event) => {
+    setComment(event.target.value);
+  };
 
   const fetchOrders = useCallback(async () => {
     try {
@@ -42,6 +53,19 @@ const ToRate = () => {
       console.log(err);
     }
   };
+  const submitRating = async (_id , orderId) => {
+    try {
+      const editedProduct = {
+        rating: { count: 1, rating: rating, comment: [comment, auth.name, rating]}
+      };
+        await axios.put(`${url}/products/submitRating/${_id}`, editedProduct, setHeaders());
+        updateOrder(orderId)
+        fetchOrders();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
 
   return (
     <div>
@@ -75,9 +99,48 @@ const ToRate = () => {
             <p>Delivery Status: {order.delivery_status}</p>
             <p>Payment Status: {order.payment_status}</p>
             <p>Total: {order.total}</p>
+            {selectedOrderId === order._id ? (
+              <div>
+                <label htmlFor="comment">Add a comment:</label>
+                <input type="text" id="comment" value={comment} onChange={handleComment} />
+              <div className="rating">
+                {[...Array(5)].map((star, index) => {
+                  const ratingValue = index + 1;
+                  return (
+                    <label key={index}>
+                      <input
+                        type="radio"
+                        name="rating"
+                        value={ratingValue}
+                        onClick={() => handleRating(ratingValue)}
+                      />
+                      <span
+                        onMouseEnter={() => setHover(ratingValue)}
+                        onMouseLeave={() => setHover(null)}
+                      >
+                        {ratingValue <= (hover || rating) ? "\u2605" : "\u2606"}
+                      </span>
+                    </label>
+                  );
+                })}
+                <p>
+                  {rating
+                    ? `You rated: ${rating} stars`
+                    : "Please rate this product"}
+                </p>
+              
+              </div>  <button onClick={() => submitRating(order.products[0].productId, order._id)}>
+                Submit Rating
+              </button></div>
+            ) : (
+              <button onClick={() => setSelectedOrderId(order._id)}>
+                Rate
+              </button>
+            )}
             <button onClick={() => updateOrder(order._id)}>
               Order Received
             </button>
+         
           </li>
         ))}
       </ul>

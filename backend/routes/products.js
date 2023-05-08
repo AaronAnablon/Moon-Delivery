@@ -1,4 +1,4 @@
-const { Product } = require("../models/Product");
+const { Product } = require("../models/product");
 const { auth, isUser, isAdmin } = require("../middleware/auth");
 const cloudinary = require("../utils/cloudinary");
 const Fuse = require('fuse.js');
@@ -169,7 +169,7 @@ router.get("/find/:id", async (req, res) => {
   }
 });
 
-//UPDATE
+//UPDATE PRODUCT AS SELLER
 
 router.put("/:id", async (req, res) => {
   try {
@@ -185,5 +185,30 @@ router.put("/:id", async (req, res) => {
     res.status(500).send(error);
   }
 });
+
+//SUBMIT RATING
+router.put("/submitRating/:id", async (req, res) => {
+  try {
+    const { rating } = req.body;
+    const existingProduct = await Product.findById(req.params.id);
+    const existingRating = existingProduct.rating;
+    const newRating = +existingRating.rating + +rating.rating;
+    
+    const updatedProduct = await Product.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: { "rating.rating": newRating },
+        $push: { "rating.comment": rating.comment },
+        $inc: { "rating.count": 1 },
+      },
+      { new: true }
+    );
+    res.status(200).send(updatedProduct);
+  } catch (error) {ng
+    console.log(error)
+    res.status(500).send(error);
+  }
+});
+
 
 module.exports = router;
