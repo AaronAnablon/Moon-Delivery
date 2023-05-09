@@ -41,6 +41,7 @@ import PakuhaPadala from "./components/services/PakuhaPadala"
 import PahatidSundo from "./components/services/PahatidSundo";
 import PickUpClient from "./components/rider/PickUpClient";
 import BookingHistory from "./components/user/BookingHistory";
+import RateRider from "./components/user/RateRider";
 
 function App() {
   const dispatch = useDispatch();
@@ -76,6 +77,7 @@ function App() {
               <Route path="userBooking" element={<UserBooking />} />
               <Route path="bookingHistory" element={<BookingHistory />} />
               <Route path="toRate" element={<ToRate />} />
+              <Route path="rateRider" element={<RateRider />} />
             </Route>
             <Route path="/admin" element={<Dashboard />}>
               <Route path="summary" element={<Summary />} />

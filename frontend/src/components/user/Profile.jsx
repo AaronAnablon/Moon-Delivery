@@ -56,6 +56,14 @@ const Profile = () => {
         >
           Rate Product
         </NavLink>
+        <NavLink
+          className={({ isActive }) =>
+            isActive ? "link-active" : "link-inactive"
+          }
+          to="/user/rateRider"
+        >
+          Rate Rider
+        </NavLink>
       </SideNav>
       <Content showSideNav={showSideNav}>
         <Outlet />

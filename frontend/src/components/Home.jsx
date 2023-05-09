@@ -78,7 +78,7 @@ const Home = () => {
   console.log(filteredData)
   return (
     <div>
-         <div>
+         <div style={{position: 'sticky',  top: '70px'}}>
         <input type="text" value={searchKeyword} onChange={handleKeywordChange} />
         <button onClick={handleSearch}>Search</button>
       </div>
@@ -135,13 +135,12 @@ const Home = () => {
                        textOverflow: 'ellipsis', fontSize: '10px' }}>{product.address}</div>
                     </div>
                    </div>
-                ))}
-                {filteredData.length > 0 ? 
+                ))}           
+            </div>
+            {filteredData.length > 0 ? 
                 <button onClick={handleLoadMore}>Load more</button> :
                <div> <p>No Products found</p>
                <button onClick={() => fetchProducts()}>Refresh</button></div> }
-            
-            </div>
             {selectedProduct && (
               <ProductDescription
                 product={selectedProduct}

@@ -7,24 +7,23 @@ const Order = () => {
   const auth = useSelector((state) => state.auth);
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState("");
-
+  const [loading, setLoading] = useState(false)
   
   const fetchOrders = useCallback(async () => {
+    setLoading(!loading)
     try {
       const res = await axios.get(`${url}/orders/find/${auth._id}/${encodeURIComponent('For Pick Up')}`, setHeaders());
       setOrders(res.data);
+      setLoading(false)
     } catch (err) {
       setError(err.response.data);
     }
   }, [auth.token]);
   
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      fetchOrders();
-    }, 3000); // call getBooking every 5 seconds
-    return () => clearInterval(intervalId); // cleanup function to clear the interval when component unmounts
-  }, []);
+         fetchOrders();
+    }, []);
   
   const updateOrder = async (orderId) => {
     try {
@@ -48,13 +47,12 @@ const Order = () => {
   return (
     <div>
       <h2>Orders</h2>
+      {loading && <p>Loading...</p>}
           {error && <div>{error}</div>}
       <ul>
-        {orders.map((order) => (
+              {orders.length <= 0 ? <p>No Orders made</p> : orders.map((order) => (
           <li style={{ borderBottom: '1px solid black', marginBottom: '1px' }} key={order._id}>
-            <p>ProductId: {order.products[0].productId}</p>
-            <p>Items: {order.products[0].quantity}</p>
-            <p>Date Ordered: {new Date(order.createdAt).toLocaleString('en-US', {
+              <p>Date Ordered: {new Date(order.createdAt).toLocaleString('en-US', {
               year: 'numeric',
               month: '2-digit',
               day: '2-digit',
@@ -63,14 +61,20 @@ const Order = () => {
               second: '2-digit',
               timeZoneName: 'short',
             })}</p>
-            <p>Delivery Status: {order.delivery_status}</p>
+            <div style={{border: '1px 0 1px 0 solid black', background: 'lightgrey'}}>
+            {order.products.map((order) => (<ul><p>Item/Items:</p>
+            <li><p>Product Id:{order.productId}</p></li>
+            <li><p>Quantity: {order.quantity}</p></li>
+            </ul>
+            ))}
+            </div>
+              <p>Delivery Status: {order.delivery_status}</p>
             <p>Payment Status: {order.payment_status}</p>
             <p>Total: {order.total}</p>
            
              <button onClick={() => updateOrder(order._id)} >Cancel</button>
            </li>
         ))}
-     
       </ul>
     </div>
   );

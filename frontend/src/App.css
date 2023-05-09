@@ -7,6 +7,11 @@
   font-family: "Nunito", sans-serif;
 }
 
+li {
+  list-style: none;
+  margin-right: 1rem;
+}
+
 button {
   font-size: clamp(11px, 2vw, 14px);
   padding: 9px 12px;
@@ -98,11 +103,6 @@ button {
   display: flex;
   margin: 0;
   padding: 0;
-}
-
-.home-container li {
-  list-style: none;
-  margin-right: 1rem;
 }
 
 .home-container a {

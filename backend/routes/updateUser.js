@@ -21,4 +21,28 @@ router.put("/:id", isUser , async (req, res) => {
   }
 });
 
+// RATE RIDER
+router.put("/Rider/:id", isUser , async (req, res) => {
+  try {
+    const { rating, comment } = req.body;
+     const existingAccount = await User.findById(req.params.id);
+     const existingRating = existingAccount.rating
+     const newRating = existingRating + rating;
+
+      const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: { rating: newRating },
+        $push: { comment: comment },
+        $inc: { count: 1 },
+      },
+      { new: true }
+    );
+    res.status(200).send(updatedUser);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+});
+
 module.exports = router;
