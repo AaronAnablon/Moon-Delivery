@@ -42,6 +42,12 @@ import PahatidSundo from "./components/services/PahatidSundo";
 import PickUpClient from "./components/rider/PickUpClient";
 import BookingHistory from "./components/user/BookingHistory";
 import RateRider from "./components/user/RateRider";
+import GeneralAdmin from "./components/general_admin/GeneralAdmin";
+import Stores from "./components/general_admin/Stores"
+import SystemDashBoard from "./components/general_admin/SystemDashBoard"
+import SystemRiders from "./components/general_admin/SystemRiders"
+import SystemProfile from "./components/general_admin/SystemProfile"
+import UserSettings from "./components/user/UserSettings"
 
 function App() {
   const dispatch = useDispatch();
@@ -51,14 +57,14 @@ function App() {
   }, [dispatch]);
 
   return (
-    <div className="App">
+    <div >
       <BrowserRouter>
         <ToastContainer />
-        <NavBar />
-        <div className="content-container">
+        <div style={{background: '#343a40'}}> <NavBar /></div>
+       <div class="mx-auto" style={{maxWidth: '1200px'}}>
           <Routes>
             <Route path="/" element={<Home />} />
-                   <Route path="/booking" element={<Booking />}>
+              <Route path="/booking" element={<Booking />}>
               <Route path="pabili" element={<Pabili />} />
               <Route path="pahatidSundo" element={<PahatidSundo />} />
               <Route path="pakuhaPadala" element={<PakuhaPadala />} />
@@ -78,6 +84,7 @@ function App() {
               <Route path="bookingHistory" element={<BookingHistory />} />
               <Route path="toRate" element={<ToRate />} />
               <Route path="rateRider" element={<RateRider />} />
+              <Route path="userSettings" element={<UserSettings />} />
             </Route>
             <Route path="/admin" element={<Dashboard />}>
               <Route path="summary" element={<Summary />} />
@@ -94,6 +101,12 @@ function App() {
               <Route path="shipment" element={<Shipment />} />
               <Route path="toShip" element={<ToShip />} />
               <Route path="pickUpClient" element={<PickUpClient />} />
+            </Route>
+            <Route path="/system" element={<GeneralAdmin />}>
+              <Route path="systemStores" element={<Stores />} />
+              <Route path="systemDashboard" element={<SystemDashBoard />} />
+              <Route path="systemRiders" element={<SystemRiders />} />
+              <Route path="systemProfile" element={<SystemProfile />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>

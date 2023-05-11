@@ -17,6 +17,8 @@ const Login = () => {
   useEffect(() => {
     if (auth._id && !auth.isRider && !auth.isAdmin) {
       navigate("/cart");
+    } else if(auth.isAdmin && auth.isRider === true) {
+      navigate("/system/systemStores");
     } else if(auth.isRider && !auth.isAdmin) {
       navigate("/rider/toship");
     } else if(auth.isAdmin) {

@@ -45,4 +45,24 @@ router.put("/Rider/:id", isUser , async (req, res) => {
   }
 });
 
+//GET HIGHRATING RIDER
+router.get("/Rider/highRating", async (req, res) => {
+  const rating = req.query.isRider;
+  try {
+    let rider;
+
+    if (rating) {
+      rider = await User.find({ rating: rating })
+        .sort({ rating: -1 })
+        .limit(10);
+    } else {
+      rider = await User.find().sort({ rating: -1 }).limit(10);
+    }
+
+    res.status(200).send(rider);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 module.exports = router;

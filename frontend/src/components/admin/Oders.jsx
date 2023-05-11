@@ -2,7 +2,8 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { setHeaders, url } from "../../slices/api";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import Nav from 'react-bootstrap/Nav';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 
 const Orders = () => {
   const auth = useSelector((state) => state.auth);
@@ -60,40 +61,17 @@ const Orders = () => {
  
   return (
     <div>
-      <h2 style={{top: 0}}>Orders</h2>
-      <nav>
-      <ul style={{listStyle: 'none', display: 'flex', flexDirection: 'row', 
-      justifyContent: 'center', alignItems: 'center', position: 'sticky', 
-      top: 0}}>
-
-          <li style={{marginInline: '20px'}}>
-              <Link to="/admin/orders" onClick={() => handleSortByBrand("")}>
-              All
-              </Link>
-            </li>
-          <li style={{marginInline: '20px'}}>
-              <Link to="/admin/orders" onClick={() => handleSortByBrand("pending")}>
-              Pending
-              </Link>
-            </li>
-            <li style={{marginInline: '20px'}}>
-              <Link to="/admin/orders" onClick={() => handleSortByBrand("Delivered")}>
-                Delivered
-              </Link>
-            </li>
-            <li style={{marginInline: '20px'}}>
-              <Link to="/admin/orders" onClick={() => handleSortByBrand("For Pick Up")}>
-              For Pick Up
-              </Link>
-            </li>
-            <li style={{marginInline: '2px'}}>
-              <Link to="/admin/orders" onClick={() => handleSortByBrand("Cancelled")}>
-              Cancelled
-              </Link>
-            </li>
-          </ul>
-        </nav>
-        <div>
+      <Nav className="d-flex flex-column align-items-center justify-content-center">
+      <h2>My Orders</h2>
+       <NavDropdown id="dropdown-basic-button" title="Orders Sort by">
+      <NavDropdown.Item onClick={() => handleSortByBrand("")}>All</NavDropdown.Item>
+      <NavDropdown.Item onClick={() => handleSortByBrand("pending")}>Pending</NavDropdown.Item>
+      <NavDropdown.Item onClick={() => handleSortByBrand("Delivered")}>Delivered</NavDropdown.Item>
+      <NavDropdown.Item onClick={() => handleSortByBrand("For Pick Up")}>For Pick Up</NavDropdown.Item>
+      <NavDropdown.Item onClick={() => handleSortByBrand("Cancelled")}>Cancelled</NavDropdown.Item>
+     </NavDropdown>{sortedBrand}
+     </Nav>
+     <div>
       {loading && <p>Loading..</p>}
          <ul className="products">
       {filteredData && filteredData.map((order) => (

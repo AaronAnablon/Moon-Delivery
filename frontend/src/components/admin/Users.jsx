@@ -3,6 +3,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { setHeaders, url } from "../../slices/api";
 import { toast } from "react-toastify";
+import { Form, Button, Container, Modal } from "react-bootstrap";
 
 const User = () => {
   const auth = useSelector(state => state.auth)
@@ -14,6 +15,41 @@ const User = () => {
     address: auth.address,
   });
 
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [verifiedPassword, setVerifiedPassword] = useState('');
+  const [disabled, setDisabled] = useState(false)
+
+  const handleVerifyPassword = (e) => {
+      setVerifiedPassword(e.target.value)
+  }
+
+  let errorCount = 0;
+
+  const verifyPassword = () => {
+    axios.get(`${url}/login/verify-password/${auth._id}?password=${verifiedPassword}`)
+  .then((response) => {
+    const decryptedPassword = response.data;   
+    if (decryptedPassword === true) {
+      console.log(verifiedPassword, auth.password)
+      setShowPasswordModal(false);
+      handleSubmit();
+      toast.success("Updated successfully");
+    } })
+  .catch((error) => {
+    console.error(error);
+    toast.error("Invalid password")
+    errorCount++;
+    console.log(errorCount)
+    if (errorCount === 3) {
+      setDisabled(true);
+      toast.warning("You have attempted 3 invalid entries! Try again after 12 hours");
+      setShowPasswordModal(false);
+      setTimeout(() => {
+        setDisabled(false);
+      }, 43200000);
+    }});
+  }
+
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
@@ -23,70 +59,59 @@ const User = () => {
     try {
       const response = await axios.put(`${url}/user/${auth._id}`, user, setHeaders());
       console.log(response.data);
-      toast.success("Updated successfully");
-    } catch (error) {
+      } catch (error) {
       console.error(error);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} style={styles.form}>
-    <label htmlFor="name" style={styles.label}>Name:</label>
-    <input type="text" name="name" value={user.name} onChange={handleChange} style={styles.input} />
-  
-    <label htmlFor="email" style={styles.label}>Email:</label>
-    <input type="email" name="email" value={user.email} onChange={handleChange} style={styles.input} />
-  
-    <label htmlFor="password" style={styles.label}>Password:</label>
-    <input type="password" name="password" value={user.password} onChange={handleChange} style={styles.input} />
-  
-    <label htmlFor="phoneNumber" style={styles.label}>Phone Number:</label>
-    <input type="tel" name="phoneNumber" value={user.phoneNumber} onChange={handleChange} style={styles.input} />
-  
-    <label htmlFor="address" style={styles.label}>Address:</label>
-    <input type="text" name="address" value={user.address} onChange={handleChange} style={styles.input} />
-  
-    <button type="submit" style={styles.button} onMouseEnter={(e) => e.target.style.backgroundColor = styles.buttonHover.backgroundColor} onMouseLeave={(e) => e.target.style.backgroundColor = styles.button.backgroundColor}>Update User</button>
-  </form>
+    <Container className="shadow" style={{ maxWidth: "310px" }}>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group>
+          <Form.Label>Name:</Form.Label>
+          <Form.Control type="text" name="name" value={user.name} onChange={handleChange} />
+        </Form.Group>
+
+        <Form.Group>
+          <Form.Label>Email:</Form.Label>
+          <Form.Control type="email" name="email" value={user.email} onChange={handleChange} />
+        </Form.Group>
+
+        <Form.Group>
+          <Form.Label>Password:</Form.Label>
+          <Form.Control type="password" name="password" value={user.password} onChange={handleChange} />
+        </Form.Group>
+
+        <Form.Group>
+          <Form.Label>Phone Number:</Form.Label>
+          <Form.Control type="tel" name="phoneNumber" value={user.phoneNumber} onChange={handleChange} />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Address:</Form.Label>
+          <Form.Control type="text" name="address" value={user.address} onChange={handleChange} />
+        </Form.Group>
+        <Form.Group className="d-flex justify-content-center">
+          <Button className="m-3" variant="primary" onClick={() => setShowPasswordModal(true)} disabled={disabled}>
+            Update
+          </Button>
+        </Form.Group>
+      </Form>
+           <Modal show={showPasswordModal} onHide={() => setShowPasswordModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Verify Password</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form.Group>
+            <Form.Label>Enter your password to continue:</Form.Label>
+            <Form.Control type="password" name="password" onChange={handleVerifyPassword} />
+           </Form.Group> 
+           <Form.Group className="d-flex m-3 justify-content-center">
+              <Button onClick={() => verifyPassword()}>Submit</Button>
+           </Form.Group>
+        </Modal.Body>
+      </Modal>
+    </Container>
   );
 };
 
-const styles = {
-  form: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    margin: "20px auto",
-    width: "90%"
-  },
-  
-  label: {
-    fontWeight: "bold",
-    marginTop: "10px"
-  },
-  
-  input: {
-    padding: "8px",
-    margin: "5px 0",
-    width: "100%",
-    borderRadius: "4px",
-    border: "1px solid #ccc"
-  },
-  
-  button: {
-    backgroundColor: "#4CAF50",
-    color: "white",
-    padding: "10px",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer",
-    marginTop: "10px",
-    width: "100%"
-  },
-  
-  buttonHover: {
-    backgroundColor: "#45a049"
-  }
-}
-
-export default User
+export default User;

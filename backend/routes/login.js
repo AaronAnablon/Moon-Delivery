@@ -27,4 +27,14 @@ router.post("/", async (req, res) => {
   res.send(token);
 });
 
+
+router.get("/verify-password/:id", async (req, res) => {
+  const user = await User.findById(req.params.id);
+  if (!user) return res.status(404).send("User not found");
+
+  const validPassword = await bcrypt.compare(req.query.password, user.password);
+  if (!validPassword) return res.status(400).send("Invalid password");
+  res.send(validPassword);
+});
+
 module.exports = router;

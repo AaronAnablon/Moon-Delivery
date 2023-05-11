@@ -11,6 +11,24 @@ li {
   list-style: none;
   margin-right: 1rem;
 }
+/*************** TO BE KEPT ***************/
+.cart-quantity {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 18px;
+  width: 18px;
+  border-radius: 50%;
+  background: rgb(240, 12, 12);
+  font-size: 11px;
+  font-weight: 700;
+  color: white;
+  margin-left: 5px;
+}
+.nav-link {
+  white-space: nowrap;
+}
+/*************** TO BE KEPT ***************/
 
 button {
   font-size: clamp(11px, 2vw, 14px);
@@ -44,53 +62,9 @@ button {
   font-size: 20px;
 }
 
-/* NavBar */
 
-.nav-bar {
-  position: sticky;
-  top: 0;
-  height: 70px;
-  background: black;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 4rem;
-  z-index: 999 !important;
-}
-.nav-bar a {
-  text-decoration: none;
-  color: white;
-  font-size: clamp(12px, 1.5vw, 24px);
-}
-.nav-bar h2 {
-  font-size: 50px;
-}
-.profile {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  gap: 5px;
-}
-.nav-bag {
-  display: flex;
-  align-items: center;
-  margin-right: 20px;
-}
-.bag-quantity {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 18px;
-  width: 18px;
-  border-radius: 50%;
-  background: rgb(240, 12, 12);
-  font-size: 11px;
-  font-weight: 700;
-  color: white;
-  margin-left: 5px;
-}
+
+
 
 /* Home */
 .home-container nav {
@@ -438,17 +412,6 @@ button {
   font-weight: bold;
   color: #555;
 }
-
-/* Admin */
-
-.link-active {
-  color: #4b70e2;
-}
-.link-inactive {
-  color: rgb(97, 97, 97);
-}
-
-/* Responsive */
 
 @media (max-width: 665px) {
   /* NavBar */
