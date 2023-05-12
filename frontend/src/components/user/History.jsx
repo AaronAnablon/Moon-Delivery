@@ -48,7 +48,7 @@ const History = () => {
 
   return (
     <div>
-      <h2>Orders</h2>
+      <h2>Purchase History</h2>
       {error && <div>{error}</div>}
       <ul>
         {orders.map((order) => (

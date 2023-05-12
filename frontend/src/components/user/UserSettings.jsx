@@ -1,9 +1,10 @@
-import React from 'react'
+import OrderStatus from "./OrderStatus"
 
 const UserSettings = () => {
   return (
     <div>
       UserSettings
+      <OrderStatus />
     </div>
   )
 }

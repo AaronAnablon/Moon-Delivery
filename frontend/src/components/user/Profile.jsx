@@ -11,7 +11,7 @@ const Profile = () => {
   return (
    <Container>
    <Row>
-     <Col xs={12} md={3} className="mb-3 mb-md-0">
+     <Col xs={12} md={3} className="m-3 mb-md-0">
        <SubNav />
      </Col>
      <Col xs={12} md={9}>
