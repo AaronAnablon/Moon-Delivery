@@ -2,7 +2,7 @@ import {Link} from "react-router-dom";
 import {useSelector, useDispatch} from "react-redux";
 import {logoutUser} from "../slices/authSlice";
 import {toast} from "react-toastify";
-import { Nav, NavDropdown, Navbar } from "react-bootstrap";
+import { Nav, Navbar } from "react-bootstrap";
 import {BiLogOut, BiUserCircle} from "react-icons/bi"
 import { IoIosCart } from 'react-icons/io';
 import {FaShippingFast}  from 'react-icons/fa';
@@ -15,7 +15,7 @@ const NavBar = () => {
 
    return (
         <div class="mx-auto" style={{maxWidth: '1200px', fixed: 'top'}}>
-      <Navbar bg="dark" variant="dark" expand="md" className="py-3 text-light flex-lg-row justify-content-evenly">
+      <Navbar expand="md" className="py-3 flex-lg-row justify-content-evenly shadow-sm">
         {! auth.isAdmin && ! auth.isRider && (
         <>
         <Navbar.Brand href="/">MD</Navbar.Brand>
@@ -37,11 +37,10 @@ const NavBar = () => {
                     </div>
                 ) : (auth.isAdmin ? (
                     <div>
-                       <Nav.Link as={Link} to="/admin">
+                       <Nav.Link as={Link} to="/admin/summary">
                             <div className="profile">
                             Moon Delivery | Admin
-                            |<BiUserCircle size={24}/>{auth.name}
-                            </div>
+                           </div>
                         </Nav.Link>
                         </div>
                 ) : (auth.isRider ? (
@@ -79,7 +78,7 @@ const NavBar = () => {
                         <Nav.Link as={Link} to="/user/userSettings" className="d-flex  align-items-center">
                         <BiUserCircle size={24}/>{auth.name}
                         </Nav.Link>
-                        <ProfileNav />
+                        {auth.isAdmin | auth.isRider ? null : <ProfileNav />}
                         <div onClick={() => {dispatch(logoutUser(null));
                         toast.warning("Logged out!", {position: "bottom-left"});
                         window.location.href = "/login";

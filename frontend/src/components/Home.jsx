@@ -7,6 +7,8 @@ import HighRating from "./HighRating";
 import { url } from "../slices/api";
 import axios from "axios";
 import StarRating from "./StarRating";
+import { Form, Button } from 'react-bootstrap';
+import { FaSearch } from "react-icons/fa";
 
 const Home = () => {
   const [data, setData] = useState([]);
@@ -78,48 +80,49 @@ const Home = () => {
   console.log(filteredData)
   return (
     <div>
-         <div style={{position: 'sticky',  top: '70px'}}>
-        <input type="text" value={searchKeyword} onChange={handleKeywordChange} />
-        <button onClick={handleSearch}>Search</button>
-      </div>
-          {!hide && <HighRating />}
-          <div className="home-container">
-        <nav>
-          <ul>
-            <li>
-              <Link to="/" onClick={() => handleSortByBrand("")}>
-                All
-              </Link>
-            </li>
-            <li>
-              <Link to="#" onClick={() => handleSortByBrand("Accesories")}>
-                Accesories
-              </Link>
-            </li>
-            <li>
-              <Link to="#" onClick={() => handleSortByBrand("Cosmetics")}>
-                Cosmetics
-              </Link>
-            </li>
-            <li>
-              <Link to="#" onClick={() => handleSortByBrand("Food")}>
-                Food
-              </Link>
-            </li>
-            <li>
-              <Link to="#" onClick={() => handleSortByBrand("Other")}>
-                Other
-              </Link>
-            </li>
-            <li>
-              <NavLink to="/booking" activeClassName="link-active">
-                Services
-              </NavLink>
-            </li>
-
-          </ul>
-        </nav>
-              
+      <div className="d-flex justify-content-center full-width" style={{position: 'sticky',  top: '20px'}}>
+      <Form className="d-flex justify-content-center m-3" style={{width: '70%'}}>
+        <Form.Control type="text" value={searchKeyword} onChange={handleKeywordChange}>
+        </Form.Control>
+        <Button variant="primary" onClick={handleSearch}><FaSearch /></Button>
+      </Form>
+    </div>
+    {!hide && <HighRating />}
+          <div>
+          <nav className="sub-nav d-flex justify-content-center">
+      <ul className="sub-nav-ul">
+        <li>
+          <NavLink exact to="/" activeClassName="link-active" onClick={() => handleSortByBrand("")}>
+            All
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="#" activeClassName="link-active" onClick={() => handleSortByBrand("Accesories")}>
+            Accesories
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="#" activeClassName="link-active" onClick={() => handleSortByBrand("Cosmetics")}>
+            Cosmetics
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="#" activeClassName="link-active" onClick={() => handleSortByBrand("Food")}>
+            Food
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="#" activeClassName="link-active" onClick={() => handleSortByBrand("Other")}>
+            Other
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/booking" activeClassName="link-active" className="services-link">
+            Services
+          </NavLink>
+        </li>
+      </ul>
+    </nav>
           <>
             <h2>New Arrivals</h2>
             <div className="products">

@@ -51,10 +51,9 @@ const HighRating = () => {
 
 
   return (
-    <div>
-      <div >
-           <h3>Trending Products</h3>
-           {loading && <p>Loading...</p>}
+         <div className="d-flex m-3 justify-content-center">
+          
+                         {loading && <p>Loading...</p>}
             <div className="carousel-container" >
   {data && (
     <Carousel autoPlay={true} infiniteLoop={true} interval={2000}
@@ -63,13 +62,14 @@ const HighRating = () => {
         <div key={product._id}>
           <div onClick={() => handleProductClick(product)}>
             {product.image && <img src={product.image} alt={product.name} style={{
-    width: "60%", height: '200px', objectFit: 'cover',
+    width: "80%", height: '200px', objectFit: 'cover',
     borderRadius: "4px"
   }}/>}
           </div>
         </div>
       ))}
     </Carousel>
+    
   )}
 </div>
 
@@ -81,8 +81,7 @@ const HighRating = () => {
               />
             )}
              </div>
-    </div>
-  );
+      );
 };
 
 export default HighRating;

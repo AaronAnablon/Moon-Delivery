@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Container, Row, Col, Button, Nav } from 'react-bootstrap';
+import { Container, Row, Col, Nav } from 'react-bootstrap';
 
 const Profile = () => {
   const auth = useSelector((state) => state.auth);
@@ -8,7 +8,7 @@ const Profile = () => {
   if (auth.isUser) return <p>Access denied. Not a User!</p>;
 
   return (
-    <Container fluid className="bg-dark">
+    <Container fluid>
       <Row>
         <Col>
           <Nav>

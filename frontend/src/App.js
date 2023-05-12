@@ -60,7 +60,7 @@ function App() {
     <div >
       <BrowserRouter>
         <ToastContainer />
-        <div style={{background: '#343a40'}}> <NavBar /></div>
+        <div> <NavBar /></div>
        <div class="mx-auto" style={{maxWidth: '1200px'}}>
           <Routes>
             <Route path="/" element={<Home />} />
