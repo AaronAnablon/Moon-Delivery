@@ -21,7 +21,6 @@ import Orders from "./components/admin/Oders";
 import Summary from "./components/admin/Summary";
 import CreateProduct from "./components/admin/CreateProduct";
 import CheckOut from "./components/CheckOut";
-import ProductDescription from "./components/ProductDescription"
 import Order from "./components/user/Order";
 import Profile from "./components/user/Profile";
 import History from "./components/user/History";
@@ -48,6 +47,7 @@ import SystemDashBoard from "./components/general_admin/SystemDashBoard"
 import SystemRiders from "./components/general_admin/SystemRiders"
 import SystemProfile from "./components/general_admin/SystemProfile"
 import UserSettings from "./components/user/UserSettings"
+import ProductDetails from "./components/ProductDetails";
 
 function App() {
   const dispatch = useDispatch();
@@ -69,7 +69,7 @@ function App() {
               <Route path="pahatidSundo" element={<PahatidSundo />} />
               <Route path="pakuhaPadala" element={<PakuhaPadala />} />
             </Route>
-            <Route path="/productDesc" element={<ProductDescription />} />
+            <Route path="/productDetails" element={<ProductDetails />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/checkout" element={<CheckOut />} />
             <Route path="/checkout-success" element={<CheckoutSuccess />} />
