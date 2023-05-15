@@ -1,6 +1,7 @@
 import HighRating from "./HighRating";
 import StarRating from "./StarRating";
 import TopProducts from "./TopProducts";
+import TopSold from "./TopSold";
 
 import { useState, useEffect } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
@@ -69,7 +70,7 @@ const Home = () => {
   return (
     <>
     <div>
-      <div className="d-flex justify-content-center full-width" style={{position: 'sticky',  top: '20px'}}>
+      <div className="d-flex bg-light justify-content-center full-width" style={{ position: 'sticky', top: '20px', zIndex: '99999' }}>
       <Form className="d-flex justify-content-center m-3" style={{width: '70%'}}>
         <Form.Control type="text" value={searchKeyword} onChange={handleKeywordChange}>
         </Form.Control>
@@ -77,9 +78,10 @@ const Home = () => {
       </Form>
     </div>
     {!hide && <HighRating toProductDetails={toProductDetails}/>}
-    <h2>Top Selling</h2>
+    <div className="d-flex flex-row justify-content-center"><h2>Top Rated</h2></div>
     {!hide && <TopProducts toProductDetails={toProductDetails}/>}
-          <div>
+         
+      <div> <div className="d-flex flex-row justify-content-center">
       <nav className="sub-nav">
       <ul className="sub-nav-ul">
         <li>
@@ -113,16 +115,18 @@ const Home = () => {
           </NavLink>
         </li>
       </ul>
-    </nav>  
+    </nav> 
+     </div>
           <>
+          <div className="d-flex flex-row justify-content-center">
             <h2>New Arrivals</h2>
+            </div>
             <Container className="d-flex flex-wrap">
             {filteredData &&
   filteredData.map((product) => (
     <div key={product._id}>
       <Card className="m-1" style={{ width: '10rem' }} onClick={() => toProductDetails(product)} >
-    
-        <Card.Img variant="top" src={product.image} style={{ width: '100%', height: '130px', objectFit: 'cover' }}/>
+        <Card.Img variant="top" src={product.image} style={{zIndex: '1', width: '100%', height: '130px', objectFit: 'cover' }}/>
         <Card.Body style={{ fontSize: '13px' }}>
             <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{product.name}</div>
             <div>₱{product.price}</div>
@@ -134,10 +138,14 @@ const Home = () => {
   ))
 }       
             </Container>
+            <div className="d-flex flex-row justify-content-center border-bottom p-3">
             {filteredData.length > 0 ? 
-                <button onClick={handleLoadMore}>Load more</button> :
+                <Button onClick={handleLoadMore}>Load more</Button> :
                <div> <p>No Products found</p>
                <button onClick={() => fetchProducts()}>Refresh</button></div> }   
+               </div>
+               <div className="d-flex flex-row justify-content-center m-3"><h2>Top Sold</h2></div>
+    {!hide && <TopSold toProductDetails={toProductDetails}/>}
           </>    
       </div>
     </div>

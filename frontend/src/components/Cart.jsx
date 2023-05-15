@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addToCart,
@@ -10,7 +10,9 @@ import {
 } from "../slices/cartSlice";
 
 import { Link } from "react-router-dom";
-import PayButton from "./PayButton";
+import { AiFillDelete } from "react-icons/ai";
+import { FaArrowAltCircleLeft } from "react-icons/fa";
+import { Col, Row, Card, Container, Button } from "react-bootstrap";
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
@@ -43,32 +45,23 @@ const Cart = () => {
           <p>Your cart is currently empty</p>
           <div className="start-shopping">
             <Link to="/">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                fill="currentColor"
-                className="bi bi-arrow-left"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"
-                />
-              </svg>
+              <FaArrowAltCircleLeft />
               <span>Start Shopping</span>
             </Link>
           </div>
         </div>
       ) : (
         <div>
-          <div className="cart-items">
+          <Container>
+            <div style={{ paddingBottom: "130px" }}>
             {cart.cartItems &&
               cart.cartItems.map((cartItem) => (
                 <div className="cart-item" key={cartItem._id}>
-                 <span><button onClick={() => handleRemoveFromCart(cartItem)}>
-                        X
-                      </button></span>
+                <AiFillDelete onClick={() => 
+                handleRemoveFromCart(cartItem)}
+                onMouseEnter={(e) => e.target.style.fontSize = '37px'}
+                onMouseLeave={(e) => e.target.style.fontSize = '30px'}
+                />         
                   <div className="cart-product">
                     <div>
                     <img src={cartItem.image} alt={cartItem.name} />
@@ -77,7 +70,7 @@ const Cart = () => {
                       </div>
                     <div>
                       <p>{cartItem.desc}</p>
-                      <div className="cart-product-price">Price: ₱{cartItem.price}</div>
+                      <div className="cart-product-price">Price: {`₱ ${cartItem.price.toFixed(2)}`}</div>
                     </div>    
                            
                   </div> 
@@ -91,53 +84,45 @@ const Cart = () => {
                   </div>
                   </div>
                   <div>
-                  Subtotal: ${cartItem.price * cartItem.cartQuantity}
+                  Subtotal: {`₱ ${(cartItem.price * cartItem.cartQuantity).toFixed(2)}`}
                       </div>
                 </div>
                 
-              ))}
-          </div>
-          <div className="cart-summary">
-            <button className="clear-btn" onClick={() => handleClearCart()}>
-              Clear Cart
-            </button>
-            <div className="cart-checkout">
-              <div className="subtotal">
-                <span>Subtotal</span>
-                <span className="amount">₱{cart.cartTotalAmount}</span>
-              </div>
-              <p>Taxes and shipping calculated at checkout</p>
-              {auth._id ? (
-                <PayButton />
-              ) : (
-                <button
-                  className="cart-login"
-                  onClick={() => navigate("/login")}
-                >
-                  Login to Check out
-                </button>
-              )}
+              ))}  </div>
+                      <div style={{ position: "fixed", bottom: 0, left: 0, width: "100%" }}>
+  <Container className="d-flex p-3 bg-light justify-content-between">
+    <Button variant="outline-secondary" onClick={() => handleClearCart()}>
+      Clear Cart
+    </Button>
+    <div className="d-flex flex-row justify-content-end">
+      <div style={{ width: "60%" }}>
+        <Row>
+          <div>Total: {`₱ ${cart.cartTotalAmount.toFixed(2)}`}</div>
+          <div className="m-3">
+            {auth._id ? (
+              <Button onClick={() => navigate("/checkout")}>Checkout</Button>
+            ) : (
+              <Button onClick={() => navigate("/login")}>
+                Login to Check out
+              </Button>
+            )}
+          </div s>
+          <NavLink
+            to="/"
+            className="text-decoration-none text-dark"
+            style={{ marginBottom: "0" }}
+            onMouseEnter={(e) => e.target.style.fontSize = '18px'}
+            onMouseLeave={(e) => e.target.style.fontSize = '16px'}
+          >
+            <FaArrowAltCircleLeft className="m-2" />Continue Shopping
+          </NavLink>
+        </Row>
+      </div>
+    </div>
+  </Container>
+</div>
 
-              <div className="continue-shopping">
-                <Link to="/">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    fill="currentColor"
-                    className="bi bi-arrow-left"
-                    viewBox="0 0 16 16"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"
-                    />
-                  </svg>
-                  <span>Continue Shopping</span>
-                </Link>
-              </div>
-            </div>
-          </div>
+          </Container>
         </div>
       )}
     </div>

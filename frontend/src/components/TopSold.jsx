@@ -5,16 +5,15 @@ import Slider from "react-slick";
 import { setHeaders, url } from "../slices/api";
 import axios from "axios";
 import { Card } from "react-bootstrap";
-import StarRating from "./StarRating";
 
-const TopProducts = ({ toProductDetails }) => {
+const TopSold = ({ toProductDetails }) => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
 
   const getProducts = () => {
     setLoading(true);
     axios
-      .get(`${url}/products/highRating`, setHeaders)
+      .get(`${url}/products/highSold`, setHeaders)
       .then((response) => {
         setData(response.data);
       })
@@ -28,6 +27,7 @@ const TopProducts = ({ toProductDetails }) => {
 
   useEffect(() => {
     getProducts();
+    console.log(data)
   }, []);
 
   const settings = {
@@ -69,9 +69,10 @@ const TopProducts = ({ toProductDetails }) => {
                       }}
                     />
                    )}
-              <div style={{fontSize: '8px', display: 'flex', flexDirection: 'row',
-               whiteSpace: 'nowrap' }}>
-                 <StarRating rating={product.rating.rating} overAll={product.rating.count}/>
+              <div style={{display: 'flex', flexDirection: 'row',
+               whiteSpace: 'nowrap', overflow: 'hidden', justifyContent: 'center',
+               textOverflow: 'ellipsis' }}>
+                {product.rating.count} Sold
                 </div>
               </Card>
             </div>
@@ -82,4 +83,4 @@ const TopProducts = ({ toProductDetails }) => {
   );
 };
 
-export default TopProducts;
+export default TopSold;

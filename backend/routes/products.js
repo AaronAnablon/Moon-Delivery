@@ -156,7 +156,26 @@ router.get("/highRating", async (req, res) => {
   }
 });
 
+//get the highest Sold product
+router.get("/highSold", async (req, res) => {
+  const qbrand = req.query.brand;
+  try {
+    let products;
 
+    if (qbrand) {
+      products = await Product.find({ brand: qbrand })
+        .sort({ count: -1 })
+        .limit(10);
+    } else {
+      products = await Product.find().sort({ count: -1 }).limit(10);
+    }
+
+    res.status(200).send(products);
+  } catch (error) {
+    res.status(500).send(error);
+    console.log(error)
+  }
+});
 
 //GET PRODUCT
 
