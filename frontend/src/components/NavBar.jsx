@@ -73,7 +73,8 @@ const NavBar = () => {
                         <span className="cart-quantity">
                         <span>{cartTotalQuantity}</span>
                         </span></div>
-                    </Nav.Link></>)}
+                    </Nav.Link>
+                    </>)}{auth._id &&
                     <Nav className="flex-column flex-md-row flex-lg-row px-5 ">
                         <Nav.Link as={Link} to="/user/userSettings" className="d-flex  align-items-center">
                         <BiUserCircle size={24}/>{auth.name}
@@ -87,7 +88,7 @@ const NavBar = () => {
                             <BiLogOut size={24}/>Logout
                         </Nav.Link>
                     </div>
-                     </Nav>
+                     </Nav>}
                     </Navbar.Collapse>
                 </Navbar>
          </div>
