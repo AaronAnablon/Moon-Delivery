@@ -8,16 +8,13 @@
   font-family: "Nunito", sans-serif;
 }
 
-.card.Text {
-  color: #cf1d1d;
-}
-
 .card-text {
   color: #222222;
 }
 
 .card-text span{
   color: #000000;
+  font-weight: bold;
 }
 
 .hover:hover {

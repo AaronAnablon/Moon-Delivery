@@ -2,11 +2,11 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { setHeaders, url } from "../../slices/api";
 import { useSelector } from "react-redux";
+import { Card, Button } from "react-bootstrap";
 
 const Order = () => {
   const auth = useSelector((state) => state.auth);
   const [orders, setOrders] = useState([]);
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false)
   
   const fetchOrders = useCallback(async () => {
@@ -16,7 +16,7 @@ const Order = () => {
       setOrders(res.data);
       setLoading(false)
     } catch (err) {
-      setError(err.response.data);
+      console(err.response.data);
     }
   }, [auth.token]);
   
@@ -37,46 +37,67 @@ const Order = () => {
       });
       fetchOrders();
     } catch (err) {
-      setError(err.response.data);
       console.log(err)
     }
   };
 
-  
+  const formatDate = (date) =>{
+    return( new Date(date).toLocaleString('en-US', {
+   year: 'numeric',
+   month: '2-digit',
+   day: '2-digit',
+   hour: '2-digit',
+   minute: '2-digit',
+   second: '2-digit',
+   timeZoneName: 'short',
+ }))
+ }
+
+ const currency = (price) => {
+  return price.toLocaleString('en-PH', { style: 'currency', currency: 'PHP' })
+ }
 
   return (
     <div>
-      <h2>Orders</h2>
-      {loading && <p>Loading...</p>}
-          {error && <div>{error}</div>}
-      <ul>
-              {orders.length <= 0 ? <p>No Orders made</p> : orders.map((order) => (
-          <li style={{ borderBottom: '1px solid black', marginBottom: '1px' }} key={order._id}>
-              <p>Date Ordered: {new Date(order.createdAt).toLocaleString('en-US', {
-              year: 'numeric',
-              month: '2-digit',
-              day: '2-digit',
-              hour: '2-digit',
-              minute: '2-digit',
-              second: '2-digit',
-              timeZoneName: 'short',
-            })}</p>
-            <div style={{border: '1px 0 1px 0 solid black', background: 'lightgrey'}}>
-            {order.products.map((order) => (<ul><p>Item/Items:</p>
-            <li><p>Product Id:{order.productId}</p></li>
-            <li><p>Quantity: {order.quantity}</p></li>
-            </ul>
-            ))}
+    <h2>Orders</h2>
+    {loading && <p>Loading...</p>}
+    {orders.length <= 0 ? (
+      <p>No Orders made</p>
+    ) : (
+      orders.map((order) => (
+        <div className="border-bottom" key={order._id}>
+          <div className="row border-bottom">
+          <p className="col-8">Date Ordered: {formatDate(order.createdAt)}</p>
+          <p className="col-4">Status: <span>{order.delivery_status}</span></p>
+          </div>
+          <div className="row border-bottom">
+              {order.products.map((product) => (
+                  <div key={product.productId}>
+                    <Card.Title>Item/Items</Card.Title>
+                    <div className="row border-bottom">
+                    <img className="col-4 col-lg-6" style={{width: '7rem'}} src={product.image}/>
+                    <div className="col-8">
+                    <Card.Text>Product Id: <span>{product.productId}</span></Card.Text>
+                    <Card.Text>Product Name: <span>{product.name}</span></Card.Text>
+                    </div>
+                    <div className="col-lg-1">
+                    <Card.Text>Price: <span>{currency(product.price)}</span></Card.Text>
+                    <Card.Text>Quantity: <span>{product.quantity}</span></Card.Text>
+                  </div>
+                  </div>
+                  </div>
+                ))}
             </div>
-              <p>Delivery Status: {order.delivery_status}</p>
-            <p>Payment Status: {order.payment_status}</p>
-            <p>Total: {order.total}</p>
-           
-             <button onClick={() => updateOrder(order._id)} >Cancel</button>
-           </li>
-        ))}
-      </ul>
-    </div>
+            <div className="row border-bottom">
+              <Card.Text className="col-8">Payment Status: <span>{order.payment_status}</span></Card.Text>
+              <Card.Text className="col-4">Total: <span>{currency(order.total)}</span></Card.Text>
+            </div>
+              <Button variant="danger" className="m-3" onClick={() => updateOrder(order._id)}>Cancel</Button>
+        </div>
+      ))
+    )}
+  </div>
+  
   );
 };
 

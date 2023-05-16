@@ -58,7 +58,9 @@ const UserBooking = () => {
     window.open(`tel:${riderNumber}`);
   }
   
- 
+  const currency = (price) => {
+    return price.toLocaleString('en-PH', { style: 'currency', currency: 'PHP' })
+   }
 
   return (
     <div>
@@ -100,22 +102,20 @@ const UserBooking = () => {
                 <Card.Text>
                 {booking.booking.service === 'Pabili' ? 'Store Address: ' : 'Pick Up Address: '}
                   <span>{booking.booking.booking.address.pickUpAdress}</span>
-                </Card.Text>
+                </Card.Text>           
                 </div>
                 </div>
               {booking.booking.item && (
                 <div>
                   <Card.Text>Item: <span>{booking.booking.item}</span></Card.Text>
                   <Card.Text>Details: <span>{booking.booking.itemDetails}</span></Card.Text>
-                 
-                 <div>Fare: {booking.booking.booking.totalAmount}</div>
                 </div>
                
               )}
               {booking.booking.items && (
                 <div>
                   <ListGroup variant="flush">
-                  <ListGroup.Item style={{ fontWeight: 'bold', display: 'flex', justifyContent: 'space-between', padding: '0.5rem' }}>
+                  <ListGroup.Item style={{display: 'flex', justifyContent: 'space-between', padding: '0.5rem' }}>
                     <div>Item</div>
                     <div>Store</div>
                     <div>Address</div>
@@ -129,15 +129,15 @@ const UserBooking = () => {
                   </ListGroup.Item></>
                     ))}
                   </ListGroup>
-                  <Card.Text>Fare: {booking.booking.items.slice(-1)[0].Fare}</Card.Text>
                 </div>
               )}
+              <Card.Text>Fare: <span> {currency(booking.booking.booking.totalAmount)}</span></Card.Text>
               {booking.booking.booking.status === 'For Pick Up' ? (
-                <Button variant="primary" onClick={() => handleCallRider(booking.booking.booking.riderPhone)}>
+                <Button className="m-3" variant="primary" onClick={() => handleCallRider(booking.booking.booking.riderPhone)}>
                   Call Rider
                 </Button>
               ) : (
-                <Button variant="danger" onClick={() => handleCancel(booking)}>
+                <Button className="m-3" variant="danger" onClick={() => handleCancel(booking)}>
                   Cancel
                 </Button>
               )}

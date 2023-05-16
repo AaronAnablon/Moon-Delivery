@@ -5,7 +5,7 @@ import { url, setHeaders } from '../slices/api';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { clearCart } from '../slices/cartSlice';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Card, Container } from 'react-bootstrap';
 
 const Checkout = () => {
   const cart = useSelector((state) => state.cart);
@@ -44,15 +44,19 @@ const Checkout = () => {
   
   const handleCheckout = (event) => {
     event.preventDefault();
+
     const products = cart.cartItems.map((item) => ({
       sellerId: item.storeId,
       productId: item._id,
       quantity: item.cartQuantity,
+      image: item.image,
+      name: item.name,
+      price: item.price,
     }));
   
     const shipping = {
-      address2: address2,
-      phoneNumber: phoneNumber,
+      address2: defaultAddress ? auth.address : address2,
+      phoneNumber: defaultNumber ? auth.phoneNumber : phoneNumber,
     };
   
     const subtotal = cart.cartItems.reduce(
@@ -101,17 +105,16 @@ const currency = (price) => {
   };
     let total = getSubtotals(cart.cartItems);
   return (
-    <div className="checkout-page">
-    <div style={{marginTop: '1rem', width: '100%', maxWidth: '500px', margin: '20px auto', 
-      padding: '2rem', border: '1px solid #ccc'}}>
+
+       <div className="row">
+    <Card className='col-lg-6'>
+      <div className='m-4'>
   <h2 className="text-center">Order Information</h2>
-  <div className="row text-right">
-    <div className="col-lg-12">
       <h3 className="mb-4">Cart Items:</h3>
       {cart && cart.cartItems.map((item) => (
-        <div className="row border-bottom mb-3" key={item._id}>
+        <div className="row border-bottom" key={item._id}>
           <div className='col-6'>
-            <img src={item.image} alt={item.name} className="mb-3" style={{ width: '3rem', height: '3rem' }} />
+            <img src={item.image} alt={item.name} className="col-12"  />
               <p>{item.name}</p>
               <p>Brand: {item.brand}</p>
           </div>
@@ -122,18 +125,20 @@ const currency = (price) => {
           </div>
         </div>
       ))}
-    </div>
+   
+    <p style={{fontSize: '11px'}}>Shipping may vary. Delivered within 2-3 days within Ifugao</p>
     <div className="col-lg-12 d-flex justify-content-end">
       <div className="text-right">
+      <p>Shipping Fee: {currency(60)}</p>
         <p style={{ fontWeight: 'bold', fontSize: '1.5rem' }}>Total: {currency(total)}</p>
       </div>
     </div>
-  </div>
-</div>
+    </div>
+</Card>
 
-      <div style={{marginTop: '1rem', width: '100%', maxWidth: '500px', margin: '20px auto', 
-      padding: '2rem', border: '1px solid #ccc'}}>
-  <Form onSubmit={handleCheckout}>
+    <Card className='col-lg-6'>
+    <div className='m-4'>
+  <Form className='m-4' onSubmit={handleCheckout}>
   <Form.Group>
     <h2 className="text-center">Checkout</h2>
     <Form.Label>Address:</Form.Label>
@@ -180,12 +185,9 @@ const currency = (price) => {
     <Button type="submit" className="m-3">Submit</Button>
   </div>
 </Form>
-
-
-  </div>
-
 </div>
-
+  </Card>
+  </div>
   );
 };
 

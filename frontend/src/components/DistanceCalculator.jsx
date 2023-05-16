@@ -52,14 +52,14 @@ const extraCharge = isNight ? 20 : 0;
    if (distance !== null) {
     dispatch(setBooking({ 
       address: {destination: destination, pickUpAdress: pickupAddress}, 
-      totalAmount: ((distance <=2 ? 0 : (distance - 2) * 10) + 50 + extraCharge).toFixed(2),
+      totalAmount: ((distance <=2 ? 0 : (distance - 2) * 10) + 50 + extraCharge),
       phoneNumber: phoneNumber,
       status: 'booked',
       }))
    }
   }, [distance])
 
-  const totalFare = ((distance <=2 ? 0 : (distance - 2) * 10) + 50 + extraCharge).toFixed(2);
+  const totalFare = ((distance <=2 ? 0 : (distance - 2) * 10) + 50 + extraCharge);
 
   return (
     <div>

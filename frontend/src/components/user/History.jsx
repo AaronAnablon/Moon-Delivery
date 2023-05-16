@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { setHeaders, url } from "../../slices/api";
 import { useSelector } from "react-redux";
+import { Button, Card } from "react-bootstrap";
 
 const History = () => {
   const auth = useSelector((state) => state.auth);
@@ -46,42 +47,57 @@ const History = () => {
     }
   };
 
+  const formatDate = (date) =>{
+    return( new Date(date).toLocaleString('en-US', {
+   year: 'numeric',
+   month: '2-digit',
+   day: '2-digit',
+   hour: '2-digit',
+   minute: '2-digit',
+   second: '2-digit',
+ }))
+ }
+
+ const currency = (price) => {
+  return price.toLocaleString('en-PH', { style: 'currency', currency: 'PHP' })
+ }
+
   return (
     <div>
       <h2>Purchase History</h2>
       {error && <div>{error}</div>}
-      <ul>
+      <div>
         {orders.map((order) => (
-          <li
-            style={{ borderBottom: "1px solid black", marginBottom: "1px" }}
-            key={order._id}
-          >
-            <img
-              style={{ height: "90px", width: "80%" }}
-              src={order.image}
-              alt={order._id}
-            />
-            <p>ProductId: {order.products[0].productId}</p>
-            <p>Items: {order.products[0].quantity}</p>
-            <p>
-              Date Ordered:{" "}
-              {new Date(order.createdAt).toLocaleString("en-US", {
-                year: "numeric",
-                month: "2-digit",
-                day: "2-digit",
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit",
-                timeZoneName: "short",
-              })}
-            </p>
-            <p>Delivery Status: {order.delivery_status}</p>
-            <p>Payment Status: {order.payment_status}</p>
-            <p>Total: {order.total}</p>
-            <button onClick={() => deleteOrder(order._id)}>Delete</button>
-          </li>
+          <div className="row border-bottom" key={order._id}> 
+          <div className="row border-bottom">
+          <p className="col-lg-6">Date Ordered: {formatDate(order.createdAt)}</p>
+          <p className="col-lg-6">Date Completed: {formatDate(order.updatedAt)}</p>
+          </div>
+        {order.products.map((product) => (
+                  <div key={product.productId}>
+                    <Card.Title>Item/Items</Card.Title>
+                    <div className="row border-bottom">
+                    <img className="col-4 col-lg-6" style={{width: '7rem'}} src={product.image}/>
+                    <div className="col-8">
+                    <Card.Text>Product Id: <span>{product.productId}</span></Card.Text>
+                    <Card.Text>Product Name: <span>{product.name}</span></Card.Text>
+                    </div>
+                    <div className="col-lg-1">
+                    <Card.Text>Price: <span>{currency(product.price)}</span></Card.Text>
+                    <Card.Text>Quantity: <span>{product.quantity}</span></Card.Text>
+                  </div>
+                  </div>
+                  </div>
+                ))}
+             <div className="row border-bottom mt-3">
+            <Card.Text className="col-12 col-lg-6">Delivery Status: {order.delivery_status}</Card.Text>
+            <Card.Text className="col-6 col-lg-4">Payment Status: {order.payment_status}</Card.Text>
+            <Card.Text className="col-6 col-lg-2">Total: {order.total}</Card.Text>
+            </div>
+            <Button onClick={() => deleteOrder(order._id)}>Delete</Button>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };

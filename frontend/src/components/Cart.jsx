@@ -12,7 +12,7 @@ import {
 import { Link } from "react-router-dom";
 import { AiFillDelete, AiOutlineMinusSquare, AiOutlinePlusSquare } from "react-icons/ai";
 import { FaArrowAltCircleLeft } from "react-icons/fa";
-import { Col, Row, Card, Container, Button } from "react-bootstrap";
+import { Container, Button } from "react-bootstrap";
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
@@ -37,13 +37,18 @@ const Cart = () => {
   const handleClearCart = () => {
     dispatch(clearCart());
   };
+
+  const currency = (price) => {
+    return price.toLocaleString('en-PH', { style: 'currency', currency: 'PHP' })
+   }
+
   return (
     <Container>
       <h2>Shopping Cart</h2>
       {cart.cartItems.length === 0 ? (
-        <div className="cart-empty">
+        <div>
           <p>Your cart is currently empty</p>
-          <div className="start-shopping">
+          <div>
             <Link to="/">
               <FaArrowAltCircleLeft />
               <span>Start Shopping</span>
@@ -79,7 +84,7 @@ const Cart = () => {
                   <div style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                     {cartItem.name}
                   </div>
-                  <div>₱{cartItem.price}</div>
+                  <div>{currency(cartItem.price)}</div>
                 </div>
 
                 <div className="col-lg-6 col-md-12" style={{ width: "10%" }}>
@@ -96,7 +101,7 @@ const Cart = () => {
               </div>
 
 
-            <div>Subtotal: {`₱ ${(cartItem.price * cartItem.cartQuantity).toFixed(2)}`}</div>
+            <div>Subtotal: {currency(cartItem.price * cartItem.cartQuantity)}</div>
 
               </div>
               
@@ -116,7 +121,7 @@ const Cart = () => {
     </Button>
     </div>
       <div>
-          <div className="m-2">Total: {`₱ ${cart.cartTotalAmount.toFixed(2)}`}</div>
+          <div className="m-2">Total: {currency(cart.cartTotalAmount)}</div>
           <div>
             {auth._id ? (
               <Button onClick={() => navigate("/checkout")}>Checkout</Button>
