@@ -2,6 +2,9 @@ import axios from "axios";
 import { url, setHeaders } from "../../slices/api";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import Card from 'react-bootstrap/Card';
+import ListGroup from 'react-bootstrap/ListGroup';
+import Button from 'react-bootstrap/Button';
 
 const UserBooking = () => {
   const [booked, setBooked] = useState([]);
@@ -64,35 +67,83 @@ const UserBooking = () => {
       {!loading && booked.length === 0 && <p>No bookings found</p>} 
       {!loading && booked &&
         booked.map((booking) => (
-          <div style={{ borderBottom: '1px solid black', marginBottom: '1px' }} key={booking._id}>
-              <p>Service: {booking.booking.service}</p> 
-             <p>Date Booked: {new Date(booking.createdAt).toLocaleString('en-US', {
-              year: 'numeric',
-              month: '2-digit',
-              day: '2-digit',
-              hour: '2-digit',
-              minute: '2-digit',
-              second: '2-digit',
-              timeZoneName: 'short',
-            })}</p> 
-            <p>Client Name: {booking.user.name}</p>
-            <p>Destination: {booking.booking.booking.address.destination}</p>  
-            <p>{booking.booking.service === 'Pabili' ? "Store Address: ": "Pick Up Address: "} 
-            {booking.booking.booking.address.pickUpAdress}</p> 
-            <p>Rider: {booking.booking.booking.rider}</p> 
-            <p>Status: {booking.booking.booking.status}</p> 
-            {booking.booking.item ? <div><p>Item: {booking.booking.item}</p>
-            <p>Details: {booking.booking.itemDetails}</p></div>  : null}
-            {booking.booking.items ? (<p>Items: {booking.booking.items.map((item) => 
-            <li>{item.item} - {item.store}</li>)}
-              <p>Fare: {booking.booking.items.slice(-1)[0].Fare}</p>
-            </p>) : null}
+          <div className="mb-1" key={booking._id}>
+          <Card>
+            <Card.Body>
+            <Card.Text className="border-bottom">
+                Date Booked: {new Date(booking.createdAt).toLocaleString('en-US', {
+                  year: 'numeric',
+                  month: '2-digit',
+                  day: '2-digit',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  second: '2-digit',
+                  timeZoneName: 'short',
+                })}
+              </Card.Text>
+              <Card.Title >Booking Details</Card.Title>
+              <div className="row border-bottom">
+                <div className="col-6">
+                  <Card.Text >Service: <span>{booking.booking.service}</span></Card.Text>
+                  <Card.Text>Client Name: <span>{booking.user.name}</span></Card.Text>
+                </div>
+              <div className="col-6">
+                <Card.Text>Rider: <span>{booking.booking.booking.rider}</span></Card.Text>
+                <Card.Text>Status: <span>{booking.booking.booking.status}</span></Card.Text>
+                </div>
+              </div>
+              <div className="row border-bottom">
+              <div className="col-6">
+              <Card.Text>Destination: <span>{booking.booking.booking.address.destination}</span></Card.Text>
+              </div>
+              <div className="col-6">
+                <Card.Text>
+                {booking.booking.service === 'Pabili' ? 'Store Address: ' : 'Pick Up Address: '}
+                  <span>{booking.booking.booking.address.pickUpAdress}</span>
+                </Card.Text>
+                </div>
+                </div>
+              {booking.booking.item && (
+                <div>
+                  <Card.Text>Item: <span>{booking.booking.item}</span></Card.Text>
+                  <Card.Text>Details: <span>{booking.booking.itemDetails}</span></Card.Text>
                  
-                      {booking.booking.booking.status === 'For Pick Up' ? 
-  <button onClick={() => handleCallRider(booking.booking.booking.riderPhone)}>Call Rider</button> :
-  <button onClick={() => handleCancel(booking)}>Cancel</button>
-}         
-          </div>
+                 <div>Fare: {booking.booking.booking.totalAmount}</div>
+                </div>
+               
+              )}
+              {booking.booking.items && (
+                <div>
+                  <ListGroup variant="flush">
+                  <ListGroup.Item style={{ fontWeight: 'bold', display: 'flex', justifyContent: 'space-between', padding: '0.5rem' }}>
+                    <div>Item</div>
+                    <div>Store</div>
+                    <div>Address</div>
+                  </ListGroup.Item>
+                    {booking.booking.items.map((item, index) => (
+                      <>
+              <ListGroup.Item key={index} style={{ fontWeight: 'bold', display: 'flex', justifyContent: 'space-between', padding: '0.5rem' }}>
+                    <span>{index + 1}. {item.item}</span>
+                    <span>{item.store}</span>
+                    <span>{item.address}</span>
+                  </ListGroup.Item></>
+                    ))}
+                  </ListGroup>
+                  <Card.Text>Fare: {booking.booking.items.slice(-1)[0].Fare}</Card.Text>
+                </div>
+              )}
+              {booking.booking.booking.status === 'For Pick Up' ? (
+                <Button variant="primary" onClick={() => handleCallRider(booking.booking.booking.riderPhone)}>
+                  Call Rider
+                </Button>
+              ) : (
+                <Button variant="danger" onClick={() => handleCancel(booking)}>
+                  Cancel
+                </Button>
+              )}
+            </Card.Body>
+          </Card>
+        </div>
         ))}
     </div>
   );

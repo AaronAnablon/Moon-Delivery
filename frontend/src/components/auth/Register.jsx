@@ -68,19 +68,20 @@ const Register = () => {
           onChange={(e) => setUser({ ...user, email: e.target.value })}
           required
         />
-        <input
-          type="tel"
-          placeholder="phoneNumber"
-          onChange={(e) => setUser({ ...user, phoneNumber: e.target.value })}
-          required
-        />
-        <input
+            <input
           type="text"
           placeholder="address"
           value={user.address}
           onChange={handleAddressChange}
           required
         />
+        <input
+          type="tel"
+          placeholder="phoneNumber"
+          onChange={(e) => setUser({ ...user, phoneNumber: e.target.value })}
+          required
+        />
+    
 
         <ul>
           {addressSuggestions.map((address, index) => (

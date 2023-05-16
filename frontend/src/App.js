@@ -13,7 +13,7 @@ import Login from "./components/auth/Login";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { loadUser } from "./slices/authSlice";
-import CheckoutSuccess from "./components/CheckoutSuccess";
+
 import Dashboard from "./components/admin/Dashboard";
 import Products from "./components/admin/Products";
 import Users from "./components/admin/Users";
@@ -72,7 +72,7 @@ function App() {
             <Route path="/productDetails" element={<ProductDetails />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/checkout" element={<CheckOut />} />
-            <Route path="/checkout-success" element={<CheckoutSuccess />} />
+          
             <Route path="/register" element={<Register />} />
             <Route path="/registerSeller" element={<RegisterAsSeller />} />
             <Route path="/registerRider" element={<RegisterAsRider />} />

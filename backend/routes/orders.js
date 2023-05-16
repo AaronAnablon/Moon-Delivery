@@ -8,16 +8,23 @@ const router = require("express").Router();
 
 router.post("/:id", isUser, async (req, res) => {
   const { userId, name, products, subtotal, total, shipping, rider, payment_status, image } = req.body;
+
   try {
-    // Upload image to Cloudinary
-    const uploadedResponse = await cloudinary.uploader.upload(image, {
-      folder: "order image address",
-      upload_preset: "online-shop",
-    });
-    console.log(uploadedResponse);
-    // Add Cloudinary image URL to order
-    const uploadedImage = uploadedResponse.secure_url;
-    const newOrder = new Order({userId, name, shipping, rider, products, subtotal, total, payment_status, image: uploadedImage});
+    let uploadedImage = null;
+
+    if (image) {
+      // Upload image to Cloudinary
+      const uploadedResponse = await cloudinary.uploader.upload(image, {
+        folder: "order image address",
+        upload_preset: "online-shop",
+      });
+      console.log(uploadedResponse);
+
+      // Add Cloudinary image URL to order
+      uploadedImage = uploadedResponse.secure_url;
+    }
+
+    const newOrder = new Order({ userId, name, shipping, rider, products, subtotal, total, payment_status, image: uploadedImage });
     const savedOrder = await newOrder.save();
     console.log(savedOrder);
     res.status(200).send(savedOrder);
@@ -26,6 +33,7 @@ router.post("/:id", isUser, async (req, res) => {
     res.status(500).json({ message: "Error creating order" });
   }
 });
+
 
 
 //UPDATE

@@ -53,31 +53,32 @@ router.delete("/:id",  async (req, res) => {
   }
 });
 
-//GET ALL PRODUCTS
+//GET SELLER'S PRODUCTS
 
-router.get("/", async (req, res) => {
-  const qbrand = req.query.brand;
+router.get("/seller/:sellerId", async (req, res) => {
+  const sellerId = req.params.sellerId;
+
   try {
-    let products;
+    const products = await Product.find({ storeId: sellerId });
 
-    if (qbrand) {
-      products = await Product.find({
-        brand: qbrand,
-      }).sort({ createdAt: -1 });
+    if (products.length > 0) {
+      res.status(200).send({
+        products
+      });
     } else {
-      products = await Product.find().sort({ createdAt: -1 });
+      res.status(404).send("No products found for the given seller");
     }
-
-    res.status(200).send(products);
   } catch (error) {
     res.status(500).send(error);
   }
 });
 
+
+
 //GET 10 PRODUCTS
 router.get("/increment", async (req, res) => {
   const page = parseInt(req.query.page) || 1; // Current page, default to 1
-  const limit = 2; // Number of items to display per page
+  const limit = 10; // Number of items to display per page
   const qbrand = req.query.brand;
 
   try {

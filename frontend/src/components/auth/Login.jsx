@@ -39,11 +39,13 @@ const Login = () => {
           type="email"
           placeholder="email"
           onChange={(e) => setUser({ ...user, email: e.target.value })}
+          required
         />
         <input
           type="password"
           placeholder="password"
           onChange={(e) => setUser({ ...user, password: e.target.value })}
+          required
         />
         <button>
           {auth.loginStatus === "pending" ? "Submitting..." : "Login"}

@@ -10,28 +10,28 @@ const AdminNav = () => {
           
             <NavLink
               className="nav-link"
-              activeClassName="active"
+           
               to="/admin/summary"
             >
               Summary
             </NavLink>
             <NavLink
               className="nav-link"
-              activeClassName="active"
+           
               to="/admin/products"
             >
               Products
             </NavLink>
             <NavLink
               className="nav-link"
-              activeClassName="active"
+           
               to="/admin/orders"
             >
               Orders
             </NavLink>
             <NavLink
               className="nav-link"
-              activeClassName="active"
+           
               to="/admin/users"
             >
               User Settings

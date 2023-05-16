@@ -1,16 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { AdminHeaders, PrimaryButton } from "./CommonStyled";
-import { useDeleteProductMutation, useGetAllProductsQuery, useUpdateProductMutation } from "../../slices/productsApi";
 import { toast } from "react-toastify";
 import { setHeaders, url } from "../../slices/api";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 
 const Products = () => {
-  const { data: products, isSuccess: isGetProductsSuccess, refetch } = useGetAllProductsQuery();
+  const [products , setProducts] = useState('')
+  const auth = useSelector(state => state.auth)
   const navigate = useNavigate();
-  const [deleteProduct, { isLoading: isDeleting }] = useDeleteProductMutation();
 
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
@@ -27,6 +27,21 @@ const Products = () => {
     setAddress(product.address);
   };
 
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`${url}/products/seller/${auth._id}`);
+      const { products } = response.data;
+      setProducts(products);
+    } catch (error) {
+      console.error('Error:', error.response.data);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+
   const handleCancelEdit = () => {
     setEditingProduct(null);
     setName("");
@@ -40,7 +55,7 @@ const Products = () => {
     try {
       await axios.put(`${url}/products/${productId}`, desc, setHeaders());
       toast.success("Product deleted successfully");
-      refetch();
+      fetchData();
     } catch (error) {
       console.log(error);
     }
@@ -62,7 +77,7 @@ const Products = () => {
       setDesc("");
       setPrice("");
       setAddress("");
-      refetch();
+      fetchData();
     } catch (error) {
       console.log(error);
     }
@@ -78,7 +93,7 @@ const Products = () => {
       </PrimaryButton>
       <Outlet />
       <div className="SellerProducts">
-        {isGetProductsSuccess &&
+        {products &&
           products?.map((product) => (
             <div key={product._id} className="SellerProduct">
               {editingProduct === product._id ? (
@@ -118,8 +133,7 @@ const Products = () => {
 <div className="SelleAddress">{product.address}</div>
 <div className="buttons">
 <button onClick={() => handleEditProduct(product._id)}>Edit</button>
-<button disabled={isDeleting} onClick={() => handleDeleteProduct(product._id)}>
-{isDeleting ? "Deleting..." : "Delete"}
+<button onClick={() => handleDeleteProduct(product._id)}>
 </button>
 </div>
 </div>

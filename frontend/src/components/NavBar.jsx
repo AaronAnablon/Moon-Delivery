@@ -14,7 +14,7 @@ const NavBar = () => {
     const auth = useSelector((state) => state.auth);
 
    return (
-        <div class="mx-auto" style={{maxWidth: '1200px', fixed: 'top'}}>
+        <div className="mx-auto" style={{maxWidth: '1200px', fixed: 'top'}}>
       <Navbar expand="md" className="py-3 flex-lg-row justify-content-evenly shadow-sm">
         {! auth.isAdmin && ! auth.isRider && (
         <>
@@ -58,8 +58,8 @@ const NavBar = () => {
                     </div>
             ) : (
               <>
-                <Nav.Link as={Link} to="/login">Login</Nav.Link>
-                <Nav.Link as={Link} to="register">Register</Nav.Link>
+                <Nav.Link className="m-3" as={Link} to="/login">Login</Nav.Link>
+                <Nav.Link className="m-3" as={Link} to="register">Register</Nav.Link>
               </>
             )
         }

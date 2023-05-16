@@ -1,10 +1,10 @@
 import { NavLink } from "react-router-dom";
-import { Nav, Col,Row, Container } from 'react-bootstrap';
+import { Nav, Col,Row } from 'react-bootstrap';
 
 const SubNav = () => {
   return (
     <>
-    <Col lg={1} className="d-none d-lg-block">
+    <Col lg={1} className="d-none m-3 d-lg-block">
       <Nav variant="underline" style={{ whiteSpace: 'nowrap' }} className="flex-column sidebar text-dark">
         <h2>Activities</h2>
         <Nav.Item>
