@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { setHeaders, url } from "../../slices/api";
 import { useSelector } from "react-redux";
+import { Card, Button } from "react-bootstrap";
 
 const ToRate = () => {
   const auth = useSelector((state) => state.auth);
@@ -66,6 +67,21 @@ const ToRate = () => {
     }
   };
 
+  const formatDate = (date) =>{
+    return( new Date(date).toLocaleString('en-US', {
+   year: 'numeric',
+   month: '2-digit',
+   day: '2-digit',
+   hour: '2-digit',
+   minute: '2-digit',
+   second: '2-digit',
+   timeZoneName: 'short',
+ }))
+ }
+
+ const currency = (price) => {
+  return price.toLocaleString('en-PH', { style: 'currency', currency: 'PHP' })
+ }
 
   return (
     <div>
@@ -73,37 +89,29 @@ const ToRate = () => {
       {error && <div>{error}</div>}
       <ul>
         {orders.map((order) => (
-          <li
-            style={{ borderBottom: "1px solid black", marginBottom: "1px" }}
-            key={order._id}
-          >
-            <img
-              style={{ height: "90px", width: "80%" }}
-              src={order.image}
-              alt={order._id}
-            />
-            <p>ProductId: {order.products[0].productId}</p>
-            <p>Items: {order.products[0].quantity}</p>
-            <p>
-              Date Ordered:{" "}
-              {new Date(order.createdAt).toLocaleString("en-US", {
-                year: "numeric",
-                month: "2-digit",
-                day: "2-digit",
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit",
-                timeZoneName: "short",
-              })}
-            </p>
-            <p>Delivery Status: {order.delivery_status}</p>
-            <p>Payment Status: {order.payment_status}</p>
-            <p>Total: {order.total}</p>
-            {selectedOrderId === order._id ? (
+          <div className="row border-bottom" key={order._id}>  
+          <p className="border-bottom">Date Ordered: {formatDate(order.createdAt)}</p>
+          <div className="row border-bottom">
+              {order.products.map((product) => (
+                  <div key={product.productId}>
+                    <Card.Title>Item/Items</Card.Title>
+                    <div className="row border-bottom">
+                    <img className="col-4 col-lg-6" style={{width: '7rem'}} src={product.image}/>
+                    <div className="col-8">
+                    <Card.Text>Product Id: <span>{product.productId}</span></Card.Text>
+                    <Card.Text>Product Name: <span>{product.name}</span></Card.Text>
+                    </div>
+                    <div className="col-lg-1">
+                    <Card.Text>Price: <span>{currency(product.price)}</span></Card.Text>
+                    <Card.Text>Quantity: <span>{product.quantity}</span></Card.Text>
+                  </div>
+                  </div>
+                  <div>
+                    {selectedOrderId === product.productId ? (
               <div>
-                <label htmlFor="comment">Add a comment:</label>
-                <input type="text" id="comment" value={comment} onChange={handleComment} />
-              <div className="rating">
+                <div className="row border-bottom">
+              <div className="rating col-6">
+              <p>{rating ? `You rated: ${rating} stars` : "Please rate this product"}</p>
                 {[...Array(5)].map((star, index) => {
                   const ratingValue = index + 1;
                   return (
@@ -123,25 +131,31 @@ const ToRate = () => {
                     </label>
                   );
                 })}
-                <p>
-                  {rating
-                    ? `You rated: ${rating} stars`
-                    : "Please rate this product"}
-                </p>
-              
-              </div>  <button onClick={() => submitRating(order.products[0].productId, order._id)}>
-                Submit Rating
-              </button></div>
-            ) : (
-              <button onClick={() => setSelectedOrderId(order._id)}>
-                Rate
-              </button>
-            )}
-            <button onClick={() => updateOrder(order._id)}>
-              Order Received
-            </button>
-         
-          </li>
+              </div> 
+              <div className="col-3">
+                <label className="mb-4" htmlFor="comment">Add a comment:</label>
+                <input  type="text" id="comment" value={comment} onChange={handleComment} />
+                </div>
+              </div> 
+               <Button className="m-3" onClick={() => submitRating(product.productId, order._id)}>Submit Rating</Button>
+              <Button className="m-3" onClick={() => setSelectedOrderId(!selectedOrderId)}>Cancel</Button>
+              </div> ) : (<Button className="m-3" onClick={() => setSelectedOrderId(product.productId)}>Rate</Button>)}
+                    </div>
+                  </div>
+                ))}
+            </div>
+          <div className="row border-bottom">
+            <div className="col-9">
+            <div>Delivery Status: {order.delivery_status}</div>
+            <div>Payment Status: {order.payment_status}</div>
+            </div>
+            <div className="col-3">Total: {currency(order.total)}</div>
+          </div>
+              <Button onClick={() => updateOrder(order._id)}>
+                Order Received
+              </Button>
+          
+          </div>
         ))}
       </ul>
     </div>

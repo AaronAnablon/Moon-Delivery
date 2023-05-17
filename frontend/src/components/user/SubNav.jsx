@@ -18,6 +18,11 @@ const SubNav = () => {
           </NavLink>
         </Nav.Item>
         <Nav.Item>
+          <NavLink className="nav-link" activeClassName="active" to="/user/rateRider">
+            Rate Rider
+          </NavLink>
+        </Nav.Item>
+        <Nav.Item>
           <NavLink className="nav-link" activeClassName="active" to="/user/order">
             Orders
           </NavLink>
@@ -33,8 +38,8 @@ const SubNav = () => {
           </NavLink>
         </Nav.Item>
         <Nav.Item>
-          <NavLink className="nav-link" activeClassName="active" to="/user/rateRider">
-            Rate Rider
+          <NavLink className="nav-link" activeClassName="active" to="/user/userSettings">
+            User Settings
           </NavLink>
         </Nav.Item>
       </Nav>

@@ -94,7 +94,7 @@ const History = () => {
             <Card.Text className="col-6 col-lg-4">Payment Status: {order.payment_status}</Card.Text>
             <Card.Text className="col-6 col-lg-2">Total: {order.total}</Card.Text>
             </div>
-            <Button onClick={() => deleteOrder(order._id)}>Delete</Button>
+            <Button className="col-3 col-lg-2 m-3" onClick={() => deleteOrder(order._id)}>Delete</Button>
           </div>
         ))}
       </div>

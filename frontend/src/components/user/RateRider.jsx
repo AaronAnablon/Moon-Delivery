@@ -2,15 +2,20 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { setHeaders, url } from "../../slices/api";
 import { useSelector } from "react-redux";
+import Card from 'react-bootstrap/Card';
+import ListGroup from 'react-bootstrap/ListGroup';
+import Button from 'react-bootstrap/Button';
 
 const RateRider = () => {
   const auth = useSelector((state) => state.auth);
-  const [orders, setOrders] = useState([]);
-  const [error, setError] = useState("");
+  const [booked, setBooked] = useState([]);
+  const [loading, setLoading] = useState("");
+
   const [rating, setRating] = useState(null);
   const [hover, setHover] = useState(null);
-  const [selectedOrderId, setSelectedOrderId] = useState(null);
+  const [selectedRiderId, setSelectedRiderId] = useState(null);
   const [comment, setComment] = useState("");
+  
 
   const handleRating = (value) => {
     setRating(value);
@@ -19,68 +24,111 @@ const RateRider = () => {
     setComment(event.target.value);
   };
 
-  const fetchOrders = useCallback(async () => {
+  const getBooking = async () => {
+    setLoading(true);
     try {
-      const res = await axios.get(
-        `${url}/orders/findDelivered/${auth._id}`,
-        setHeaders()
-      );
-      setOrders(res.data);
-    } catch (err) {
-      setError(err.response.data);
-    }
-  }, [auth.token]);
+      const response = await axios.get(`${url}/booking/user/Arrived/${auth._id}`, setHeaders);
+      setBooked(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    } };
 
   useEffect(() => {
-    fetchOrders();
-  }, []);
+          getBooking()
+     }, []);
 
 
+     const handleCompleted = async (booking) => {
+      try {
+        const updatedBooking = {
+          motorcycle: 'Honda Click',
+          booking:{
+            booking: { 
+              address:
+              {pickUpAdress: booking.booking.booking.address.pickUpAdress,
+              destination: booking.booking.booking.address.destination,},
+              totalAmount: booking.booking.booking.totalAmount,
+              phoneNumber: booking.booking.booking.phoneNumber,
+              riderPhone: booking.booking.booking.riderPhone,
+              status: 'Completed',
+              riderDelete: booking.booking.booking.riderDelete,
+              userDelete: booking.booking.booking.userDelete,
+              riderId: booking.booking.booking.riderId,
+              rider: booking.booking.booking.name,
+            },  item: booking.booking.item,
+            itemDetails: booking.booking.itemDetails,
+            service: booking.booking.service,
+            completedAt: booking.booking.completedAt,
+          }
+        };
+        await axios.put(`${url}/booking/${booking._id}`, updatedBooking, setHeaders()).then((response) => {
+          console.log(response.data)
+          getBooking()
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    
 
-  const submitRating = async (RiderId) => {
-    console.log({rating, comment})
+
+  const submitRating = async (RiderId, booking) => {
         try {
-          const response = await axios.put(`${url}/user/Rider/${RiderId}`, {rating, comment: [comment, auth.name]}, setHeaders());
+          const response = await axios.put(`${url}/user/Rider/${RiderId}`, {rating, comment: [comment, auth.name, rating]}, setHeaders());
           console.log(response.data);
-              } catch (error) {
+          handleCompleted(booking)
+          getBooking()
+        } catch (error) {
           console.error(error);
         }
   };
 
+  const formatDate = (date) =>{
+    return( new Date(date).toLocaleString('en-US', {
+   year: 'numeric',
+   month: '2-digit',
+   day: '2-digit',
+   hour: '2-digit',
+   minute: '2-digit',
+   second: '2-digit',
+   timeZoneName: 'short',
+ }))
+ }
 
   return (
     <div>
-      <h2>Orders</h2>
-      {error && <div>{error}</div>}
-      <ul>
-        {orders.map((order) => (
-          <li
-            style={{ borderBottom: "1px solid black", marginBottom: "1px" }}
-            key={order._id}
-          >
-             <p>ProductId: {order.products[0].productId}</p>
-            <p>Items: {order.products[0].quantity}</p>
-            <p>
-              Date Ordered:{" "}
-              {new Date(order.createdAt).toLocaleString("en-US", {
-                year: "numeric",
-                month: "2-digit",
-                day: "2-digit",
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit",
-                timeZoneName: "short",
-              })}
-            </p>
-            <p>Delivery Status: {order.delivery_status}</p>
-            <p>Payment Status: {order.payment_status}</p>
-            <p>Total: {order.total}</p>
-            <p>Rider: {order.rider[1]}</p>
-            {selectedOrderId === order._id ? (
+      <h2>Booked</h2>
+      {!loading && booked.length === 0 && <p>No bookings found</p>} 
+      {loading && <div>Loading...</div>}
+      <div>
+{booked &&
+  booked.map((booking) => (
+    <div style={{ borderBottom: '1px solid black', marginBottom: '1px' }} key={booking._id}>
+      <div>Date Booked: {formatDate(booking.createdAt)}</div> 
+      <div>Date Completed: <span>{formatDate(booking.booking.completedAt)}</span></div> 
+      <div className="row border-bottom border-top">
+      <div className="col-6 ">
+          <Card.Text>Service: <span>{booking.booking.service}</span></Card.Text> 
+         <Card.Text>Status: <span>{booking.booking.booking.status}</span></Card.Text>
+      </div>
+      <div className="col-6 ">
+        <Card.Text>Rider: <span>{booking.booking.booking.rider}</span></Card.Text>
+        <Card.Text>RiderId: <span>{booking.booking.booking.riderId}</span></Card.Text>
+        <Card.Text>Client Name: <span>{booking.user.name}</span></Card.Text>
+      </div>
+      <div className="row border-bottom">
+
+
+      {selectedRiderId === booking.booking.booking.riderId ? (
+              <div className="row border-top">
+                <div className="col-6">
               <div>
-                <label htmlFor="comment">Add a comment:</label>
-                <input type="text" id="comment" value={comment} onChange={handleComment} />
-              <div className="rating">
+                  {rating
+                    ? `You rated: ${rating} stars`
+                    : "Please rate this product"}
+                </div>
+              <div className="col-6 rating">
                 {[...Array(5)].map((star, index) => {
                   const ratingValue = index + 1;
                   return (
@@ -99,25 +147,56 @@ const RateRider = () => {
                       </span>
                     </label>
                   );
-                })}
-                <p>
-                  {rating
-                    ? `You rated: ${rating} stars`
-                    : "Please rate this product"}
-                </p>
-              
-              </div>  <button onClick={() => submitRating(order.rider[1])}>
-                Submit Rating
-              </button></div>
+                })} 
+              </div>  
+              </div>
+              <div className="col-6 mt-2">
+                <textarea placeholder="Add a comment:" type="text" id="comment" value={comment} onChange={handleComment} />
+                </div>
+              <div className="row justify-content-evenly border-bottom">
+              <Button className="col-3 m-2" onClick={() => submitRating(booking.booking.booking.riderId, booking)}>Submit Rating</Button>
+              <Button className="col-3 m-2" onClick={() => setSelectedRiderId(!selectedRiderId)}>Cancel</Button>
+              </div>
+              </div>
             ) : (
-              <button onClick={() => setSelectedOrderId(order._id)}>
-                Rate
-              </button>
+              <Button onClick={() => setSelectedRiderId(booking.booking.booking.riderId)}>Rate</Button>
             )}
-                   
-          </li>
-        ))}
-      </ul>
+
+
+
+      </div>
+      </div>
+      <div className="row border-bottom">
+        <div className="col-6">
+        <Card.Text>Pick Up Address: <span>{booking.booking.booking.address.pickUpAdress}</span></Card.Text> 
+      </div>
+      <div className="col-6">
+      <Card.Text>Destination: <span>{booking.booking.booking.address.destination}</span></Card.Text> 
+    </div>
+      </div>
+     {booking.booking.item ? <div><p>Item: {booking.booking.item}</p>
+    <p>Details: {booking.booking.itemDetails}</p></div>  : null}
+    {booking.booking.items ? (<div>
+          <ListGroup variant="flush">
+          <ListGroup.Item style={{display: 'flex', justifyContent: 'space-between', padding: '0.5rem' }}>
+            <div>Item</div>
+            <div>Store</div>
+            <div>Address</div>
+          </ListGroup.Item>
+            {booking.booking.items.map((item, index) => (
+              <>
+      <ListGroup.Item key={index} style={{ fontWeight: 'bold', display: 'flex', justifyContent: 'space-between', padding: '0.5rem' }}>
+            <span>{index + 1}. {item.item}</span>
+            <span>{item.store}</span>
+            <span>{item.address}</span>
+          </ListGroup.Item></>
+            ))}
+          </ListGroup>
+        </div>) : null}
+        <Card.Text>Fare: <span>{booking.booking.booking.totalAmount}</span></Card.Text>       
+    </div>
+  ))}
+      </div>
     </div>
   );
 };

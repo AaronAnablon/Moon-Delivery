@@ -39,7 +39,7 @@ const PickUpClient = () => {
                 totalAmount: booking.booking.booking.totalAmount,
                 phoneNumber: booking.booking.booking.phoneNumber,
                 riderPhone: auth.phoneNumber,
-                status: 'Completed',
+                status: 'Arrived',
                 riderDelete: booking.booking.booking.riderDelete,
                 userDelete: booking.booking.booking.userDelete,
                 active: true,
