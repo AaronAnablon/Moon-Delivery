@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
-import { setHeaders, url } from "../slices/api";
+import { setHeaders, url } from "../../slices/api";
 import axios from "axios";
 
 const HighRating = ({toProductDetails}) => {

@@ -19,12 +19,13 @@ const NavBar = () => {
         {! auth.isAdmin && ! auth.isRider && (
         <>
         <Navbar.Brand href="/">MD</Navbar.Brand>
-        <Nav.Link  className="d-sm-block d-md-none" as={Link} to="/cart"> 
-           <div className="nav-bag">
-            <IoIosCart size={32} />
-            <span className="cart-quantity">
-            <span>{cartTotalQuantity}</span>
-            </span></div>
+        <Nav.Link  className="d-sm-block d-lg-none d-md-none" as={Link} to="/cart"> 
+           <div className="col-12 d-flex">
+            <IoIosCart className="col-8" size={32} />
+            <div className="col-4 cart-quantity">
+                <div>{cartTotalQuantity}</div>
+            </div>
+            </div>
         </Nav.Link>
         </>)}
              {auth._id ? (<div> { auth.isAdmin && auth.isRider === true ? (
@@ -67,12 +68,13 @@ const NavBar = () => {
                     <Navbar.Collapse className="sidebar justify-content-end">
                     {! auth.isAdmin && ! auth.isRider && (
                     <>
-                    <Nav.Link className="d-lg-block d-none" as={Link} to="/cart">
-                        <div className="nav-bag">
-                        <IoIosCart size={32} />
-                        <span className="cart-quantity">
-                        <span>{cartTotalQuantity}</span>
-                        </span></div>
+                    <Nav.Link className="d-md-block d-none" as={Link} to="/cart">
+                    <div className="col-12 d-flex">
+                        <IoIosCart className="col-8" size={32} />
+                        <div className="col-4 cart-quantity">
+                        <div>{cartTotalQuantity}</div>
+                        </div>
+                    </div>
                     </Nav.Link>
                     </>)}{auth._id &&
                     <Nav className="flex-column flex-md-row flex-lg-row px-5 ">

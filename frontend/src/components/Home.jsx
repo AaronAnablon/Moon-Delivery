@@ -1,7 +1,7 @@
-import HighRating from "./HighRating";
-import StarRating from "./StarRating";
-import TopProducts from "./TopProducts";
-import TopSold from "./TopSold";
+import HighRating from "./products/HighRating";
+import StarRating from "./products/StarRating";
+import TopProducts from "./products/TopProducts";
+import TopSold from "./products/TopSold";
 
 import { useState, useEffect } from "react";
 import { useNavigate, NavLink } from "react-router-dom";

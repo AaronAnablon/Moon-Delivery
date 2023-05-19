@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import DistanceCalculator from '../DistanceCalculator';
+import DistanceCalculator from '../booking/DistanceCalculator';
 import { useSelector } from 'react-redux';
 import { setHeaders, url } from "../../slices/api";
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import { Form, Button } from 'react-bootstrap';
 
 const PakuhaPadala = () => {
     const booking = useSelector(state => state.booking)
@@ -59,23 +59,31 @@ const handleSubmitBooking = () => {
   
   return (
     <div>
-       <h2>Pakuha/Padala</h2>
-
-       <label htmlFor="item">Item:</label>
-      <input type="text" id="item" value={item} onChange={handleItemChange} />
-      <label htmlFor="itemDetails">Item Details:</label>
-      <input type="text" id="itemDetails" value={itemDetails} onChange={handleItemDetailsChange} />
-      <label htmlFor="pickupAddress">Pickup Address:</label>
-      <input type="text" id="pickupAddress" value={pickupAddress} onChange={handlePickupAddressChange} />
-      <br />
-      <label htmlFor="destination">Destination:</label>
-      <input type="text" id="destination" value={destination} onChange={handleDestinationChange} />
-      <br />
-      <label htmlFor="phoneNumber">Phone Number:</label>
-      <input type="text" id="phoneNumber" value={phoneNumber} onChange={handlePhoneNumberChange} />
-      <br />
-      <DistanceCalculator pickupAddress={pickupAddress} destination={destination} phoneNumber={phoneNumber} handleSubmitBooking={handleSubmitBooking}/>
-      <button onClick={handleSubmitBooking}>Submit Booking</button>
+      <h2>Pakuha/Padala</h2>
+      <Form>
+        <Form.Group controlId="item">
+          <Form.Label>Item:</Form.Label>
+          <Form.Control type="text" value={item} onChange={handleItemChange} />
+        </Form.Group>
+        <Form.Group controlId="itemDetails">
+          <Form.Label>Item Details:</Form.Label>
+          <Form.Control type="text" value={itemDetails} onChange={handleItemDetailsChange} />
+        </Form.Group>
+        <Form.Group controlId="pickupAddress">
+          <Form.Label>Pickup Address:</Form.Label>
+          <Form.Control type="text" value={pickupAddress} onChange={handlePickupAddressChange} />
+        </Form.Group>
+        <Form.Group controlId="destination">
+          <Form.Label>Destination:</Form.Label>
+          <Form.Control type="text" value={destination} onChange={handleDestinationChange} />
+        </Form.Group>
+        <Form.Group controlId="phoneNumber">
+          <Form.Label>Phone Number:</Form.Label>
+          <Form.Control type="text" value={phoneNumber} onChange={handlePhoneNumberChange} />
+        </Form.Group>
+        <DistanceCalculator pickupAddress={pickupAddress} destination={destination} phoneNumber={phoneNumber} handleSubmitBooking={handleSubmitBooking} />
+        <Button className='col-12' variant="primary" onClick={handleSubmitBooking}>Submit Booking</Button>
+      </Form>
     </div>
   );
 };

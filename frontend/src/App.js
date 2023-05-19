@@ -1,53 +1,62 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { loadUser } from "./slices/authSlice";
+import "react-toastify/dist/ReactToastify.css";
 
 import Home from "./components/Home";
 import NavBar from "./components/NavBar";
 import NotFound from "./components/NotFound";
-import Cart from "./components/Cart";
 
-import "react-toastify/dist/ReactToastify.css";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { loadUser } from "./slices/authSlice";
 
-import Dashboard from "./components/admin/Dashboard";
-import Products from "./components/admin/Products";
-import Users from "./components/admin/Users";
-import Orders from "./components/admin/Oders";
-import Summary from "./components/admin/Summary";
-import CreateProduct from "./components/admin/CreateProduct";
-import CheckOut from "./components/CheckOut";
-import Order from "./components/user/Order";
-import Profile from "./components/user/Profile";
-import History from "./components/user/History";
-import ToRate from "./components/user/ToRate";
+import Cart from "./components/cart/Cart";
+import CheckOut from "./components/cart/CheckOut";
+
 import RegisterAsRider from "./components/auth/RegisterAsRider";
 import RegisterAsSeller from "./components/auth/RegisterAsSeller";
+
+import Pabili from "./components/services/Pabili";
+import PakuhaPadala from "./components/services/PakuhaPadala"
+import PahatidSundo from "./components/services/PahatidSundo";
+
+import PickUpClient from "./components/rider/PickUpClient";
 import Booked from "./components/rider/Booked";
 import DropOff from "./components/rider/DropOff";
 import PickUp from "./components/rider/PickUp";
 import Shipment from "./components/rider/Shipment";
 import ToShip from "./components/rider/ToShip";
 import Rider from "./components/rider/Rider"
-import UserBooking from "./components/user/UserBooking";
-import Booking from "./components/Booking";
-import Pabili from "./components/services/Pabili";
-import PakuhaPadala from "./components/services/PakuhaPadala"
-import PahatidSundo from "./components/services/PahatidSundo";
-import PickUpClient from "./components/rider/PickUpClient";
-import BookingHistory from "./components/user/BookingHistory";
-import RateRider from "./components/user/RateRider";
+
 import GeneralAdmin from "./components/general_admin/GeneralAdmin";
 import Stores from "./components/general_admin/Stores"
 import SystemDashBoard from "./components/general_admin/SystemDashBoard"
 import SystemRiders from "./components/general_admin/SystemRiders"
 import SystemProfile from "./components/general_admin/SystemProfile"
+
 import UserSettings from "./components/user/UserSettings"
-import ProductDetails from "./components/ProductDetails";
+import UserBooking from "./components/user/UserBooking";
+import BookingHistory from "./components/user/BookingHistory";
+import RateRider from "./components/user/RateRider";
+import Order from "./components/user/Order";
+import Profile from "./components/user/Profile";
+import History from "./components/user/History";
+import ToRate from "./components/user/ToRate";
+
+import Products from "./components/admin/Products";
+import Summary from "./components/admin/Summary";
+import CreateProduct from "./components/admin/CreateProduct";
+import Dashboard from "./components/admin/Dashboard";
+import Users from "./components/admin/Users";
+import Orders from "./components/admin/Oders";
+
+import ProductDetails from "./components/products/ProductDetails";
+
+import Booking from "./components/booking/Booking";
+
 
 function App() {
   const dispatch = useDispatch();

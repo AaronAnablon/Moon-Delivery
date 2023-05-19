@@ -4,7 +4,7 @@ import { BiUserCircle} from "react-icons/bi"
 import { Container, Card, Row, Col } from 'react-bootstrap';
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { addToCart } from "../slices/cartSlice";
+import { addToCart } from "../../slices/cartSlice";
 import {IoArrowBackCircleSharp} from "react-icons/io5"
 
 function ProductDetails() {

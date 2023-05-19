@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Container } from 'react-bootstrap';
 import { Card } from 'react-bootstrap';
-import { url } from "../slices/api";
+import { url } from "../../slices/api";
 import axios from "axios";
 
 const Products = () => {
@@ -33,17 +33,6 @@ const Products = () => {
     navigate('/productDetails', { state: { product: product } });
   };
 
-  const shuffleProducts = () => {
-    setData(prevData => {
-      const shuffledData = [...prevData];
-      for (let i = shuffledData.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffledData[i], shuffledData[j]] = [shuffledData[j], shuffledData[i]];
-      }
-      return shuffledData;
-    });
-  };
-
   return (
     <div>
       <h3 className="text-light">You may also like</h3>
@@ -68,7 +57,6 @@ const Products = () => {
         {data.length > 0 ?
           <>
             <Button onClick={handleLoadMore}>Load more</Button>
-            <Button onClick={shuffleProducts}>Shuffle</Button>
           </> :
           <div>
             <p>No Products found</p>
