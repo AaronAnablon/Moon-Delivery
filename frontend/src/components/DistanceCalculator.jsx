@@ -1,39 +1,36 @@
-import React, {  useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux'
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { setBooking } from '../slices/bookingSlice';
-
+import { Button } from 'react-bootstrap';
+import axios from 'axios';
 
 const DistanceCalculator = ({ pickupAddress, destination, phoneNumber }) => {
   const [distance, setDistance] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
-   
-  const API_KEY = 'Aki1DjFxiqk8kq1m9KGmU0ywLO9SdHF8gCYuIfK0g4m_G2OnqdDvcZj20SYAHbNH';
+  const API_KEY = '4e17e78fbdc34b788640c77b5fb1854f';
 
   const handleCalculateDistance = () => {
-       setIsLoading(true);
-    const pickupUrl = `https://dev.virtualearth.net/REST/v1/Locations?q=${pickupAddress}&key=${API_KEY}`;
-    const destinationUrl = `https://dev.virtualearth.net/REST/v1/Locations?q=${destination}&key=${API_KEY}`;
-    
-    // Get the longitude and latitude of the pickup address
-    fetch(pickupUrl)
-      .then(response => response.json())
-      .then(data => {
-        const pickupLocation = data.resourceSets[0].resources[0].point.coordinates;
-        
-        // Get the longitude and latitude of the destination address
-        fetch(destinationUrl)
-          .then(response => response.json())
-          .then(data => {
-            const destinationLocation = data.resourceSets[0].resources[0].point.coordinates;
-            
+    setIsLoading(true);
+
+    // Perform geocoding for pickup address
+    axios
+      .get(`https://api.geoapify.com/v1/geocode/search?text=${encodeURIComponent(pickupAddress)}&apiKey=${API_KEY}`)
+      .then(response => {
+        const pickupLocation = response.data.features[0]?.geometry.coordinates;
+        // Perform geocoding for destination address
+        axios
+          .get(`https://api.geoapify.com/v1/geocode/search?text=${encodeURIComponent(destination)}&apiKey=${API_KEY}`)
+          .then(response => {
+            const destination = response.data.features[0]?.geometry.coordinates;
             // Calculate the distance between the pickup and destination addresses
-            const distanceUrl = `https://dev.virtualearth.net/REST/v1/Routes/DistanceMatrix?origins=${pickupLocation[0]},${pickupLocation[1]}&destinations=${destinationLocation[0]},${destinationLocation[1]}&travelMode=walking&key=${API_KEY}`;
-            fetch(distanceUrl)
-              .then(response => response.json())
-              .then(data => {
-                setDistance(data.resourceSets[0].resources[0].results[0].travelDistance.toFixed(2));
+            axios
+              .get(`https://api.geoapify.com/v1/routing?waypoints=${pickupLocation[1]},${pickupLocation[0]}|${destination[1]},${destination[0]}&mode=drive&apiKey=${API_KEY}`)
+              .then(response => {
+                const distanceInMeters = response.data.features[0]?.properties?.distance || 0;
+                const distanceInKm = (distanceInMeters / 1000).toFixed(2);
+                setDistance(distanceInKm);
               })
               .catch(error => console.log(error))
               .finally(() => setIsLoading(false));
@@ -44,29 +41,45 @@ const DistanceCalculator = ({ pickupAddress, destination, phoneNumber }) => {
   };
 
   const currentTime = new Date();
-const isNight = currentTime.getHours() >= 20 || currentTime.getHours() < 6;
-const extraCharge = isNight ? 20 : 0;
-
+  const isNight = currentTime.getHours() >= 20 || currentTime.getHours() < 6;
+  const extraCharge = isNight ? 20 : 0;
 
   useEffect(() => {
-   if (distance !== null) {
-    dispatch(setBooking({ 
-      address: {destination: destination, pickUpAdress: pickupAddress}, 
-      totalAmount: ((distance <=2 ? 0 : (distance - 2) * 10) + 50 + extraCharge),
-      phoneNumber: phoneNumber,
-      status: 'booked',
-      }))
-   }
-  }, [distance])
+    if (distance !== null) {
+      dispatch(
+        setBooking({
+          address: { destination: destination, pickUpAdress: pickupAddress },
+          totalAmount: ((distance <= 2 ? 0 : (distance - 2) * 10) + 50 + extraCharge),
+          phoneNumber: phoneNumber,
+          status: 'booked',
+        })
+      );
+    } else {
+      dispatch(
+        setBooking({
+          address: "",
+          totalAmount: "",
+          phoneNumber: "",
+          status: '',
+        })
+      );
+    }
+  }, [distance]);
 
-  const totalFare = ((distance <=2 ? 0 : (distance - 2) * 10) + 50 + extraCharge);
+  const totalFare = ((distance <= 2 ? 0 : (distance - 2) * 10) + 50 + extraCharge);
+
+  const currency = (price) => {
+    return price.toLocaleString('en-PH', { style: 'currency', currency: 'PHP' })
+   }
 
   return (
-    <div>
-      <div>
-      {distance && <p>Distance: {distance} km</p>}
-      {distance && <p>Fare: {`₱ ${totalFare}`}</p>}
-        <button onClick={handleCalculateDistance}>{isLoading && <span>Calculating...</span>}Fare</button>
+    <div className="row border-top border-bottom">
+      <Button className="m-3 col-11" onClick={handleCalculateDistance}>
+        {isLoading ? <span>Calculating...</span> : 'Fare'}
+      </Button>
+      <div className="col-12 d-flex justify-content-center">
+        {distance && <p className="col-6">Distance: {distance} km</p>}
+        {distance && <p className="col-6">Fare: {currency(totalFare)}</p>}
       </div>
     </div>
   );

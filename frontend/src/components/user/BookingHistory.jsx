@@ -76,6 +76,10 @@
       timeZoneName: 'short',
     }))
     }
+
+    const currency = (price) => {
+      return price.toLocaleString('en-PH', { style: 'currency', currency: 'PHP' })
+     }
    
     return (
       <div>
@@ -123,7 +127,7 @@
                     ))}
                   </ListGroup>
                 </div>) : null}
-                <Card.Text>Fare: <span>{booking.booking.booking.totalAmount}</span></Card.Text> 
+                <Card.Text>Fare: <span>{currency(booking.booking.booking.totalAmount)}</span></Card.Text> 
               <div className="m-3">
                  {booking.booking.booking.status === 'For Pick Up' ? 
             <Button onClick={() => handleCallRider(booking.booking.booking.riderPhone)}>Call Rider</Button> :

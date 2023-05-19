@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema(
       maxlength: 200,
       unique: true,
     },
-    phoneNumber: {type: Number, required: true},
+    phoneNumber: {type: String, required: true},
     address: {type: String, required: true},
     password: { type: String, required: true, minlength: 3, maxlength: 1024 },
     isAdmin: { type: Boolean, default: false },

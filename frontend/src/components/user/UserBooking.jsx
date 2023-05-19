@@ -122,7 +122,7 @@ const UserBooking = () => {
                   </ListGroup.Item>
                     {booking.booking.items.map((item, index) => (
                       <>
-              <ListGroup.Item key={index} style={{ fontWeight: 'bold', display: 'flex', justifyContent: 'space-between', padding: '0.5rem' }}>
+              <ListGroup.Item key={index + 1} style={{ fontWeight: 'bold', display: 'flex', justifyContent: 'space-between', padding: '0.5rem' }}>
                     <span>{index + 1}. {item.item}</span>
                     <span>{item.store}</span>
                     <span>{item.address}</span>

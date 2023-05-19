@@ -96,6 +96,10 @@ const RateRider = () => {
  }))
  }
 
+ const currency = (price) => {
+  return price.toLocaleString('en-PH', { style: 'currency', currency: 'PHP' })
+ }
+
   return (
     <div>
       <h2>Booked</h2>
@@ -159,7 +163,9 @@ const RateRider = () => {
               </div>
               </div>
             ) : (
+              <div className="col-4 m-3 ">
               <Button onClick={() => setSelectedRiderId(booking.booking.booking.riderId)}>Rate</Button>
+              </div>
             )}
 
 
@@ -193,7 +199,7 @@ const RateRider = () => {
             ))}
           </ListGroup>
         </div>) : null}
-        <Card.Text>Fare: <span>{booking.booking.booking.totalAmount}</span></Card.Text>       
+        <Card.Text>Fare: <span>{currency(booking.booking.booking.totalAmount)}</span></Card.Text>       
     </div>
   ))}
       </div>

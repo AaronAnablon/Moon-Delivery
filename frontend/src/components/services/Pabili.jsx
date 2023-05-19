@@ -5,7 +5,8 @@ import DistanceCalculator from "../DistanceCalculator";
 import axios from "axios";
 import { setHeaders, url } from "../../slices/api";
 import { toast } from 'react-toastify';
-
+import {Button, Card, Container} from "react-bootstrap";
+import { TiDelete } from "react-icons/ti";
 
 const Pabili = () => {
   const auth = useSelector(state => state.auth)
@@ -18,6 +19,7 @@ const Pabili = () => {
   const [otherAddress, setOtherAddress] = useState('')
   const [userAddress, setUserAddress] = useState('')
   const [useDefaultAddress, setUseDefaultAddress] = useState(false);
+  const [fare, setFare] = useState(false);
 
   const navigate = useNavigate()
 
@@ -30,9 +32,18 @@ const Pabili = () => {
       setUserAddress(auth.address);
     } else {
       setUserAddress(event.target.value);
+      setFare(userAddress.length > 11)
     }
   };
-  
+  const handleUseDefAddress = () => {
+    if (!useDefaultAddress) {
+      setUseDefaultAddress(true)
+      setFare(true)
+    } else {
+      setFare(false)
+      setUseDefaultAddress(false)
+    }
+  }
 
   const handleOtherAddress = (event) => {
     setOtherAddress(event.target.value);
@@ -51,29 +62,21 @@ const Pabili = () => {
   };
 
   const handleAddItem = () => {
-    console.log(booking)
     const lastItemFare = items.length > 0 ? Number(items[items.length - 1].Fare) + 10 : booking.totalAmount;
-  
     const newItem = {
       Fare: lastItemFare,
       item: itemInput,
       store: storeInput === 'Other' ? otherStoreInput : storeInput,
       address: addressInput === 'Other' ? otherAddress : addressInput,
     };
-  
     setItems([...items, newItem]);
     setItemInput('');
   };
-  
-  
-
   const handleDeleteItem = (index) => {
     const updatedItems = [...items];
     updatedItems.splice(index, 1);
     setItems(updatedItems);
   };
-
-
   const booked = {
     user: {_id: auth._id, name: auth.name} ,
     motorcycle: '',
@@ -91,104 +94,95 @@ const Pabili = () => {
     console.log(error);
   });
   }
-
   return (
     <div>
-      <h2>Add items to purchase</h2>
-      <div>
-        <label htmlFor="itemInput">Item/Items:</label>
-        <input type="text" id="itemInput" value={itemInput} onChange={handleItemChange} />
-      </div>
-      <div>
-      <label htmlFor="store">Select a store:</label>
-        <select id="store" name="store" value={storeInput} onChange={handleStoreChange}>
-          <option value="">Please select a store</option>
-          <option value="Grocery">Grocery</option>
-          <option value="Public Market">Public Market</option>
-          <option value="Wet Market">Wet Market</option>
-          <option value="Sari-Sari Store">Sari-Sari Store</option>
-          <option value="Other">Other</option>
-        </select>
-        {storeInput === 'Other' && (
-          <input type="text" id="otherStoreInput" value={otherStoreInput} onChange={handleOtherStoreChange} />
-        )}
-      </div>
-      <div>
-      <label htmlFor="address">Select a Store Address:</label>
-        <select id="address" name="address" value={addressInput} onChange={handleAddressChange}>
-          <option value="">Please select a Route</option>
-          <option value="Lagawe Trading, Lagawe, Ifugao">Lagawe Trading, Lagawe, Ifugao</option>
-          <option value="Public Market, Lagawe, Ifugao">Public Market, Lagawe, Ifugao</option>
-          <option value="Wet Market, Lagawe, Ifugao">Wet Market, Lagawe, Ifugao</option>
-          <option value="Other">Other</option>
-        </select>
-        {addressInput === 'Other' && (
-          <input type="text" value={otherAddress} onChange={handleOtherAddress} />
-        )}
-      </div>
-       <label htmlFor="address">Address</label>
+      <div className="row mb-5 d-flex justify-content-center"> 
+<div className="col-10 mb-5 rounded-bottom rounded-top mt-4 shadow">
+<h2>Add items to purchase</h2>
+<div className="form-group">
+  <label htmlFor="itemInput">Item/Items:</label>
+  <input className="form-control" type="text" id="itemInput" value={itemInput} onChange={handleItemChange} />
+</div>
+<div className="form-group">
+  <label htmlFor="store">Select a store:</label>
+  <select className="form-control" id="store" name="store" value={storeInput} onChange={handleStoreChange}>
+    <option value="">Please select a store</option>
+    <option value="Grocery">Grocery</option>
+    <option value="Public Market">Public Market</option>
+    <option value="Wet Market">Wet Market</option>
+    <option value="Sari-Sari Store">Sari-Sari Store</option>
+    <option value="Other">Other</option>
+  </select>
+  {storeInput === 'Other' && (
+    <input className="form-control mt-2" type="text" id="otherStoreInput" value={otherStoreInput} onChange={handleOtherStoreChange} />
+  )}
+</div>
+
+<div className="form-group">
+  <label htmlFor="address">Select a Store Address:</label>
+  <select className="form-control" id="address" name="address" value={addressInput} onChange={handleAddressChange}>
+    <option value="">Please select a Route</option>
+    <option value="Lagawe Trading, Lagawe, Ifugao">Lagawe Trading, Lagawe, Ifugao</option>
+    <option value="Public Market, Lagawe, Ifugao">Public Market, Lagawe, Ifugao</option>
+    <option value="Wet Market, Lagawe, Ifugao">Wet Market, Lagawe, Ifugao</option>
+    <option value="Other">Other</option>
+  </select>
+  {addressInput === 'Other' && (
+    <input className="form-control mt-2" type="text" value={otherAddress} onChange={handleOtherAddress} />
+  )}
+</div>
+
+<div className="form-group">
+  <label htmlFor="address">Address</label>
   <input
+    className="form-control"
     type="text"
     value={useDefaultAddress ? auth.address : userAddress}
     onChange={handleUserAddressChange}
   />
-  <label>
-    <input
-      type="checkbox"
-      checked={useDefaultAddress}
-      onChange={() =>
-        setUseDefaultAddress(!useDefaultAddress)
-      }
-    />
+</div>
+
+<div className="form-check">
+  <input
+    className="form-check-input"
+    type="checkbox"
+    value={useDefaultAddress}
+    id="useDefaultAddress"
+    onClick={handleUseDefAddress}
+  />
+  <label className="form-check-label mb-3" htmlFor="useDefaultAddress">
     Use Default Address
   </label>
-      <DistanceCalculator pickupAddress={addressInput === 'Other' ? otherAddress: addressInput} destination={useDefaultAddress ? auth.address : userAddress} phoneNumber={auth.phoneNumber}/>
+</div>
+      {fare && items.length < 1 &&  <DistanceCalculator pickupAddress={addressInput === 'Other' ? otherAddress: addressInput} destination={useDefaultAddress ? auth.address : userAddress} phoneNumber={auth.phoneNumber}/>}
       <div>
  </div>
-      <button onClick={handleAddItem}>Add item</button>
+     {booking.totalAmount && <Button className="col-12 mt-4 mb-4 border-top" onClick={handleAddItem}>Add item</Button>}
       {items.length > 0 && (
   <div>
-    <h3>Items to purchase:</h3>
-    <ul>
-      {items.map((item, index) => (
-        <li key={index} style={{ backgroundColor: index % 2 === 0 ? 'lightgray' : 'white' }}>
+    <h3>Summary:</h3>
+    {items.map((item, index) => (
+      <Container>
+        <div className="row" key={index + 1} style={{ backgroundColor: index % 2 === 0 ? 'lightgray' : 'white' }}>
+          <Card.Text style={{wordWrap: 'break-word' }} className="col-10">
           {item.item} - {item.store} -{item.address}
-          <button
-            style={{
-              borderRadius: '50%',
-              width: '30px',
-              height: '30px',
-              backgroundColor: 'red',
-              color: 'white',
-              fontWeight: 'bold',
-              fontSize: '1.2rem',
-              lineHeight: '1rem',
-              cursor: 'pointer',
-            }}
-            onClick={() => handleDeleteItem(index)}
-          >X</button>
-        </li>
+          </Card.Text >
+          <TiDelete className="col-2" size={35} onClick={() => handleDeleteItem(index)}/>
+        </div>
+        </Container>
       ))}
-     
-    </ul>
-    <li>
+    <Card.Text>
        Total Fare: {items.slice(-1)[0].Fare}
-      </li>
+      </Card.Text>
   </div>
 )}
-
-   
-        {auth._id ? (
-               <button onClick={handleBooking}>Book</button>
-              ) : (
-                <button
-                  className="cart-login"
-                  onClick={() => navigate("/login")}
-                >
+        {auth._id ? items.length > 0 && <Button className="col-12 mb-5 mt-3" onClick={handleBooking}>Book</Button>
+               : (
+                <Button className="col-12" onClick={() => navigate("/login")}>
                   Login to submit Booking
-                </button>
-              )}
-                <p>Payment varies Depending on the Purchases made. Receipt will always be presented by the rider and recorded by our system</p>
+                </Button>)}
+              </div>
+              </div>
     </div>
   );
 };

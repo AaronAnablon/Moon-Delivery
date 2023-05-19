@@ -60,12 +60,14 @@ const Register = () => {
           type="text"
           placeholder="name"
           onChange={(e) => setUser({ ...user, name: e.target.value })}
+          maxLength={100}
           required
         />
         <input
           type="email"
           placeholder="email"
           onChange={(e) => setUser({ ...user, email: e.target.value })}
+          maxLength={100}
           required
         />
             <input
@@ -79,6 +81,7 @@ const Register = () => {
           type="tel"
           placeholder="phoneNumber"
           onChange={(e) => setUser({ ...user, phoneNumber: e.target.value })}
+          maxLength={11}
           required
         />
     
@@ -94,6 +97,7 @@ const Register = () => {
           type="password"
           placeholder="password"
           onChange={(e) => setUser({ ...user, password: e.target.value })}
+          maxLength={150}
           required
         />
         <button>

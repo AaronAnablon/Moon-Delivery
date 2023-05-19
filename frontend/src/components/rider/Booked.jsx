@@ -23,7 +23,21 @@ const Booked = () => {
 
   useEffect(() => {
           getBooking();
-     }, []);
+  }, []);
+
+     const recipientEmail = 'aaronanablon6@gmail.com';
+     const subject = `Booking Notification`
+     const text = `Hello, this is to inform you ${auth.name} will be coming to ick you up`;
+
+  const sendEmail = () => {
+    axios.post(`${url}/email/send-email`, { recipientEmail, subject, text })
+  .then(response => {
+    console.log(response.data.message);
+  })
+  .catch(error => {
+    console.log('Error:', error);
+  });
+  }
   
 
   const handlePickUp = async (booking) => {
@@ -52,6 +66,7 @@ const Booked = () => {
       };
       await axios.put(`${url}/booking/${booking._id}`, updatedBooking, setHeaders()).then((response) => {
         console.log(response.data)
+        sendEmail()
         getBooking()
       });
     } catch (err) {

@@ -1,18 +1,17 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+
 const register = require("./routes/register");
 const login = require("./routes/login");
 const orders = require("./routes/orders");
 const productsRoute = require("./routes/products");
 const bookingRoutes = require('./routes/booking');
 const userRoutes =require('./routes/updateUser')
-const bodyParser = require('body-parser');
-
+const email = require("./routes/email")
 const products = require("./products");
 
 const app = express();
-
 require("dotenv").config();
 
 const corsOptions = {
@@ -34,6 +33,7 @@ app.use("/api/orders", orders);
 app.use("/api/products", productsRoute);
 app.use('/api/booking', bookingRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/email', email)
 
 app.get("/", (req, res) => {
   res.send("Welcome our to online shop API...");
@@ -56,4 +56,4 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => console.log("MongoDB connection connected"))
-  .catch((error) => console.error("MongoDB connection failed:", error.message));
+  .catch((error) => console.error("MongoDB connection failed:", error));
