@@ -50,7 +50,7 @@ const handleUseDefaultNumber = () => {
   };
 
   const booked = {
-    user: {_id: auth._id, name: auth.name} ,
+    user: {_id: auth._id, name: auth.name, email: auth.email} ,
     motorcycle: '',
     booking: {booking, item: item, itemDetails: itemDetails,  service: 'PakuhaPadala'},
   };
@@ -110,7 +110,7 @@ const handleUseDefaultNumber = () => {
             />
           </Form.Group>
         <DistanceCalculator pickupAddress={pickupAddress} destination={destination} phoneNumber={phoneNumber} handleSubmitBooking={handleSubmitBooking} />
-        <Button className="col-12" type="submit" variant="primary">Submit Booking</Button>
+        {booking.totalAmount && <Button className="col-12" type="submit" variant="primary">Submit Booking</Button>}
       </Form>
       </Card>
     </div>

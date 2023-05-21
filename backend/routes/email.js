@@ -11,19 +11,18 @@ router.post('/send-email', (req, res) => {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'anablonaaronp@gmail.com',
-      pass: 'ygmtfdzcjgorvyou',
+      user: 'moondeliveryifugao@gmail.com',
+      pass: 'fkfmntvvilywkyij',
     },
   });
 
-  // Define the email options
   const mailOptions = {
-    from: 'anablonaaronp@gmail.com',
+    from: 'moondeliveryifugao@gmail.com',
     to: recipientEmail,
     subject: subject,
     text: text,
   };
-
+  
   // Send the email
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {

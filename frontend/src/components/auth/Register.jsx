@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../../slices/authSlice";
 import { StyledForm } from "./StyledForm";
+import sendMail from "../notification/sendMail";
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -34,6 +35,19 @@ const Register = () => {
     setAddressSuggestions([]);
   };
 
+  const generatePassword = () => {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let code = '';
+    for (let i = 0; i < 6; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      code += characters.charAt(randomIndex);
+    }
+    return code;
+  };
+  
+  const code = generatePassword();
+  
+
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(
@@ -46,11 +60,20 @@ const Register = () => {
     fetchData();
   }, [user.address]);
 
+  const recipientEmail = user.email;
+  const subject = 'Moon Delivery Authentication Code';
+  const text = `Good day, This is Moon Delivery. Your Authentication Code is ${code}.
+  Please open your Moon Delivery Web Application here https://example.com/tracking"`;
+
   const handleSubmit = (e) => {
+
+    sendMail({ recipientEmail, subject, text })
+
     e.preventDefault();
     console.log(user);
     dispatch(registerUser(user));
   };
+
 
   return (
     <>

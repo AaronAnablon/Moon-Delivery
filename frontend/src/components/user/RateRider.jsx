@@ -5,6 +5,8 @@ import { useSelector } from "react-redux";
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
+import { Link }from 'react-router-dom'
+import { FaArrowAltCircleLeft } from "react-icons/fa";
 
 const RateRider = () => {
   const auth = useSelector((state) => state.auth);
@@ -97,7 +99,11 @@ const RateRider = () => {
   return (
     <div>
       <h2>Booked</h2>
-      {!loading && booked.length === 0 && <p>No bookings found</p>} 
+      {!loading && booked.length === 0 && <><p>No bookings found  
+           </p>  <Link to="/booking/pabili">
+              <FaArrowAltCircleLeft />
+              <span>Book a Ride</span>
+            </Link></>} 
       {loading && <div>Loading...</div>}
       <div>
 {booked &&

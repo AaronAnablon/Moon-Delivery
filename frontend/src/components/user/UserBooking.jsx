@@ -5,6 +5,8 @@ import { useSelector } from "react-redux";
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
+import { Link } from "react-router-dom";
+import { FaArrowAltCircleLeft } from "react-icons/fa";
 
 const UserBooking = () => {
   const [booked, setBooked] = useState([]);
@@ -64,9 +66,13 @@ const UserBooking = () => {
 
   return (
     <div>
-      <h2>User booking</h2>
+      <h2>Booked</h2>
       {loading && <p>Loading...</p>}
-      {!loading && booked.length === 0 && <p>No bookings found</p>} 
+      {!loading && booked.length === 0 && <><p>No bookings found  
+           </p>  <Link to="/booking/pabili">
+              <FaArrowAltCircleLeft />
+              <span>Book a Ride</span>
+            </Link></>} 
       {!loading && booked &&
         booked.map((booking) => (
           <div className="mb-1" key={booking._id}>
@@ -137,6 +143,7 @@ const UserBooking = () => {
                   Call Rider
                 </Button>
               ) : (
+                booking.booking.booking.status === 'Cancelled' ? null :
                 <Button className="m-3" variant="danger" onClick={() => handleCancel(booking)}>
                   Cancel
                 </Button>

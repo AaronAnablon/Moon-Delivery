@@ -5,7 +5,9 @@
   import ListGroup from 'react-bootstrap/ListGroup';
   import Button from 'react-bootstrap/Button';
   import axios from "axios";
-  
+  import { Link } from "react-router-dom";
+  import { FaArrowAltCircleLeft } from "react-icons/fa";
+
   const BookingHistory = () => {
     const [booked, setBooked] = useState([]);
     const auth = useSelector(state => state.auth)
@@ -84,7 +86,11 @@
       <div>
         <h2>Booking History</h2>
         {loading && <p>Loading...</p>}
-        {loading.length > 0 && <p>No history found</p>}
+        {!loading && booked.length === 0 && <><p>No history found
+           </p>  <Link to="/booking/pabili">
+              <FaArrowAltCircleLeft />
+              <span>Book a Ride</span>
+            </Link></>} 
         {booked &&
           booked.map((booking) => (
             <div style={{ borderBottom: '1px solid black', marginBottom: '1px' }} key={booking._id}>

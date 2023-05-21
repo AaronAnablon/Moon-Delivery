@@ -34,17 +34,19 @@ const DistanceCalculator = ({ pickupAddress, destination, phoneNumber }) => {
                 setDistance(distanceInKm);
               })
               .catch(error => {console.log(error)
-              toast.error('Something went wrong. Please try changing the address!');
+              toast.error('Something went wrong. Please try changing the address or try rewriting the address!');
           })
               .finally(() => setIsLoading(false));
           })
           .catch(error => {console.log(error)
-            toast.error('Something went wrong. Please try changing the address!');
-          });
+            toast.error('Something went wrong. Please try changing the address or try rewriting the address!');
+          })
+          .finally(() => setIsLoading(false));
       })
       .catch(error => {console.log(error)
-        toast.error('Something went wrong. Please try changing the address!');
-      });
+        toast.error('Something went wrong. Please try changing the address or try rewriting the address!');
+      })
+      .finally(() => setIsLoading(false));
   };
 
   const currentTime = new Date();

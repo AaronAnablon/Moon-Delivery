@@ -40,7 +40,7 @@ const PahatidSundo = () => {
   }
 
   const booked = {
-    user: {_id: auth._id, name: auth.name} ,
+    user: {_id: auth._id, name: auth.name, email: auth.email} ,
     motorcycle: '',
     booking: {booking, service: 'PahatidSundo'},
   };
@@ -96,9 +96,10 @@ const PahatidSundo = () => {
             phoneNumber={phoneNumber}
             handleSubmitBooking={handleSubmitBooking}
           />
+          {booking.totalAmount && 
           <Button className='col-12' variant="primary" onClick={handleSubmitBooking}>
             Submit Booking
-          </Button>
+          </Button>}
         </Form>
       </Card>
   </div>

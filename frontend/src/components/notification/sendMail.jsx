@@ -10,10 +10,6 @@ const sendMail = ({recipientEmail, subject, text}) => {
  .catch(error => {
    console.log('Error:', error);
  });
- 
-  return (
-    <></>
-  )
 }
 
 export default sendMail

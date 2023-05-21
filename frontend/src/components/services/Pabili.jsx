@@ -75,15 +75,29 @@ const Pabili = () => {
         ]);
         setItemInput('');
     };
+   
+    
     const handleDeleteItem = (index) => {
         const updatedItems = [...items];
         updatedItems.splice(index, 1);
         setItems(updatedItems);
-    };
+      
+        // Subtract 10 from the fare of the latest item
+        if (updatedItems.length > 0) {
+          const latestItemIndex = updatedItems.length - 1;
+          const latestItem = updatedItems[latestItemIndex];
+          const updatedFare = latestItem.Fare - 10;
+          updatedItems[latestItemIndex] = { ...latestItem, Fare: updatedFare };
+          setItems(updatedItems);
+        }
+      };
+      
+      
     const booked = {
         user: {
             _id: auth._id,
-            name: auth.name
+            name: auth.name,
+            email: auth.email
         },
         motorcycle: '',
         booking: {

@@ -27,12 +27,12 @@ const Booked = () => {
     getBooking();
   }, []);
 
-  const sendNotif = async () => {
+  const sendNotif = async (bookerId) => {
     try {
       const response = await axios.post(`${url}/notification`, {
-        user: 'Andress',
-        email: 'the email sent',
-        notification: 'Notification this is to inform you chuchu',
+        user: bookerId,
+        email: 'sent',
+        notification: `Good day, This is Moon Delivery. Rider ${auth.name} will be coming to pick you. Please prepare`,
         payLoad: 'none really',
       });
       console.log(response.data);
@@ -69,12 +69,15 @@ const handlePickUp = async (booking) => {
       },
 
     };
-    const recipientEmail = 'aaronanablon6@gmail.com';
-    const subject = 'Example Subject 2';
-    const text = 'Example Text 2';
+
+    const recipientEmail = booking.user.email;
+    const subject = 'Rider is ready to pick you up';
+    const text = `Good day, This is Moon Delivery. Rider ${auth.name} will be coming to pick you. Please prepare.
+    Please open your Moon Delivery Web Application here https://example.com/tracking"`;
+
     await axios.put(`${url}/booking/${booking._id}`, updatedBooking, setHeaders()).then((response) => {
       console.log(response.data)
-      sendNotif()
+      sendNotif(booking.user._id)
       sendMail({ recipientEmail, subject, text })
       getBooking()
     });
