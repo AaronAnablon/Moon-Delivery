@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Container, Row, Col, Nav } from 'react-bootstrap';
+import { IoIosCart, IoMdBook, IoMdNotificationsOutline } from 'react-icons/io';
 
 const Profile = () => {
   const auth = useSelector((state) => state.auth);
@@ -15,16 +16,14 @@ const Profile = () => {
             <Nav.Item>
               <NavLink
                 className="nav-link"
-                activeClassName="active"
                 to="/user/userBooking"
-              >
+              ><IoMdBook />
                 Booking
               </NavLink>
             </Nav.Item>
             <Nav.Item>
               <NavLink
                 className="nav-link"
-                activeClassName="active"
                 to="/user/bookingHistory"
               >
                 Booking History
@@ -33,7 +32,6 @@ const Profile = () => {
             <Nav.Item>
               <NavLink
                 className="nav-link"
-                activeClassName="active"
                 to="/user/order"
               >
                 Orders
@@ -42,7 +40,6 @@ const Profile = () => {
             <Nav.Item>
               <NavLink
                 className="nav-link"
-                activeClassName="active"
                 to="/user/history"
               >
                 Purchase History
@@ -51,7 +48,6 @@ const Profile = () => {
             <Nav.Item>
               <NavLink
                 className="nav-link"
-                activeClassName="active"
                 to="/user/toRate"
               >
                 Rate Product
@@ -60,7 +56,6 @@ const Profile = () => {
             <Nav.Item>
               <NavLink
                 className="nav-link"
-                activeClassName="active"
                 to="/user/rateRider"
               >
                 Rate Rider

@@ -56,7 +56,7 @@ import Orders from "./components/admin/Oders";
 import ProductDetails from "./components/products/ProductDetails";
 
 import Booking from "./components/booking/Booking";
-
+import Notification from "./components/notification/Notifications";
 
 function App() {
   const dispatch = useDispatch();
@@ -69,8 +69,8 @@ function App() {
     <div >
       <BrowserRouter>
         <ToastContainer />
-        <div> <NavBar /></div>
-       <div class="mx-auto" style={{maxWidth: '1200px'}}>
+        <div className="mx-auto" style={{maxWidth: '1200px'}}> 
+          <NavBar />
           <Routes>
             <Route path="/" element={<Home />} />
               <Route path="/booking" element={<Booking />}>
@@ -81,6 +81,8 @@ function App() {
             <Route path="/productDetails" element={<ProductDetails />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/checkout" element={<CheckOut />} />
+
+            <Route path="/notification" element={<Notification />} />
           
             <Route path="/register" element={<Register />} />
             <Route path="/registerSeller" element={<RegisterAsSeller />} />

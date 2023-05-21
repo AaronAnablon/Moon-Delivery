@@ -44,17 +44,19 @@ const PahatidSundo = () => {
     motorcycle: '',
     booking: {booking, service: 'PahatidSundo'},
   };
-const handleSubmitBooking = () => {
-  axios.post(`${url}/booking`, booked, setHeaders)
-  .then(response => {
-   console.log(response.data);
-    toast('Booked successfully!');
-    navigate('/user/userBooking');
-  })
-  .catch(error => {
-    console.log(error);
-  });
-}
+  const handleSubmitBooking = () => {
+    axios.post(`${url}/booking`, booked, setHeaders())
+    .then(response => {
+      console.log('success', response.data);
+      toast.success('Booked successfully!');
+      navigate('/user/userBooking');
+    })
+    .catch(error => {
+      toast.error('Something went wrong!');
+      console.log(error);
+    });
+  }
+  
   
   return (
     <div>
@@ -94,7 +96,7 @@ const handleSubmitBooking = () => {
             phoneNumber={phoneNumber}
             handleSubmitBooking={handleSubmitBooking}
           />
-          <Button variant="primary" onClick={handleSubmitBooking}>
+          <Button className='col-12' variant="primary" onClick={handleSubmitBooking}>
             Submit Booking
           </Button>
         </Form>

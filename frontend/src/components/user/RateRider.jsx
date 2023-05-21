@@ -16,7 +16,6 @@ const RateRider = () => {
   const [selectedRiderId, setSelectedRiderId] = useState(null);
   const [comment, setComment] = useState("");
   
-
   const handleRating = (value) => {
     setRating(value);
   };
@@ -37,8 +36,6 @@ const RateRider = () => {
   useEffect(() => {
           getBooking()
      }, []);
-
-
      const handleCompleted = async (booking) => {
       try {
         const updatedBooking = {
@@ -70,8 +67,6 @@ const RateRider = () => {
         console.log(err);
       }
     };
-    
-
 
   const submitRating = async (RiderId, booking) => {
         try {
@@ -99,7 +94,6 @@ const RateRider = () => {
  const currency = (price) => {
   return price.toLocaleString('en-PH', { style: 'currency', currency: 'PHP' })
  }
-
   return (
     <div>
       <h2>Booked</h2>
@@ -122,8 +116,6 @@ const RateRider = () => {
         <Card.Text>Client Name: <span>{booking.user.name}</span></Card.Text>
       </div>
       <div className="row border-bottom">
-
-
       {selectedRiderId === booking.booking.booking.riderId ? (
               <div className="row border-top">
                 <div className="col-6">
@@ -167,9 +159,6 @@ const RateRider = () => {
               <Button onClick={() => setSelectedRiderId(booking.booking.booking.riderId)}>Rate</Button>
               </div>
             )}
-
-
-
       </div>
       </div>
       <div className="row border-bottom">

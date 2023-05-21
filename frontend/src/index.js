@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import App from "./App";
 
 import 'bootstrap/dist/css/bootstrap.css';
@@ -26,13 +26,15 @@ const store = configureStore({
 });
 
 store.dispatch(productsFetch());
-store.dispatch(getTotals());
+store.dispatch(getTotals())
 
-ReactDOM.render(
+const rootElement = document.getElementById("root");
+
+const appRoot = createRoot(rootElement);
+appRoot.render(
   <React.StrictMode>
     <Provider store={store}>
       <App />
     </Provider>
-  </React.StrictMode>,
-  document.getElementById("root")
+  </React.StrictMode>
 );

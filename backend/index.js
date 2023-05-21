@@ -9,7 +9,7 @@ const productsRoute = require("./routes/products");
 const bookingRoutes = require('./routes/booking');
 const userRoutes =require('./routes/updateUser')
 const email = require("./routes/email")
-const products = require("./products");
+const  notification = require(("./routes/notification"))
 
 const app = express();
 require("dotenv").config();
@@ -34,14 +34,7 @@ app.use("/api/products", productsRoute);
 app.use('/api/booking', bookingRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/email', email)
-
-app.get("/", (req, res) => {
-  res.send("Welcome our to online shop API...");
-});
-
-app.get("/products", (req, res) => {
-  res.send(products);
-});
+app.use('/api/notification', notification)
 
 const uri = process.env.DB_URI;
 const port = process.env.PORT || 5000;

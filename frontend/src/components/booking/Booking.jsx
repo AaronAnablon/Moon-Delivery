@@ -2,7 +2,7 @@ import { NavLink, Outlet } from "react-router-dom";
 import {Nav, Card, Col, Row, Container } from "react-bootstrap";
   import { GiFullMotorcycleHelmet } from "react-icons/gi";
   import { RiMoonFoggyFill } from "react-icons/ri";
-import Products from "../products/Products";
+import TopProducts from "../products/TopProducts";
 
 const Booking = () => {
   return (
@@ -12,22 +12,22 @@ const Booking = () => {
     <Nav>
      <Col style={{display: 'flex', flexDirection: 'row',whiteSpace: 'nowrap', overflowX: 'scroll' }}>
      <Nav.Item>
-        <NavLink className="nav-link" activeClassName="active" to="/">
+        <NavLink className="nav-link" to="/">
           Shopping
         </NavLink>
       </Nav.Item>
       <Nav.Item>
-        <NavLink className="nav-link" activeClassName="active" to="/booking/pabili">
+        <NavLink className="nav-link" to="/booking/pabili">
           Pabili
         </NavLink>
       </Nav.Item>
       <Nav.Item>
-        <NavLink className="nav-link" activeClassName="active" to="/booking/pakuhaPadala">
+        <NavLink className="nav-link" to="/booking/pakuhaPadala">
           Pakuha/Padala
         </NavLink>
       </Nav.Item>
       <Nav.Item>
-        <NavLink className="nav-link" activeClassName="active" to="/booking/pahatidSundo">
+        <NavLink className="nav-link" to="/booking/pahatidSundo">
           Book Ride
         </NavLink>
       </Nav.Item>
@@ -46,22 +46,22 @@ const Booking = () => {
         <Nav>
      <Col style={{display: 'flex', flexDirection: 'row',whiteSpace: 'nowrap'}}>
      <Nav.Item>
-        <NavLink className="nav-link text-light" activeClassName="active" to="/">
+        <NavLink className="nav-link text-light" to="/">
           Shopping
         </NavLink>
       </Nav.Item>
       <Nav.Item>
-        <NavLink className="nav-link text-light" activeClassName="active" to="/booking/pabili">
+        <NavLink className="nav-link text-light" to="/booking/pabili">
           Pabili
         </NavLink>
       </Nav.Item>
       <Nav.Item>
-        <NavLink className="nav-link text-light" activeClassName="active" to="/booking/pakuhaPadala">
+        <NavLink className="nav-link text-light" to="/booking/pakuhaPadala">
           Pakuha/Padala
         </NavLink>
       </Nav.Item>
       <Nav.Item>
-        <NavLink className="nav-link text-light" activeClassName="active" to="/booking/pahatidSundo">
+        <NavLink className="nav-link text-light" to="/booking/pahatidSundo">
           Book Ride
         </NavLink>
       </Nav.Item>
@@ -76,7 +76,7 @@ const Booking = () => {
         </div>
         <Card.Text className="col-8 m-5 text-light">Payment varies Depending on the Purchases made. Receipt will always be presented by the rider and recorded by our system</Card.Text>
   
-  <Products />
+  <TopProducts />
    </div>
         </div>
         <div className="col-lg-6">

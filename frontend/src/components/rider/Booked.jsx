@@ -2,6 +2,7 @@ import axios from "axios";
 import { url, setHeaders } from "../../slices/api";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import sendMail from "../notification/sendMail";
 
 const Booked = () => {
   const [booked, setBooked] = useState([]);
@@ -9,46 +10,49 @@ const Booked = () => {
   const [loading, setLoading] = useState(false)
 
   const getBooking = () => {
-  setLoading(true);
-  axios.get(`${url}/booking/booked`, setHeaders)
-  .then((response) => {
-    setBooked(response.data);
-    })
-  .catch((error) => {
-    console.log(error);
-  })
-  .finally(() => {
-    setLoading(false)
-  })}
+    setLoading(true);
+    axios.get(`${url}/booking/booked`, setHeaders)
+      .then((response) => {
+        setBooked(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setLoading(false)
+      })
+  }
 
   useEffect(() => {
-          getBooking();
+    getBooking();
   }, []);
 
-     const recipientEmail = 'aaronanablon6@gmail.com';
-     const subject = `Booking Notification`
-     const text = `Hello, this is to inform you ${auth.name} will be coming to ick you up`;
-
-  const sendEmail = () => {
-    axios.post(`${url}/email/send-email`, { recipientEmail, subject, text })
-  .then(response => {
-    console.log(response.data.message);
-  })
-  .catch(error => {
-    console.log('Error:', error);
-  });
-  }
-  
-
-  const handlePickUp = async (booking) => {
+  const sendNotif = async () => {
     try {
-      const updatedBooking = {
-        motorcycle: 'Honda Click',
-        booking:{
-        booking: { 
+      const response = await axios.post(`${url}/notification`, {
+        user: 'Andress',
+        email: 'the email sent',
+        notification: 'Notification this is to inform you chuchu',
+        payLoad: 'none really',
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+  }};
+
+
+
+const handlePickUp = async (booking) => {
+  try {
+    const updatedBooking = {
+      motorcycle: 'Honda Click',
+      booking: {
+        booking: {
           address:
-          {pickUpAdress: booking.booking.booking.address.pickUpAdress,
-          destination: booking.booking.booking.address.destination,},
+          {
+            pickUpAdress: booking.booking.booking.address.pickUpAdress,
+            destination: booking.booking.booking.address.destination,
+          },
           totalAmount: booking.booking.booking.totalAmount,
           phoneNumber: booking.booking.booking.phoneNumber,
           riderPhone: auth.phoneNumber,
@@ -61,49 +65,54 @@ const Booked = () => {
         }, items: booking.booking.items,
         item: booking.booking.item,
         itemDetails: booking.booking.itemDetails,
-        service: booking.booking.service},
-      
-      };
-      await axios.put(`${url}/booking/${booking._id}`, updatedBooking, setHeaders()).then((response) => {
-        console.log(response.data)
-        sendEmail()
-        getBooking()
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  
- 
+        service: booking.booking.service
+      },
 
-  return (
-    <div>
-      <h2>Booked</h2>
-        {loading && <p>Loading...</p>}
-      {booked &&
-        booked.map((booking) => (
-          <div style={{ borderBottom: '1px solid black', marginBottom: '1px' }} key={booking._id}>
-             <p>Service: {booking.booking.service}</p> 
-             <p>Date Booked: {new Date(booking.createdAt).toLocaleString('en-US', {
-              year: 'numeric',
-              month: '2-digit',
-              day: '2-digit',
-              hour: '2-digit',
-              minute: '2-digit',
-              second: '2-digit',
-              timeZoneName: 'short',
-            })}</p> 
-            <p>Client Name: {booking.user.name}</p>
-            <p>Destination: {booking.booking.booking.address.destination}</p>  
-            <p>Pick Up Address: {booking.booking.booking.address.pickUpAdress}</p> 
-            <p>Fare: {booking.booking.booking.totalAmount}</p> 
-            <p>Status: {booking.booking.booking.status}</p> 
+    };
+    const recipientEmail = 'aaronanablon6@gmail.com';
+    const subject = 'Example Subject 2';
+    const text = 'Example Text 2';
+    await axios.put(`${url}/booking/${booking._id}`, updatedBooking, setHeaders()).then((response) => {
+      console.log(response.data)
+      sendNotif()
+      sendMail({ recipientEmail, subject, text })
+      getBooking()
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+
+
+return (
+  <div>
+    <h2>Booked</h2>
+    {loading && <p>Loading...</p>}
+    {booked &&
+      booked.map((booking) => (
+        <div style={{ borderBottom: '1px solid black', marginBottom: '1px' }} key={booking._id}>
+          <p>Service: {booking.booking.service}</p>
+          <p>Date Booked: {new Date(booking.createdAt).toLocaleString('en-US', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            timeZoneName: 'short',
+          })}</p>
+          <p>Client Name: {booking.user.name}</p>
+          <p>Destination: {booking.booking.booking.address.destination}</p>
+          <p>Pick Up Address: {booking.booking.booking.address.pickUpAdress}</p>
+          <p>Fare: {booking.booking.booking.totalAmount}</p>
+          <p>Status: {booking.booking.booking.status}</p>
           <button onClick={() => handlePickUp(booking)}>Accept Booking</button>
-          
-          </div>
-        ))}
-    </div>
-  );
+
+        </div>
+      ))}
+  </div>
+);
 };
 
 export default Booked;

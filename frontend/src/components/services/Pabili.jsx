@@ -104,9 +104,9 @@ const Pabili = () => {
     }
     return (
         <div>
-            <div className="row mb-5 d-flex justify-content-center">
+            <div className="row mb-3 d-flex justify-content-center">
                 <h2>Pabili</h2>
-                <div className="col-10 mb-5 rounded-bottom rounded-top mt-4 shadow">
+                <div className="col-11 mb-3 rounded-bottom rounded-top mt-4 shadow">
                     <h2>Add items to purchase</h2>
                     <div className="form-group">
                         <label htmlFor="itemInput">Item/Items:</label>

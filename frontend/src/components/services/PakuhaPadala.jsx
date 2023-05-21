@@ -5,7 +5,7 @@ import { setHeaders, url } from "../../slices/api";
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Card } from 'react-bootstrap';
 
 const PakuhaPadala = () => {
     const booking = useSelector(state => state.booking)
@@ -16,8 +16,18 @@ const PakuhaPadala = () => {
   const [pickupAddress, setPickupAddress] = useState('');
   const [destination, setDestination] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [defaultAddress, setDefaultAddress] = useState(false);
+  const [defaultNumber, setDefaultNumber] = useState(false);
 
   const navigate = useNavigate()
+
+  const handleUseDefaultAddress = () => {
+    setDefaultAddress(!defaultAddress)
+}
+
+const handleUseDefaultNumber = () => {
+    setDefaultNumber(!defaultNumber)
+}
 
   const handlePickupAddressChange = (event) => {
     setPickupAddress(event.target.value);
@@ -45,22 +55,26 @@ const PakuhaPadala = () => {
     booking: {booking, item: item, itemDetails: itemDetails,  service: 'PakuhaPadala'},
   };
 
-const handleSubmitBooking = () => {
-  axios.post(`${url}/booking`, booked, setHeaders)
-  .then(response => {
-    console.log(response.data);
-     toast('Booked successfully!');
-     navigate('/user/userBooking');
-   })
-   .catch(error => {
-     console.log(error);
-   });
-}
+  const handleSubmitBooking = () => {
+    axios
+      .post(`${url}/booking`, booked, setHeaders)
+      .then(response => {
+        console.log('success', response.data);
+        toast.success('Booked successfully!');
+        navigate('/user/userBooking');
+      })
+      .catch(error => {
+        toast.error('Something went wrong. Please try changing the address and other related input');
+        console.log('Error:', error.response);
+      });
+  };
+  
   
   return (
     <div>
+       <Card className="m-3 shadow p-3">
       <h2>Pakuha/Padala</h2>
-      <Form>
+      <Form onSubmit={handleSubmitBooking}>
         <Form.Group controlId="item">
           <Form.Label>Item:</Form.Label>
           <Form.Control type="text" value={item} onChange={handleItemChange} />
@@ -71,19 +85,34 @@ const handleSubmitBooking = () => {
         </Form.Group>
         <Form.Group controlId="pickupAddress">
           <Form.Label>Pickup Address:</Form.Label>
-          <Form.Control type="text" value={pickupAddress} onChange={handlePickupAddressChange} />
+          <Form.Control type="text" value={defaultAddress ? auth.address : pickupAddress} onChange={handlePickupAddressChange} />
         </Form.Group>
+        <Form.Group controlId="useDefaultAddress">
+            <Form.Check
+              type="checkbox"
+              onChange={handleUseDefaultAddress}
+              label="Use Default Address"
+            />
+          </Form.Group>
         <Form.Group controlId="destination">
           <Form.Label>Destination:</Form.Label>
           <Form.Control type="text" value={destination} onChange={handleDestinationChange} />
         </Form.Group>
         <Form.Group controlId="phoneNumber">
           <Form.Label>Phone Number:</Form.Label>
-          <Form.Control type="text" value={phoneNumber} onChange={handlePhoneNumberChange} />
+          <Form.Control type="text" value={defaultNumber ? auth.phoneNumber : phoneNumber} onChange={handlePhoneNumberChange} />
         </Form.Group>
+        <Form.Group controlId="useDefaultPhoneNumber">
+            <Form.Check
+              type="checkbox"
+              onChange={handleUseDefaultNumber}
+              label="Use Default Phone Number"
+            />
+          </Form.Group>
         <DistanceCalculator pickupAddress={pickupAddress} destination={destination} phoneNumber={phoneNumber} handleSubmitBooking={handleSubmitBooking} />
-        <Button className='col-12' variant="primary" onClick={handleSubmitBooking}>Submit Booking</Button>
+        <Button className="col-12" type="submit" variant="primary">Submit Booking</Button>
       </Form>
+      </Card>
     </div>
   );
 };

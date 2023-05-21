@@ -7,32 +7,32 @@ const OrderStatus = () => {
     <Col lg={1} className="d-none d-lg-block">
       <Nav variant="underline" style={{ whiteSpace: 'nowrap' }} className="flex-column sidebar text-dark">
           <Nav.Item>
-          <NavLink className="nav-link" activeClassName="active" to="/user/userBooking">
+          <NavLink className="nav-link" to="/user/userBooking">
             Booking
           </NavLink>
         </Nav.Item>
         <Nav.Item>
-          <NavLink className="nav-link" activeClassName="active" to="/user/bookingHistory">
+          <NavLink className="nav-link" to="/user/bookingHistory">
             Booking History
           </NavLink>
         </Nav.Item>
         <Nav.Item>
-          <NavLink className="nav-link" activeClassName="active" to="/user/rateRider">
+          <NavLink className="nav-link" to="/user/rateRider">
             Rate Rider
           </NavLink>
         </Nav.Item>
         <Nav.Item>
-          <NavLink className="nav-link" activeClassName="active" to="/user/order">
+          <NavLink className="nav-link" to="/user/order">
             Orders
           </NavLink>
         </Nav.Item>
         <Nav.Item>
-          <NavLink className="nav-link" activeClassName="active" to="/user/history">
+          <NavLink className="nav-link" to="/user/history">
             Purchase History
           </NavLink>
         </Nav.Item>
         <Nav.Item>
-          <NavLink className="nav-link" activeClassName="active" to="/user/toRate">
+          <NavLink className="nav-link" to="/user/toRate">
             Rate Product
           </NavLink>
         </Nav.Item>
@@ -44,37 +44,37 @@ const OrderStatus = () => {
     <Nav variant="outline-danger" >
      <Col style={{display: 'flex', flexDirection: 'row',whiteSpace: 'nowrap', overflowX: 'scroll'}}>
      <Nav.Item>
-        <NavLink className="nav-link" activeClassName="active" to="/user/userSettings">
+        <NavLink className="nav-link" to="/user/userSettings">
           User Settings
         </NavLink>
       </Nav.Item>
       <Nav.Item>
-        <NavLink className="nav-link" activeClassName="active" to="/user/userBooking">
+        <NavLink className="nav-link" to="/user/userBooking">
           Booking
         </NavLink>
       </Nav.Item>
       <Nav.Item>
-        <NavLink className="nav-link" activeClassName="active" to="/user/bookingHistory">
+        <NavLink className="nav-link" to="/user/bookingHistory">
           Booking History
         </NavLink>
       </Nav.Item>
       <Nav.Item>
-        <NavLink className="nav-link" activeClassName="active" to="/user/order">
+        <NavLink className="nav-link" to="/user/order">
           Orders
         </NavLink>
       </Nav.Item>
       <Nav.Item>
-        <NavLink className="nav-link" activeClassName="active" to="/user/history">
+        <NavLink className="nav-link" to="/user/history">
           Purchase History
         </NavLink>
       </Nav.Item>
       <Nav.Item>
-        <NavLink className="nav-link" activeClassName="active" to="/user/toRate">
+        <NavLink className="nav-link" to="/user/toRate">
           Rate Product
         </NavLink>
       </Nav.Item>
       <Nav.Item>
-        <NavLink className="nav-link" activeClassName="active" to="/user/rateRider">
+        <NavLink className="nav-link" to="/user/rateRider">
           Rate Rider
         </NavLink>
       </Nav.Item>

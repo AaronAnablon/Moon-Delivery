@@ -80,11 +80,11 @@
     const currency = (price) => {
       return price.toLocaleString('en-PH', { style: 'currency', currency: 'PHP' })
      }
-   
     return (
       <div>
         <h2>Booking History</h2>
         {loading && <p>Loading...</p>}
+        {loading.length > 0 && <p>No history found</p>}
         {booked &&
           booked.map((booking) => (
             <div style={{ borderBottom: '1px solid black', marginBottom: '1px' }} key={booking._id}>
