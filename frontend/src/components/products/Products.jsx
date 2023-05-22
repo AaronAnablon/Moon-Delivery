@@ -6,39 +6,54 @@ import { Card } from 'react-bootstrap';
 import { url } from "../../slices/api";
 import axios from "axios";
 
-const Products = () => {
-  const [data, setData] = useState([]);
+const Products = ({searchInput}) => {
+  const [results, setResults] = useState([]);
+  const [totalResults, setTotalResults] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
-  const fetchProducts = async () => {
-    const response = await axios.get(`${url}/products/increment?page=${currentPage}`);
-    const newData = response.data.products;
-    setData(prevData => {
-      const filteredData = newData.filter(product => !prevData.find(p => p._id === product._id));
-      return [...prevData, ...filteredData];
-    });
-  };
 
   useEffect(() => {
-    fetchProducts();
-  }, [currentPage]);
+    fetchSearchResults();
+  }, [searchInput, currentPage]);
 
-  const handleLoadMore = () => {
-    setCurrentPage(prevPage => prevPage + 1);
+  const fetchSearchResults = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(`${url}/products/searchSimilar?keyword=${searchInput}`);
+      const { data: fetchedResults, total } = response.data;
+      setResults((prevResults) =>
+        currentPage === 1 ? fetchedResults : [...prevResults, ...fetchedResults]
+      );
+      setTotalResults(total);
+      setIsLoading(false);
+    } catch (err) {
+      console.error(err);
+      setIsLoading(false);
+    }
   };
 
-  const toProductDetails = (product) => {
-    navigate('/productDetails', { state: { product: product } });
+useEffect(() => {
+    setCurrentPage(1)
+  }, [searchInput])
+
+  const handleScroll = () => {
+    const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+    if (scrollTop + clientHeight >= scrollHeight && results.length < totalResults) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
   };
 
   return (
     <div>
       <h3 className="text-light">You may also like</h3>
+    {isLoading && <h3>loading..</h3>}
+      <div onScroll={handleScroll} style={{ height: '300px', overflow: 'auto' }}>
       <Container className="d-flex flex-wrap">
-        {data &&
-          data.map((product) => (
+        {results &&
+          results.map((product) => (
             <div key={product._id}>
               <Card className="m-1" style={{ width: '10rem' }} onClick={() => toProductDetails(product)}>
                 <Card.Img variant="top" src={product.image} style={{ zIndex: '1', width: '100%', height: '130px', objectFit: 'cover' }} />
@@ -53,16 +68,6 @@ const Products = () => {
           ))
         }
       </Container>
-      <div className="d-flex flex-row justify-content-center border-bottom p-3">
-        {data.length > 0 ?
-          <>
-            <Button onClick={handleLoadMore}>Load more</Button>
-          </> :
-          <div>
-            <p>No Products found</p>
-            <button onClick={() => fetchProducts()}>Refresh</button>
-          </div>
-        }
       </div>
     </div>
   );

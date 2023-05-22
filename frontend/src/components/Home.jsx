@@ -5,18 +5,16 @@ import TopSold from "./products/TopSold";
 
 import { useState, useEffect } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
-import { Form, Button, Container } from 'react-bootstrap';
-import { FaSearch } from "react-icons/fa";
+import { Button, Container } from 'react-bootstrap';
 import { Card } from 'react-bootstrap';
 import { url } from "../slices/api";
 import axios from "axios";
 
-const Home = () => {
+const Home = ({ searchData }) => {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortedBrand, setSortedBrand] = useState("");
-  const [searchKeyword, setSearchKeyword] = useState("");
-  const [hide, setHide] = useState(false)
+  const [hide, setHide] = useState(true)
 
 
   const navigate = useNavigate();
@@ -33,7 +31,7 @@ const Home = () => {
   const handleSearch = () => {
     setHide(!hide)
     setCurrentPage(1);
-    axios.get(`${url}/products/search?keyword=${searchKeyword}`)
+    axios.get(`${url}/products/search?keyword=${searchData}`)
       .then((response) => {
         setData(response.data);
       })
@@ -41,6 +39,15 @@ const Home = () => {
         console.log(error);
       });
   };
+
+  useEffect(() => {
+    handleSearch()
+    if (searchData === "") {
+      setHide(true)
+    } else {
+      setHide(false)
+    }
+  }, [searchData]);
 
   useEffect(() => {
     fetchProducts();
@@ -59,28 +66,16 @@ const Home = () => {
     setCurrentPage((prevPage) => prevPage + 1);
   };
 
-  const handleKeywordChange = (event) => {
-    setSearchKeyword(event.target.value);
-    setHide(false)
-  };
-
   const toProductDetails = (product) => {
-    navigate('/productDetails', { state: { product: product } });
+    navigate('/productDetails', { state: { product } });
   }
 
   return (
     <>
       <div>
-        <div className="d-flex bg-light justify-content-center full-width" style={{ position: 'sticky', top: '20px', zIndex: '999' }}>
-          <Form className="d-flex justify-content-center m-3" style={{ width: '70%' }}>
-            <Form.Control id="search" type="text" value={searchKeyword} onChange={handleKeywordChange}>
-            </Form.Control>
-            <Button variant="primary" onClick={handleSearch}><FaSearch /></Button>
-          </Form>
-        </div>
-        {!hide && <HighRating toProductDetails={toProductDetails} />}
-        <div className="d-flex flex-row justify-content-center"><h2>Top Rated</h2></div>
-        {!hide && <TopProducts toProductDetails={toProductDetails} />}
+        {hide && <><HighRating toProductDetails={toProductDetails} />
+        <div className="d-flex flex-row justify-content-center"><h2>Top Rated</h2></div></>}
+        {hide && <TopProducts toProductDetails={toProductDetails} />}
 
         <div> <div className="d-flex flex-row justify-content-center">
           <nav className="sub-nav">
@@ -143,10 +138,10 @@ const Home = () => {
               {filteredData.length > 0 ?
                 <Button onClick={handleLoadMore}>Load more</Button> :
                 <div> <p>No Products found</p>
-                  <button onClick={() => fetchProducts()}>Refresh</button></div>}
+                  <Button onClick={() => fetchProducts()}>Refresh</Button></div>}
             </div>
-            <div className="d-flex flex-row justify-content-center m-3"><h2>Top Sold</h2></div>
-            {!hide && <TopSold toProductDetails={toProductDetails} />}
+            {hide && <><div className="d-flex flex-row justify-content-center m-3"><h2>Top Sold</h2></div>
+             <TopSold toProductDetails={toProductDetails} /></>}
           </>
         </div>
       </div>

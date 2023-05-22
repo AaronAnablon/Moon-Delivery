@@ -1,5 +1,8 @@
 const express = require('express');
 const nodemailer = require('nodemailer');
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 const router = express.Router();
 
@@ -12,7 +15,7 @@ router.post('/send-email', (req, res) => {
     service: 'gmail',
     auth: {
       user: 'moondeliveryifugao@gmail.com',
-      pass: 'fkfmntvvilywkyij',
+      pass:  process.env.MAIL_PASS,
     },
   });
 

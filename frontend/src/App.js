@@ -1,4 +1,5 @@
 import "./App.css";
+import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { useEffect } from "react";
@@ -61,6 +62,8 @@ import Notification from "./components/notification/Notifications";
 function App() {
   const dispatch = useDispatch();
 
+  const [searchData, setSearchData] = useState('');
+
   useEffect(() => {
     dispatch(loadUser(null));
   }, [dispatch]);
@@ -70,9 +73,9 @@ function App() {
       <BrowserRouter>
         <ToastContainer />
         <div className="mx-auto" style={{maxWidth: '1200px'}}> 
-          <NavBar />
+          <NavBar setSearchData={setSearchData}/>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home searchData={searchData}/>} />
               <Route path="/booking" element={<Booking />}>
               <Route path="pabili" element={<Pabili />} />
               <Route path="pahatidSundo" element={<PahatidSundo />} />

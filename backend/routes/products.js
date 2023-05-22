@@ -113,6 +113,35 @@ router.get("/increment", async (req, res) => {
   }
 });
 
+//GET SIMILAR PRODUCTSS 
+const PAGE_SIZE = 10; // Number of items to load per page
+
+router.get('/searchSimilar', async (req, res) => {
+  try {
+    const query = req.query.keyword;
+    const products = await Product.find();
+
+    const options = {
+      keys: ['name', 'description'], // The properties of the Product model to search in
+      threshold: 0.3, // The minimum score a result must have to be considered a match
+      ignoreLocation: true, // Ignore where the query matches in the string
+      includeScore: true, // Include the score of each result in the output
+    };
+
+    const fuse = new Fuse(products, options);
+
+    const results = fuse.search(query);
+    const paginatedResults = results
+      .slice(0, PAGE_SIZE) // Get the first PAGE_SIZE items initially
+      .map((result) => result.item);
+
+    res.json({ data: paginatedResults, total: results.length });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 //get search 
 router.get('/search', async (req, res) => {
   try {
