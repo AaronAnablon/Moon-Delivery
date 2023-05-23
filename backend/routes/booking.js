@@ -9,6 +9,11 @@ router.post('/', async (req, res) => {
     const bookingData = { user, motorcycle, endDate, booking };
     const booked = new Booking(bookingData);
     await booked.save();
+
+    const io = req.app.get('socketio'); 
+
+    io.emit('booking', bookingData);
+
     res.status(201).json(booking);
     console.log(booking)
   } catch (error) {

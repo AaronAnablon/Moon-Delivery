@@ -7,6 +7,9 @@ import {setHeaders, url} from "../../slices/api";
 import {toast} from 'react-toastify';
 import {Button, Card, Container} from "react-bootstrap";
 import {TiDelete} from "react-icons/ti";
+import io from 'socket.io-client';
+
+
 
 const Pabili = () => {
     const auth = useSelector(state => state.auth)
@@ -20,6 +23,7 @@ const Pabili = () => {
     const [userAddress, setUserAddress] = useState('')
     const [useDefaultAddress, setUseDefaultAddress] = useState(false);
     const [fare, setFare] = useState(false);
+    const socket = io.connect('http://localhost:5000');
 
     const navigate = useNavigate()
 
@@ -108,8 +112,10 @@ const Pabili = () => {
     };
 
     const handleBooking = () => {
-        axios.post(`${url}/booking`, booked, setHeaders).then(response => {
+        axios.post(`${url}/booking`, booked, setHeaders)
+        .then(response => {
             console.log(response.data);
+            socket.emit('booking', response.data);
             toast('Booked successfully!');
             navigate('/user/userBooking');
         }).catch(error => {

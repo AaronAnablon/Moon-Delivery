@@ -21,6 +21,14 @@ const Rider = () => {
             className={({ isActive }) =>
               isActive ? "link-active" : "link-inactive"
             }
+            to="/rider/latestBooking"
+          >
+            Latest Booking
+          </NavLink>
+          <NavLink
+            className={({ isActive }) =>
+              isActive ? "link-active" : "link-inactive"
+            }
             to="/rider/booked"
           >
             Ride Requests

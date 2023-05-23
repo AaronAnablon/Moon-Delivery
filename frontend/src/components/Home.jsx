@@ -2,9 +2,10 @@ import HighRating from "./products/HighRating";
 import StarRating from "./products/StarRating";
 import TopProducts from "./products/TopProducts";
 import TopSold from "./products/TopSold";
+import NavCategories from "./NavCategories";
 
 import { useState, useEffect } from "react";
-import { useNavigate, NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button, Container } from 'react-bootstrap';
 import { Card } from 'react-bootstrap';
 import { url } from "../slices/api";
@@ -77,42 +78,8 @@ const Home = ({ searchData }) => {
         <div className="d-flex flex-row justify-content-center"><h2>Top Rated</h2></div></>}
         {hide && <TopProducts toProductDetails={toProductDetails} />}
 
-        <div> <div className="d-flex flex-row justify-content-center">
-          <nav className="sub-nav">
-            <ul className="sub-nav-ul">
-              <li>
-                <NavLink to="/" onClick={() => handleSortByBrand("")}>
-                  All
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="#" onClick={() => handleSortByBrand("Accesories")}>
-                  Accesories
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="#" onClick={() => handleSortByBrand("Cosmetics")}>
-                  Cosmetics
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="#" onClick={() => handleSortByBrand("Food")}>
-                  Food
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="#" onClick={() => handleSortByBrand("Other")}>
-                  Other
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/booking/pabili" className="services-link">
-                  Services
-                </NavLink>
-              </li>
-            </ul>
-          </nav>
-        </div>
+        <div> 
+          <NavCategories handleSortByBrand={handleSortByBrand}/>
           <>
             <div className="d-flex flex-row justify-content-center">
               <h2>New Arrivals</h2>

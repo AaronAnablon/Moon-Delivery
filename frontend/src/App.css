@@ -29,7 +29,19 @@ li {
 }
 
 a.nav-link {
+  padding-left: 10px;
   color: rgb(93, 97, 93);
+}
+
+a.nav-link:hover {
+  border-radius: 5px;
+  color: #000000;
+  background: rgb(241, 240, 240);
+}
+a.nav-link.active {
+  border-radius: 5px;
+  color: #000000;
+  background: rgb(197, 196, 196);
 }
 
 .full-width {

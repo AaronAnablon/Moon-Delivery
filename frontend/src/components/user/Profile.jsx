@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Row, Col, Container } from 'react-bootstrap';
+import { Col, Container } from 'react-bootstrap';
 import SubNav from "./SubNav";
 
 const Profile = () => {
@@ -9,15 +9,15 @@ const Profile = () => {
   if (auth.isUser) return <p>Access denied. Not a User!</p>;
 
   return (
-   <Container>
-   <Row>
-     <Col lg={2} style={{marginRight: "3.7rem"}}>
+   <Container fluid className="d-flex">
+    <div className="col-12 d-lg-flex justify-content-center">
+     <Col lg={3} sm={12}>
        <SubNav />
      </Col>
-     <Col lg={9} style={{borderRadius: "15px",marginTop: '10px', backgroundColor: "#f4f4f4"}}>
+     <Col lg={9} sm={12}>
        <Outlet />
      </Col>
-   </Row>
+    </div>
  </Container>
  );
 };
