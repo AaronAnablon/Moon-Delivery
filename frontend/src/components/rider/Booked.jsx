@@ -3,11 +3,26 @@ import { url, setHeaders } from "../../slices/api";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import sendMail from "../notification/sendMail";
+import io from 'socket.io-client';
+import { server } from "../../slices/api";
 
 const Booked = () => {
   const [booked, setBooked] = useState([]);
   const auth = useSelector(state => state.auth)
   const [loading, setLoading] = useState(false)
+  const [newBooking, setNewBooking] = useState('')
+
+  useEffect(() => {
+    const socket = io.connect(server);
+    socket.on('booking', (booking) => {
+      console.log('Received new booking:', booking);
+      setNewBooking(booking)
+    });
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
 
   const getBooking = () => {
     setLoading(true);
@@ -25,7 +40,7 @@ const Booked = () => {
 
   useEffect(() => {
     getBooking();
-  }, []);
+  }, [newBooking]);
 
   const sendNotif = async (bookerId) => {
     try {
@@ -33,14 +48,12 @@ const Booked = () => {
         user: bookerId,
         email: 'sent',
         notification: `Good day, This is Moon Delivery. Rider ${auth.name} will be coming to pick you. Please prepare`,
-        payLoad: 'none really',
+        payLoad: {read: false},
       });
       console.log(response.data);
     } catch (error) {
       console.error(error);
   }};
-
-
 
 const handlePickUp = async (booking) => {
   try {
@@ -73,10 +86,12 @@ const handlePickUp = async (booking) => {
     const recipientEmail = booking.user.email;
     const subject = 'Rider is ready to pick you up';
     const text = `Good day, This is Moon Delivery. Rider ${auth.name} will be coming to pick you. Please prepare.
-    Please open your Moon Delivery Web Application here https://example.com/tracking"`;
+    Please open your Moon Delivery Web Application here https://example.com/tracking`;
 
     await axios.put(`${url}/booking/${booking._id}`, updatedBooking, setHeaders()).then((response) => {
       console.log(response.data)
+      const socket = io.connect(server);
+      socket.emit('notification', response.data);
       sendNotif(booking.user._id)
       sendMail({ recipientEmail, subject, text })
       getBooking()

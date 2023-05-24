@@ -11,9 +11,8 @@ const LatestBooking = () => {
     return () => {
       socket.disconnect();
     };
-  }, [socket]);
+  }, []);
 
-  return <div>Latest Booking</div>;
 };
 
 export default LatestBooking;

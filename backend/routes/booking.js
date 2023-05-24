@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const Booking = require('../models/booking');
-
 // Create a new booking
 router.post('/', async (req, res) => {
   try {
@@ -9,10 +8,6 @@ router.post('/', async (req, res) => {
     const bookingData = { user, motorcycle, endDate, booking };
     const booked = new Booking(bookingData);
     await booked.save();
-
-    const io = req.app.get('socketio'); 
-
-    io.emit('booking', bookingData);
 
     res.status(201).json(booking);
     console.log(booking)

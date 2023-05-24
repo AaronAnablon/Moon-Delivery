@@ -6,6 +6,8 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Card, Form, Button } from 'react-bootstrap';
+import io from 'socket.io-client';
+import {server} from '../../slices/api'
 
 const PahatidSundo = () => {
     const booking = useSelector(state => state.booking)
@@ -49,6 +51,8 @@ const PahatidSundo = () => {
     .then(response => {
       console.log('success', response.data);
       toast.success('Booked successfully!');
+      const socket = io.connect(server);
+      socket.emit('booking', response.data);
       navigate('/user/userBooking');
     })
     .catch(error => {

@@ -2,6 +2,9 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { setHeaders, url } from "../../slices/api";
 import { useSelector } from "react-redux";
+import sendMail from "../notification/sendMail";
+import io from 'socket.io-client';
+import { server } from "../../slices/api";
 
 const PickUpClient = () => {
   const auth = useSelector((state) => state.auth);
@@ -27,8 +30,28 @@ const PickUpClient = () => {
         console.log(booked)
     }, []);
   
-    
+    const sendNotif = async (bookerId) => {
+      try {
+        const response = await axios.post(`${url}/notification`, {
+          user: bookerId,
+          email: 'sent',
+          notification: `Good day, This is Moon Delivery. 
+          Successfully arrived at the destination. Please rate how was the rider's service.
+           Click here to rate rider http://localhost:3000/user/rateRider`,
+         payLoad: {read: false},
+        });
+        console.log(response.data);
+      } catch (error) {
+        console.error(error);
+    }};
+  
+
     const handleCompleted = async (booking) => {
+      const recipientEmail = booking.user.email;
+      const subject = 'Rider is ready to pick you up';
+      const text = `Good day ${booking.user.name}, This is Moon Delivery. 
+      You successfully arrived at the destination. Please rate how was the rider's service.
+       Click here to rate rider http://localhost:3000/user/rateRider`;
         try {
           const updatedBooking = {
             booking:{
@@ -53,6 +76,10 @@ const PickUpClient = () => {
           };
           await axios.put(`${url}/booking/${booking._id}`, updatedBooking, setHeaders()).then((response) => {
             console.log(response.data)
+            const socket = io.connect(server);
+            socket.emit('notification', response.data);
+            sendMail({recipientEmail, subject, text})
+            sendNotif(booking.user._id)
             getBooking()
           });
         } catch (err) {

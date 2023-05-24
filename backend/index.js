@@ -38,9 +38,13 @@ app.set('socketio', io); // Set the 'io' object in the app for route access
 io.on('connection', (socket) => {
   console.log(`A user connected ${socket.id}`);
   socket.on('booking', (booking) => {
-    console.log('Received booking:', booking);
-    socket.broadcast.emit('new booking', booking);
-    io.emit('new booking', booking);
+    console.log('Received booking:');
+    socket.broadcast.emit('booking', booking);
+  });
+  
+  socket.on('notification', (notification) => {
+    console.log('Received notification:');
+    socket.broadcast.emit('notification', notification);
   });
 });
 

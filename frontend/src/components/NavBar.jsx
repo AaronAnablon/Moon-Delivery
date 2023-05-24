@@ -97,7 +97,7 @@ const NavBar = ({ setSearchData }) => {
                         </Nav.Link>
                         <Nav.Link as={Link} to="/cart">
                             <div className="col-12 d-flex ">
-                                <IoIosCart className="col-8" size={32} />
+                                <IoIosCart className="col-8" size={40} />
                                 {cartTotalQuantity > 0 && <div className="col-4 cart-quantity">
                                     <div>{cartTotalQuantity}</div>
                                 </div>}

@@ -6,6 +6,8 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Form, Button, Card } from 'react-bootstrap';
+import io from 'socket.io-client';
+import {server} from '../../slices/api'
 
 const PakuhaPadala = () => {
     const booking = useSelector(state => state.booking)
@@ -60,6 +62,8 @@ const handleUseDefaultNumber = () => {
       .post(`${url}/booking`, booked, setHeaders)
       .then(response => {
         console.log('success', response.data);
+        const socket = io.connect(server);
+        socket.emit('booking', response.data);
         toast.success('Booked successfully!');
         navigate('/user/userBooking');
       })

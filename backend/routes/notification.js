@@ -24,16 +24,54 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Get a specific notification by ID
-router.get('/:id', async (req, res) => {
+//GET NOTIF READ FALSE
+router.get('/notification/:id', async (req, res) => {
   try {
-    const notification = await Notification.findById(req.params.id);
+    const notification = await Notification.find({
+      user : req.params.id,
+      'payLoad.read': false,
+    });
     if (!notification) {
-      return res.status(404).json({ message: 'Notification not found' });
+      return res.status(404).json({ error: 'Bookings not found' });
     }
     res.json(notification);
   } catch (error) {
     res.status(500).json({ error: error.message });
+    console.log(error);
+  }
+});
+
+//UPDATE READ
+router.put('/update/:notifId', async (req, res) => {
+  try {
+    const notification = await Notification.findByIdAndUpdate(
+      req.params.notifId,
+      { 'payLoad.read': req.body.payLoad.read },
+      { new: true }
+    );
+    if (!notification) {
+      return res.status(404).json({ error: 'Notification not found' });
+    }
+    res.json(notification);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+
+// Get a USER NOTIF ID
+router.get('/:id', async (req, res) => {
+  try {
+    const notification = await Notification.find({
+      user : req.params.id,
+    });
+    if (!notification) {
+      return res.status(404).json({ error: 'Bookings not found' });
+    }
+    res.json(notification);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+    console.log(error);
   }
 });
 

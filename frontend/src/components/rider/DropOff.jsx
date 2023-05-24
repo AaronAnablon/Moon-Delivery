@@ -34,7 +34,7 @@ const DropOff = () => {
                 totalAmount: booking.booking.booking.totalAmount,
                 phoneNumber: booking.booking.booking.phoneNumber,
                 riderPhone: auth.phoneNumber,
-                status: 'Completed',
+                status: booking.booking.booking.status,
                 riderDelete: true,
                 userDelete: booking.booking.booking.userDelete,
                 active: true,

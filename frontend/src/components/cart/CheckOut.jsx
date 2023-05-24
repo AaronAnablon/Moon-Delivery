@@ -6,6 +6,8 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { clearCart } from '../../slices/cartSlice';
 import { Form, Button, Card, Container } from 'react-bootstrap';
+import io from 'socket.io-client';
+import {server} from '../../slices/api'
 
 const Checkout = () => {
   const cart = useSelector((state) => state.cart);
@@ -87,6 +89,8 @@ const Checkout = () => {
         console.log(response);
         navigate('/user/order');
         toast('Order placed successfully!');
+        const socket = io.connect(server);
+        socket.emit('booking', response.data);
         dispatch(clearCart());
       })
       .catch((error) => {

@@ -58,7 +58,6 @@ import ProductDetails from "./components/products/ProductDetails";
 
 import Booking from "./components/booking/Booking";
 import Notification from "./components/notification/Notifications";
-import LatestBooking from "./components/rider/LatestBooking"
 
 function App() {
   const dispatch = useDispatch();
@@ -110,7 +109,6 @@ function App() {
               <Route path="orders" element={<Orders />} />
             </Route>
             <Route path="/rider" element={<Rider />} >
-            <Route path="latestBooking" element={<LatestBooking />} />
               <Route path="booked" element={<Booked />} />
               <Route path="dropOff" element={<DropOff />} />
               <Route path="pickUp" element={<PickUp />} />
