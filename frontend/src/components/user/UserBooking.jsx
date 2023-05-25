@@ -17,7 +17,7 @@ const UserBooking = () => {
     setLoading(true)
     axios.get(`${url}/booking/user/${auth._id}/booked`, setHeaders)
   .then((response) => {
-    setBooked(response.data);
+    setBooked((response.data).reverse());
        })
   .catch((error) => {
     console.log(error);

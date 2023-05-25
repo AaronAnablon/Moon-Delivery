@@ -15,7 +15,7 @@ const History = () => {
         `${url}/orders/findCompleted/${auth._id}`,
         setHeaders()
       );
-      setOrders(res.data);
+      setOrders((res.data).reverse());
     } catch (err) {
       setError(err.response.data);
     }

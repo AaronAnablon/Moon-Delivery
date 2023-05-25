@@ -24,6 +24,7 @@ router.get('/', async (req, res) => {
   }
 });
 
+
 //GET NOTIF READ FALSE
 router.get('/notification/:id', async (req, res) => {
   try {
@@ -34,7 +35,7 @@ router.get('/notification/:id', async (req, res) => {
     if (!notification) {
       return res.status(404).json({ error: 'Bookings not found' });
     }
-    res.json(notification);
+    res.json(notification.reverse());
   } catch (error) {
     res.status(500).json({ error: error.message });
     console.log(error);

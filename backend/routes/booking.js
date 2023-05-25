@@ -101,6 +101,27 @@ router.get('/user/Arrived/:id', async (req, res) => {
   }
 });
 
+
+//GET USER BOOKING COMPLETED
+router.get('/user/Completed/:id', async (req, res) => {
+  try {
+    const bookings = await Booking.find({
+      "user._id": req.params.id,
+      "booking.booking.userDelete": false,
+      $or: [
+        { "booking.booking.status": 'Completed' },
+        ]},
+        );
+    if (!bookings) {
+      return res.status(404).json({ error: 'Bookings not found' });
+    }
+   
+    res.json(bookings);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+    console.log(error);
+  }
+});
 // Get a User booking by ID and Status
 router.get('/user/:id/:status', async (req, res) => {
   try {

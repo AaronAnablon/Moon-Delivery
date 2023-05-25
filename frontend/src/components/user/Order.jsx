@@ -13,7 +13,7 @@ const Order = () => {
     setLoading(!loading)
     try {
       const res = await axios.get(`${url}/orders/find/${auth._id}/${encodeURIComponent('For Pick Up')}`, setHeaders());
-      setOrders(res.data);
+      setOrders((res.data).reverse());
       setLoading(false)
     } catch (err) {
       console(err.response.data);

@@ -26,7 +26,7 @@ const ToRate = () => {
         `${url}/orders/findDelivered/${auth._id}`,
         setHeaders()
       );
-      setOrders(res.data);
+      setOrders((res.data).reverse());
     } catch (err) {
       setError(err.response.data);
     }

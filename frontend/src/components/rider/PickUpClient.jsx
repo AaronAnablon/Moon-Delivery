@@ -15,7 +15,7 @@ const PickUpClient = () => {
     setLoading(!loading)
     axios.get(`${url}/booking/${auth._id}/For Pick Up`, setHeaders)
        .then((response) => {
-      setBooked(response.data);
+      setBooked((response.data).reverse());
     })
     .catch((error) => {
         console.log(error);

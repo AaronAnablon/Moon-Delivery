@@ -11,7 +11,7 @@ const PickUp = () => {
   const fetchOrders = useCallback(async () => {
     try {
       const res = await axios.get(`${url}/orders/rider/${auth._id}/For Pick Up`, setHeaders());
-      setOrders(res.data);
+      setOrders((res.data).reverse());
     } catch (err) {
       console.log(err)
         }

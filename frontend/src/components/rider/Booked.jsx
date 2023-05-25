@@ -28,7 +28,7 @@ const Booked = () => {
     setLoading(true);
     axios.get(`${url}/booking/booked`, setHeaders)
       .then((response) => {
-        setBooked(response.data);
+        setBooked((response.data).reverse());
       })
       .catch((error) => {
         console.log(error);

@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { setHeaders, url } from "../../slices/api";
+import { setHeaders, url, server } from "../../slices/api";
 import { toast } from 'react-toastify';
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { Card } from "react-bootstrap";
 import io from 'socket.io-client';
-import { server } from "../../slices/api";
 
 const Notification = () => {
   const [notification, setNotification] = useState('')
@@ -29,7 +28,7 @@ const Notification = () => {
     try {
       const response = await axios.get(`${url}/notification/${auth._id}`);
       const notification = response.data;
-      console.log(notification)
+      console.log('reversed', notification.reverse())
       setNotification(notification);
     } catch (error) {
       toast.error("Something went wrong!")
@@ -62,8 +61,10 @@ const updateRead = async (notifId) => {
         read: true
       }
     };
-   const read =  await axios.put(`${url}/notification/update/${notifId}`, updatedNotif, setHeaders());
-   console.log('Update:', read.data)
+   const response =  await axios.put(`${url}/notification/update/${notifId}`, updatedNotif, setHeaders());
+   console.log('Update:', response.data)
+   const socket = io.connect(server);
+   socket.emit('notification', response.data);
     fetchReadNotification();
     fetchNotification();
   } catch (err) {

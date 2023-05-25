@@ -29,7 +29,7 @@ const RateRider = () => {
     setLoading(true);
     try {
       const response = await axios.get(`${url}/booking/user/Arrived/${auth._id}`, setHeaders);
-      setBooked(response.data);
+      setBooked((response.data).reverse());
       setLoading(false);
     } catch (error) {
       console.error(error);

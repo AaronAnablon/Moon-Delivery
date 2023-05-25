@@ -194,10 +194,10 @@ router.get("/highSold", async (req, res) => {
 
     if (qbrand) {
       products = await Product.find({ brand: qbrand })
-        .sort({ count: -1 })
+        .sort({ name: -1 })
         .limit(10);
     } else {
-      products = await Product.find().sort({ count: -1 }).limit(10);
+      products = await Product.find().sort({ name: -1 }).limit(10);
     }
 
     res.status(200).send(products);

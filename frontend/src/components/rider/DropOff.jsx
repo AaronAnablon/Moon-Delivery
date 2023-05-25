@@ -11,7 +11,7 @@ const DropOff = () => {
   const getBooking = () => {axios
      .get(`${url}/booking/${auth._id}/Completed`, setHeaders)
        .then((response) => {
-      setBooked(response.data);
+      setBooked((response.data).reverse);
     })
     .catch((error) => {
         console.log(error);

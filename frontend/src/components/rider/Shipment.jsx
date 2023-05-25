@@ -15,7 +15,7 @@ const Shipment = () => {
           "x-auth-token": auth.token,
         },
       });
-      setOrders(res.data);
+      setOrders((res.data).reverse());
     } catch (err) {
       console.log(err)
       setError(err.response.data);

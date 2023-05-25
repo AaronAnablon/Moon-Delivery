@@ -15,9 +15,9 @@
 
     const getBooking = () => {
       setLoading(true); // Set loading to true before the axios call
-      axios.get(`${url}/booking/user/${auth._id}/Completed`, setHeaders)
+      axios.get(`${url}/booking/user/Completed/${auth._id}`, setHeaders)
         .then((response) => {
-          setBooked(response.data);
+          setBooked((response.data).reverse());
         })
         .catch((error) => {
           console.log(error);
