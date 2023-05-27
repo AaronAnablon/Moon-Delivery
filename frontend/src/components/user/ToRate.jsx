@@ -96,12 +96,12 @@ const ToRate = () => {
                   <div key={product.productId}>
                     <Card.Title>Item/Items</Card.Title>
                     <div className="row border-bottom">
-                    <img className="col-4 col-lg-6" style={{width: '7rem'}} src={product.image}/>
-                    <div className="col-8">
+                    <img className="col-4 col-lg-6" style={{width: '7rem', height: '100px'}} src={product.image}/>
+                    <div className="col-6">
                     <Card.Text>Product Id: <span>{product.productId}</span></Card.Text>
                     <Card.Text>Product Name: <span>{product.name}</span></Card.Text>
                     </div>
-                    <div className="col-lg-1">
+                    <div className="col-lg-2">
                     <Card.Text>Price: <span>{currency(product.price)}</span></Card.Text>
                     <Card.Text>Quantity: <span>{product.quantity}</span></Card.Text>
                   </div>

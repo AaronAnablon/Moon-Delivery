@@ -66,9 +66,9 @@ const History = () => {
     <div>
       <h2>Purchase History</h2>
       {error && <div>{error}</div>}
-      <div>
+      <div className="m-2">
         {orders.map((order) => (
-          <div className="row border-bottom" key={order._id}> 
+          <Card className="row ml-2 border-bottom shadow mb-3" key={order._id}> 
           <div className="row border-bottom">
           <p className="col-lg-6">Date Ordered: {formatDate(order.createdAt)}</p>
           <p className="col-lg-6">Date Completed: {formatDate(order.updatedAt)}</p>
@@ -77,12 +77,12 @@ const History = () => {
                   <div key={product.productId}>
                     <Card.Title>Item/Items</Card.Title>
                     <div className="row border-bottom">
-                    <img className="col-4 col-lg-6" style={{width: '7rem'}} src={product.image}/>
-                    <div className="col-8">
+                    <img className="col-4 col-lg-6" style={{width: '7rem', height: '100px'}} src={product.image}/>
+                    <div className="col-6">
                     <Card.Text>Product Id: <span>{product.productId}</span></Card.Text>
                     <Card.Text>Product Name: <span>{product.name}</span></Card.Text>
                     </div>
-                    <div className="col-lg-1">
+                    <div className="col-lg-2">
                     <Card.Text>Price: <span>{currency(product.price)}</span></Card.Text>
                     <Card.Text>Quantity: <span>{product.quantity}</span></Card.Text>
                   </div>
@@ -94,8 +94,8 @@ const History = () => {
             <Card.Text className="col-6 col-lg-4">Payment Status: {order.payment_status}</Card.Text>
             <Card.Text className="col-6 col-lg-2">Total: {order.total}</Card.Text>
             </div>
-            <Button className="col-3 col-lg-2 m-3" onClick={() => deleteOrder(order._id)}>Delete</Button>
-          </div>
+            <Button variant="danger"  className="col-3 col-lg-2 m-3" onClick={() => deleteOrder(order._id)}>Delete</Button>
+          </Card>
         ))}
       </div>
     </div>

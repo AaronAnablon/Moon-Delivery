@@ -1,53 +1,51 @@
-import { useState, useEffect } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
-import { setHeaders, url } from "../../slices/api";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-const HighRating = ({ toProductDetails }) => {
-  const [loading, setLoading] = useState(false)
-  const [data, setData] = useState()
+const HighRating = () => {
+  const navigate = useNavigate()
 
-  const getProducts = () => {
-    setLoading(true);
-    axios
-      .get(`${url}/products/highRating`, setHeaders)
-      .then((response) => {
-        setData(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
+  const services = [
+    {
+      _id: 'Pabili',
+      image: 'https://res.cloudinary.com/dldx2inhf/image/upload/v1685182642/Flyers/photo_2023-05-27_18-13-55_fxq7uc.jpg',
+      location: '/booking/pabili'
+    },
+    {
+      _id: 'Pakuha/Padala',
+      image: 'https://res.cloudinary.com/dldx2inhf/image/upload/v1685182639/Flyers/photo_2023-05-27_18-14-01_euvlcg.jpg',
+      location: '/booking/pakuhaPadala'
+    },
+    {
+      _id: 'Book_Ride',
+      image: 'https://res.cloudinary.com/dldx2inhf/image/upload/v1685182634/Flyers/photo_2023-05-27_18-14-08_kstksy.jpg',
+      location: '/booking/pahatidSundo'
+    }
+  ]
 
-  useEffect(() => {
-    getProducts();
-  }, []);
+  const handleClick = (location) => {
+    navigate(location)
+    console.log(location)
+  }
 
   return (
     <div className="d-flex m-3 justify-content-center">
-
-      {loading && <p>Loading...</p>}
-      <div className="carousel-container" >
-        {data && (
-          <Carousel autoPlay={true} infiniteLoop={true} interval={2000}
+      <div className="carousel-container">
+        {
+          <Carousel autoPlay={true} infiniteLoop={true} interval={4000}
             showArrows={false} showThumbs={false} stopOnHover={true} showStatus={false}>
-            {data.map((product) => (
-              <div key={product._id}>
-                <div onClick={() => toProductDetails(product)}>
-                  {product.image && <img src={product.image} alt={product.name} style={{
-                    width: "80%", height: '200px', objectFit: 'cover',
+            {services.map((service) => (
+              <div key={service._id}>
+                <div onClick={() => handleClick(service.location)}>
+                  <img src={service.image} alt={service._id} style={{
+                    width: "100%", objectFit: 'fill',
                     borderRadius: "4px"
-                  }} />}
+                  }} />
                 </div>
               </div>
             ))}
           </Carousel>
-
-        )}
+        }
       </div>
     </div>
   );

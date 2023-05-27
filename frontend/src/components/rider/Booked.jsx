@@ -42,19 +42,6 @@ const Booked = () => {
     getBooking();
   }, [newBooking]);
 
-  const sendNotif = async (bookerId) => {
-    try {
-      const response = await axios.post(`${url}/notification`, {
-        user: bookerId,
-        email: 'sent',
-        notification: `Good day, This is Moon Delivery. Rider ${auth.name} will be coming to pick you. Please prepare`,
-        payLoad: {read: false},
-      });
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-  }};
-
 const handlePickUp = async (booking) => {
   try {
     const updatedBooking = {
@@ -82,6 +69,19 @@ const handlePickUp = async (booking) => {
       },
 
     };
+
+    const sendNotif = async () => {
+      try {
+        const response = await axios.post(`${url}/notification`, {
+          user: booking.user._id,
+          email: 'sent',
+          notification: `Good day, This is Moon Delivery. Rider ${auth.name} will be coming to pick you. Please prepare`,
+          payLoad: {read: false, service: booking.booking.service},
+        });
+        console.log(response.data);
+      } catch (error) {
+        console.error(error);
+    }};
 
     const recipientEmail = booking.user.email;
     const subject = 'Rider is ready to pick you up';

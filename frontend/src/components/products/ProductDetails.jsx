@@ -7,10 +7,13 @@ import { useNavigate } from "react-router-dom";
 import { addToCart } from "../../slices/cartSlice";
 import { IoArrowBackCircleSharp } from "react-icons/io5"
 import { BsCartPlus } from "react-icons/bs";
+import { useState } from 'react';
+import FullScreenImage from './FullScreenImage';
 
 function ProductDetails() {
   const { state } = useLocation();
   const { product } = state;
+  const [showModal, setShowModal] = useState(false)
 
   const dispatch = useDispatch();
   const navigate = useNavigate()
@@ -19,6 +22,10 @@ function ProductDetails() {
     dispatch(addToCart(product));
     navigate("/cart");
   };
+
+  const handleClick = () => {
+    setShowModal(!showModal)
+  }
 
   const comments = product.rating.comment && product.rating.comment.map((comments) =>
     comments.map(comment =>
@@ -29,16 +36,18 @@ function ProductDetails() {
   const currency = (price) => {
     return price.toLocaleString('en-PH', { style: 'currency', currency: 'PHP' })
   }
+
   return (
     <>
       <NavLink to="/"><IoArrowBackCircleSharp color="black" size={30} /></NavLink>
+    
       <div className='col-12 m-3 d-lg-flex border-bottom'>
         <div className="col-lg-6 col-12 ">
-          <div>
+          <div onClick={() => handleClick()}>
             <img
               src={product.image}
               alt={product.name}
-              style={{ width: "100%", height: '400px', objectFit: 'cover' }}
+              style={{ width: "90%", height: '400px', objectFit: 'cover' }}
             />
           </div>
         </div>
@@ -74,6 +83,7 @@ function ProductDetails() {
           </Card>
         ) : <p className='m-5 shadow'>No Comments</p>}
       </div>
+      {showModal && <FullScreenImage src={product.image} onClose={() => handleClick()} />}
     </>
   );
 }

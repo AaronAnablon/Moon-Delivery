@@ -32,6 +32,11 @@ const SubNav = () => {
         </NavLink>
       </Nav.Item>
       <Nav.Item>
+        <NavLink className="nav-link" to="/user/rateRider">
+          Rate Rider
+        </NavLink>
+      </Nav.Item>
+      <Nav.Item>
         <NavLink className="nav-link" to="/user/order">
           Orders
         </NavLink>
@@ -44,11 +49,6 @@ const SubNav = () => {
       <Nav.Item>
         <NavLink className="nav-link" to="/user/toRate">
           Rate Product
-        </NavLink>
-      </Nav.Item>
-      <Nav.Item>
-        <NavLink className="nav-link" to="/user/rateRider">
-          Rate Rider
         </NavLink>
       </Nav.Item>
       </Col>

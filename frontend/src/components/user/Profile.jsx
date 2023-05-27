@@ -7,13 +7,16 @@ const Profile = () => {
   const auth = useSelector((state) => state.auth);
 
   if (auth.isUser) return <p>Access denied. Not a User!</p>;
-
+  
   return (
    <Container fluid className="d-flex">
     <div className="col-12 d-lg-flex justify-content-center">
-     <Col lg={3} sm={12}>
-       <SubNav />
-     </Col>
+
+    <div className="col-lg-3 position-relative">
+          <Col className="position-sticky" style={{top: '74px'}}>
+            <SubNav />
+          </Col>
+        </div>
      <Col lg={9} sm={12}>
        <Outlet />
      </Col>

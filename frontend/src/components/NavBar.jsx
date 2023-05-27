@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { Nav, Navbar, Offcanvas, Form } from "react-bootstrap";
 import { BiLogOut, BiUserCircle, BiHomeAlt2 } from "react-icons/bi"
 import { IoIosCart, IoMdBook, IoMdNotificationsOutline } from 'react-icons/io';
+import { AiOutlineShoppingCart } from "react-icons/ai";
 import { FaShippingFast } from 'react-icons/fa';
 import ProfileNav from "./user/ProfileNav";
 import { BiArrowToTop } from "react-icons/bi";
@@ -45,7 +46,7 @@ const NavBar = ({ setSearchData }) => {
         try {
             const response = await axios.get(`${url}/notification/notification/${auth._id}`);
             const notification = response.data;
-            console.log('navbar fetch read',notification)
+            console.log('navbar fetch read', notification)
             setReadNotification(notification);
         } catch (error) {
             toast.error("Something went wrong!")
@@ -92,10 +93,12 @@ const NavBar = ({ setSearchData }) => {
                 <Navbar expand="true" className="py-3 align-items-center justify-content-evenly shadow">
                     {!auth.isAdmin && !auth.isRider && (
                         <>
-                            {location.pathname === '/' ?
-                                <Nav.Link as={Link} to="/booking/pabili" style={{ fontSize: "1.5rem", marginLeft: '15px' }}><RiMoonFoggyLine size={29} /></Nav.Link>
-                                : <Nav.Link as={Link} to="/" style={{ fontSize: "1.5rem", marginLeft: '15px' }}><BiHomeAlt2 size={23} /></Nav.Link>
-                            }
+                            <div>
+                                {location.pathname === '/' ?
+                                    <Nav.Link as={Link} to="/booking/pabili" ><RiMoonFoggyLine size={35} /></Nav.Link>
+                                    : <Nav.Link as={Link} to="/" ><BiHomeAlt2 size={35} /></Nav.Link>
+                                }
+                            </div>
                             <Form
                                 className="d-flex col-7 d-none d-md-block justify-content-center"
                                 onSubmit={(e) => {
@@ -124,24 +127,22 @@ const NavBar = ({ setSearchData }) => {
                                     />
                                 </div>
                             </Form>
-                            <Nav.Link as={Link} to="/notification">
-                                <div className="col-12 d-flex ">
-                                    <IoMdNotificationsOutline className="col-8" size={40} />
-                                       {readNotification.length > 0 && <div className="col-4 cart-quantity">
-                                            <div>{readNotification.length}</div>
-                                        </div>} 
-                                </div>
+                            <Nav.Link as={Link} to="/notification" className="d-flex">
+                             
+                                    <IoMdNotificationsOutline className="col-9" size={38} />
+                                    <div className="col-3">
+                                    {readNotification.length > 0 && <div className="cart-quantity">{readNotification.length}</div>}
+                                    </div>
+                             
                             </Nav.Link>
-                            <Nav.Link as={Link} to="/cart">
-                                <div className="col-12 d-flex ">
-                                    <IoIosCart className="col-8" size={40} />
-                                    {cartTotalQuantity > 0 && <div className="col-4 cart-quantity">
-                                        <div>{cartTotalQuantity}</div>
+                            <Nav.Link as={Link} to="/cart" className="d-flex ">                          
+                                    <AiOutlineShoppingCart className="col-9" size={37} />
+                                    {cartTotalQuantity > 0 && <div className="col-3">
+                                        <div className="cart-quantity">{cartTotalQuantity}</div>
                                     </div>}
-                                </div>
                             </Nav.Link>
                             <Nav.Link as={Link} to="/user/userBooking">
-                                <IoMdBook size={32} />
+                                <IoMdBook size={35} />
                             </Nav.Link>
                         </>)}
                     {auth._id ? (<div> {auth.isAdmin && auth.isRider === true ? (

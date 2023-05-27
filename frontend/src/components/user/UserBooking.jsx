@@ -7,6 +7,19 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 import { Link } from "react-router-dom";
 import { FaArrowAltCircleLeft } from "react-icons/fa";
+import { 
+  FcCalendar,
+  FcServices, 
+  FcTodoList, 
+  FcInTransit,
+  FcNightPortrait,
+  FcPortraitMode,
+  FcMoneyTransfer,
+  FcDeployment,
+  FcViewDetails,
+  FcGlobe,
+  FcAssistant
+} from "react-icons/fc";
 
 const UserBooking = () => {
   const [booked, setBooked] = useState([]);
@@ -79,7 +92,7 @@ const UserBooking = () => {
           <Card>
             <Card.Body>
             <Card.Text className="border-bottom">
-                Date Booked: {new Date(booking.createdAt).toLocaleString('en-US', {
+                <FcCalendar size={28} /> Date Booked: {new Date(booking.createdAt).toLocaleString('en-US', {
                   year: 'numeric',
                   month: '2-digit',
                   day: '2-digit',
@@ -92,20 +105,20 @@ const UserBooking = () => {
               <Card.Title >Booking Details</Card.Title>
               <div className="row border-bottom">
                 <div className="col-6">
-                  <Card.Text >Service: <span>{booking.booking.service}</span></Card.Text>
-                  <Card.Text>Client Name: <span>{booking.user.name}</span></Card.Text>
+                  <Card.Text ><FcServices size={28}/> Service: <span>{booking.booking.service}</span></Card.Text>
+                  <Card.Text><FcTodoList size={28}/> Status: <span>{booking.booking.booking.status}</span></Card.Text>
                 </div>
               <div className="col-6">
-                <Card.Text>Rider: <span>{booking.booking.booking.rider}</span></Card.Text>
-                <Card.Text>Status: <span>{booking.booking.booking.status}</span></Card.Text>
+                <Card.Text><FcInTransit size={28}/> Rider: <span>{booking.booking.booking.rider}</span></Card.Text>
+                 <Card.Text><FcNightPortrait size={28}/> Client Name: <span>{booking.user.name}</span></Card.Text>
                 </div>
               </div>
               <div className="row border-bottom">
-              <div className="col-6">
-              <Card.Text>Destination: <span>{booking.booking.booking.address.destination}</span></Card.Text>
+              <div className="col-6 mb-3 mt-3">
+              <Card.Text><FcGlobe size={28}/> Destination: <span>{booking.booking.booking.address.destination}</span></Card.Text>
               </div>
-              <div className="col-6">
-                <Card.Text>
+              <div className="col-6 mb-3 mt-3">
+                <Card.Text><FcPortraitMode size={28}/>
                 {booking.booking.service === 'Pabili' ? 'Store Address: ' : 'Pick Up Address: '}
                   <span>{booking.booking.booking.address.pickUpAdress}</span>
                 </Card.Text>           
@@ -113,8 +126,8 @@ const UserBooking = () => {
                 </div>
               {booking.booking.item && (
                 <div>
-                  <Card.Text>Item: <span>{booking.booking.item}</span></Card.Text>
-                  <Card.Text>Details: <span>{booking.booking.itemDetails}</span></Card.Text>
+                  <Card.Text><FcDeployment size={28}/> Item: <span>{booking.booking.item}</span></Card.Text>
+                  <Card.Text><FcViewDetails size={28}/> Details: <span>{booking.booking.itemDetails}</span></Card.Text>
                 </div>
                
               )}
@@ -137,10 +150,12 @@ const UserBooking = () => {
                   </ListGroup>
                 </div>
               )}
-              <Card.Text>Fare: <span> {currency(booking.booking.booking.totalAmount)}</span></Card.Text>
+              <div className="col-12 m-3 d-flex justify-content-end">
+              <Card.Text className="col-4"><FcMoneyTransfer size={28}/>Fare: <span> {currency(booking.booking.booking.totalAmount)}</span></Card.Text>
+              </div>
               {booking.booking.booking.status === 'For Pick Up' ? (
                 <Button className="m-3" variant="primary" onClick={() => handleCallRider(booking.booking.booking.riderPhone)}>
-                  Call Rider
+                  <FcAssistant size={28}/> Call Rider
                 </Button>
               ) : (
                 booking.booking.booking.status === 'Cancelled' ? null :

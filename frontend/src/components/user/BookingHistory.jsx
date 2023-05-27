@@ -7,6 +7,20 @@
   import axios from "axios";
   import { Link } from "react-router-dom";
   import { FaArrowAltCircleLeft } from "react-icons/fa";
+  import { FcCalendar,
+    FcServices, 
+    FcTodoList, 
+    FcInTransit,
+    FcNightPortrait,
+    FcPodiumWithSpeaker,
+    FcPortraitMode,
+    FcMoneyTransfer,
+    FcDeployment,
+    FcViewDetails,
+    FcShop,
+    FcGlobe,
+    FcAssistant
+  } from "react-icons/fc";
 
   const BookingHistory = () => {
     const [booked, setBooked] = useState([]);
@@ -93,35 +107,35 @@
             </Link></>} 
         {booked &&
           booked.map((booking) => (
-            <div style={{ borderBottom: '1px solid black', marginBottom: '1px' }} key={booking._id}>
-              <div>Date Booked: {formatDate(booking.createdAt)}</div> 
-              <div>Date Completed: <span>{formatDate(booking.booking.completedAt)}</span></div> 
+            <Card className="shadow mb-2 p-3" key={booking._id}>
+              <Card.Text><FcCalendar size={28}/> Date Booked:  <span>{formatDate(booking.createdAt)}</span></Card.Text> 
+              <Card.Text><FcCalendar size={28}/> Date Completed: <span>{formatDate(booking.booking.completedAt)}</span></Card.Text> 
               <div className="row border-bottom border-top">
               <div className="col-6 ">
-                  <Card.Text>Service: <span>{booking.booking.service}</span></Card.Text> 
-                 <Card.Text>Status: <span>{booking.booking.booking.status}</span></Card.Text>
+                  <Card.Text><FcServices size={28}/> Service: <span>{booking.booking.service}</span></Card.Text> 
+                 <Card.Text><FcTodoList size={28}/> Status: <span>{booking.booking.booking.status}</span></Card.Text>
               </div>
               <div className="col-6 ">
-                <Card.Text>Rider: <span>{booking.booking.booking.rider}</span></Card.Text>
-                <Card.Text>Client Name: <span>{booking.user.name}</span></Card.Text>
+                <Card.Text><FcInTransit size={28}/> Rider: <span>{booking.booking.booking.rider}</span></Card.Text>
+                <Card.Text><FcNightPortrait size={28}/> Client Name: <span>{booking.user.name}</span></Card.Text>
               </div>
               </div>
               <div className="row border-bottom">
-                <div className="col-6">
-                <Card.Text>Pick Up Address: <span>{booking.booking.booking.address.pickUpAdress}</span></Card.Text> 
+                <div className="col-6 mt-3 mb-3">
+                <Card.Text><FcPodiumWithSpeaker size={28}/> Pick Up Address: <span>{booking.booking.booking.address.pickUpAdress}</span></Card.Text> 
               </div>
-              <div className="col-6">
-              <Card.Text>Destination: <span>{booking.booking.booking.address.destination}</span></Card.Text> 
+              <div className="col-6 mb-3 mt-3">
+              <Card.Text><FcPortraitMode size={28}/> Destination: <span>{booking.booking.booking.address.destination}</span></Card.Text> 
             </div>
               </div>
-             {booking.booking.item ? <div><p>Item: {booking.booking.item}</p>
-            <p>Details: {booking.booking.itemDetails}</p></div>  : null}
+             {booking.booking.item ? <div><p><FcDeployment size={28}/>Item: {booking.booking.item}</p>
+            <p><FcViewDetails size={28}/> Details: {booking.booking.itemDetails}</p></div>  : null}
             {booking.booking.items ? (<div>
                   <ListGroup variant="flush">
                   <ListGroup.Item style={{display: 'flex', justifyContent: 'space-between', padding: '0.5rem' }}>
-                    <div>Item</div>
-                    <div>Store</div>
-                    <div>Address</div>
+                    <div><FcDeployment size={28}/> Item</div>
+                    <div><FcShop size={28}/> Store</div>
+                    <div><FcGlobe size={28} /> Address</div>
                   </ListGroup.Item>
                     {booking.booking.items.map((item, index) => (
                       <>
@@ -133,13 +147,13 @@
                     ))}
                   </ListGroup>
                 </div>) : null}
-                <Card.Text>Fare: <span>{currency(booking.booking.booking.totalAmount)}</span></Card.Text> 
+                <Card.Text><FcMoneyTransfer size={28}/> Fare: <span>{currency(booking.booking.booking.totalAmount)}</span></Card.Text> 
               <div className="m-3">
                  {booking.booking.booking.status === 'For Pick Up' ? 
-            <Button onClick={() => handleCallRider(booking.booking.booking.riderPhone)}>Call Rider</Button> :
+            <Button onClick={() => handleCallRider(booking.booking.booking.riderPhone)}><FcAssistant />Call Rider</Button> :
             booking.booking.booking.status === 'Completed' ?  <Button variant="danger" onClick={() => handleDelete(booking)}>Delete</Button> :
                   null} </div>        
-            </div>
+            </Card>
           ))}
       </div>
     );

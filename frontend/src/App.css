@@ -10,6 +10,8 @@
 
 .card-text {
   color: #222222;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .card-text span{
