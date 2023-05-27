@@ -80,7 +80,12 @@ const NavBar = ({ setSearchData }) => {
         };
     }, []);
     return (
-        <div className="bg-light" style={{ position: 'sticky', top: 0, zIndex: '999' }}>
+        <div className="bg-light" style={{
+            position: 'sticky', top: 0, zIndex: '999',
+            background: 'rgb(250,81,48)',
+            background: 'linear-gradient(90deg, rgba(250,81,48,1) 0%, rgba(198,198,198,1) 50%, rgba(250,81,48,1) 96%)'
+        }}>
+
             {scroll && (
                 <BiArrowToTop
                     size={32}
@@ -128,18 +133,18 @@ const NavBar = ({ setSearchData }) => {
                                 </div>
                             </Form>
                             <Nav.Link as={Link} to="/notification" className="d-flex">
-                             
-                                    <IoMdNotificationsOutline className="col-9" size={38} />
-                                    <div className="col-3">
+
+                                <IoMdNotificationsOutline className="col-9" size={38} />
+                                <div className="col-3">
                                     {readNotification.length > 0 && <div className="cart-quantity">{readNotification.length}</div>}
-                                    </div>
-                             
+                                </div>
+
                             </Nav.Link>
-                            <Nav.Link as={Link} to="/cart" className="d-flex ">                          
-                                    <AiOutlineShoppingCart className="col-9" size={37} />
-                                    {cartTotalQuantity > 0 && <div className="col-3">
-                                        <div className="cart-quantity">{cartTotalQuantity}</div>
-                                    </div>}
+                            <Nav.Link as={Link} to="/cart" className="d-flex ">
+                                <AiOutlineShoppingCart className="col-9" size={37} />
+                                {cartTotalQuantity > 0 && <div className="col-3">
+                                    <div className="cart-quantity">{cartTotalQuantity}</div>
+                                </div>}
                             </Nav.Link>
                             <Nav.Link as={Link} to="/user/userBooking">
                                 <IoMdBook size={35} />

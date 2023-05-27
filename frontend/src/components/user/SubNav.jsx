@@ -9,7 +9,7 @@ const SubNav = () => {
   if (auth.isUser) return <p>Access denied. Not a User!</p>;
   return (
     <>
-    <Container fluid className="d-none d-lg-block">
+    <Container fluid className="d-none d-lg-block" >
     <h2>Activities</h2>
     <ProfileNav />
     </Container>
