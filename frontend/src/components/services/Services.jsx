@@ -75,11 +75,15 @@ const Services = () => {
                     </NavLink>
                 </div>
                 <div className="col-6">
-                    <FcReadingEbook size={40} /> Order in the Shopping Page  <FcDown size={20} className="col-12" />
-                    <FcShop size={40} /> Prepare by the Seller  <FcDown size={20} className="col-12" />
-                    <FcInTransit size={40} /> to be shipped  <FcDown size={20} className="col-12" />
+                    <FcReadingEbook size={40} /> Order in the Shopping Page
+                    <FcDown size={20} className="col-12" />
+                    <FcShop size={40} /> Prepare by the Seller
+                    <FcDown size={20} className="col-12" />
+                    <FcInTransit size={40} /> To be shipped
+                    <FcDown size={20} className="col-12" />
                     <FcHome size={40} /> Delivers to your house
                 </div>
+
             </div>
             <div className="col-12 d-flex p-2 mt-2 border shadow align-items-center">
                 <div className="col-6 d-flex justify-content-center">
