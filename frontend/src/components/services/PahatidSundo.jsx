@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import { Card, Form, Button } from 'react-bootstrap';
 import io from 'socket.io-client';
 import {server} from '../../slices/api'
+import { Link } from "react-router-dom";
+import { IoArrowBackCircle } from 'react-icons/io5';
 
 const PahatidSundo = () => {
     const booking = useSelector(state => state.booking)
@@ -64,6 +66,7 @@ const PahatidSundo = () => {
   
   return (
     <div>
+      <Link to="/booking/services"><IoArrowBackCircle size={40}/></Link>
     <h2>Pahatid/Sundo</h2>   
       <Card className="m-3 shadow p-3">
       <h2>Book a Ride</h2>

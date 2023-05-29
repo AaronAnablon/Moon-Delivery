@@ -6,7 +6,7 @@ import NavCategories from "./NavCategories";
 
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Container } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { Card } from 'react-bootstrap';
 import { url } from "../slices/api";
 import axios from "axios";
@@ -16,13 +16,14 @@ const Home = ({ searchData }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortedBrand, setSortedBrand] = useState("");
   const [hide, setHide] = useState(true)
-
+  const [totalPage, setTotalPage] = useState('')
 
   const navigate = useNavigate();
 
   const fetchProducts = async () => {
     const response = await axios.get(`${url}/products/increment?page=${currentPage}`);
     const newData = response.data.products;
+    setTotalPage(response.data.totalPages)
     setData(prevData => {
       const filteredData = newData.filter(product => !prevData.find(p => p._id === product._id));
       return [...prevData, ...filteredData];
@@ -65,6 +66,7 @@ const Home = ({ searchData }) => {
 
   const handleLoadMore = () => {
     setCurrentPage((prevPage) => prevPage + 1);
+    console.log(currentPage)
   };
 
   const toProductDetails = (product) => {
@@ -84,7 +86,7 @@ const Home = ({ searchData }) => {
         <div className="col-12 d-flex flex-wrap">
           {filteredData &&
             filteredData.map((product) => (
-              <div key={product._id} onClick={() => toProductDetails(product)} className="col-6 p-1">
+              <div key={product._id} onClick={() => toProductDetails(product)} className="col-6 col-md-3 col-lg-2 p-1">
                 <Card>
                 <Card.Img variant="top" src={product.image} style={{ zIndex: '1', width: '100%', height: '130px', objectFit: 'cover' }} />
                 <Card.Body style={{ fontSize: '13px' }}>
@@ -100,7 +102,7 @@ const Home = ({ searchData }) => {
         </div>
         <div className="d-flex flex-row justify-content-center border-bottom p-3">
           {filteredData.length > 0 ?
-            <Button onClick={handleLoadMore}>Load more</Button> :
+            totalPage > currentPage && <Button onClick={handleLoadMore}>Load more</Button> :
             <div> <p>No Products found</p>
               <Button onClick={() => fetchProducts()}>Refresh</Button></div>}
         </div>

@@ -86,6 +86,7 @@ const DistanceCalculator = ({ pickupAddress, destination, phoneNumber }) => {
       <Button className="m-3 col-11" onClick={handleCalculateDistance}>
         {isLoading ? <span>Calculating...</span> : 'Fare'}
       </Button>
+      <p style={{fontSize: '10px'}}>Distance and Fare calculated may vary</p>
       <div className="col-12 d-flex justify-content-center">
         {distance && <p className="col-6">Estimated Distance: {distance} km</p>}
         {distance && <p className="col-6">Estimated Fare: {currency(totalFare)}</p>}

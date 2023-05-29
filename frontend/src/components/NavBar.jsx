@@ -4,7 +4,7 @@ import { logoutUser } from "../slices/authSlice";
 import { toast } from "react-toastify";
 import { Nav, Navbar, Offcanvas, Form } from "react-bootstrap";
 import { BiLogOut, BiUserCircle, BiHomeAlt2 } from "react-icons/bi"
-import { IoIosCart, IoMdBook, IoMdNotificationsOutline } from 'react-icons/io';
+import { IoMdBook, IoMdNotificationsOutline } from 'react-icons/io';
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { FaShippingFast } from 'react-icons/fa';
 import ProfileNav from "./user/ProfileNav";
@@ -100,7 +100,7 @@ const NavBar = ({ setSearchData }) => {
                         <>
                             <div>
                                 {location.pathname === '/' ?
-                                    <Nav.Link as={Link} to="/booking/pabili" ><RiMoonFoggyLine size={35} /></Nav.Link>
+                                    <Nav.Link as={Link} to="/booking/services" ><RiMoonFoggyLine size={35} /></Nav.Link>
                                     : <Nav.Link as={Link} to="/" ><BiHomeAlt2 size={35} /></Nav.Link>
                                 }
                             </div>

@@ -6,12 +6,11 @@ import { Outlet } from "react-router-dom";
 const Booking = () => {
   return (
       <div className="col-12 d-flex">    
-        <div className="col-lg-6 d-none d-lg-block">
+        <div className="col-lg-4 d-none d-lg-block border">
             <TopProducts />
             <Products />
           </div>
-        <div className="col-lg-6 col-12">
-          <Services />
+        <div className="col-lg-8 col-12">
           <Outlet />
         </div>
       </div>

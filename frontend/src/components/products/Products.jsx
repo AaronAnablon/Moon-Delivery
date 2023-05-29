@@ -59,7 +59,7 @@ useEffect(() => {
         {results &&
           results.map((product) => (
             <div key={product._id}>
-              <Card className="m-1" style={{ width: '10rem' }} onClick={() => toProductDetails(product)}>
+              <Card className="m-1" style={{ width: '9rem' }} onClick={() => toProductDetails(product)}>
                 <Card.Img variant="top" src={product.image} style={{ zIndex: '1', width: '100%', height: '130px', objectFit: 'cover' }} />
                 <Card.Body style={{ fontSize: '13px' }}>
                   <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{product.name}</div>

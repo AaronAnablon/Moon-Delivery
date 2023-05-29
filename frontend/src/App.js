@@ -58,6 +58,7 @@ import ProductDetails from "./components/products/ProductDetails";
 
 import Booking from "./components/booking/Booking";
 import Notification from "./components/notification/Notifications";
+import Services from "./components/services/Services";
 
 function App() {
   const dispatch = useDispatch();
@@ -80,6 +81,7 @@ function App() {
               <Route path="pabili" element={<Pabili />} />
               <Route path="pahatidSundo" element={<PahatidSundo />} />
               <Route path="pakuhaPadala" element={<PakuhaPadala />} />
+              <Route path="services" element={<Services />} />
             </Route>
             <Route path="/productDetails" element={<ProductDetails />} />
             <Route path="/cart" element={<Cart />} />

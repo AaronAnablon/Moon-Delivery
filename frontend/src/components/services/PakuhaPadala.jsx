@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import { Form, Button, Card } from 'react-bootstrap';
 import io from 'socket.io-client';
 import {server} from '../../slices/api'
+import { Link } from 'react-router-dom';
+import { IoArrowBackCircle } from 'react-icons/io5';
 
 const PakuhaPadala = () => {
     const booking = useSelector(state => state.booking)
@@ -73,11 +75,11 @@ const handleUseDefaultNumber = () => {
       });
   };
   
-  
   return (
     <div>
+         <Link to="/booking/services"><IoArrowBackCircle size={40}/></Link>
        <Card className="m-3 shadow p-3">
-      <h2>Pakuha/Padala</h2>
+      <h2>Add items to pick up</h2>
       <Form onSubmit={handleSubmitBooking}>
         <Form.Group controlId="item">
           <Form.Label>Item:</Form.Label>
