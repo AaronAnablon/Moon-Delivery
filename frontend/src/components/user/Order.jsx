@@ -79,7 +79,7 @@ const Order = () => {
                     <Card.Text>Product Id: <span>{product.productId}</span></Card.Text>
                     <Card.Text>Product Name: <span>{product.name}</span></Card.Text>
                   </div>
-                  <div className="col-2">
+                  <div className="col-lg-2 col-6">
                     <Card.Text>Price: <span>{currency(product.price)}</span></Card.Text>
                     <Card.Text>Quantity: <span>{product.quantity}</span></Card.Text>
                   </div>
