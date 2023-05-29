@@ -10,6 +10,8 @@ import io from 'socket.io-client';
 import {server} from '../../slices/api'
 import { Link } from "react-router-dom";
 import { IoArrowBackCircle } from 'react-icons/io5';
+import { FcAutomotive } from 'react-icons/fc';
+import PahatidSundoFlow from './PahatidSundoFlow';
 
 const PahatidSundo = () => {
     const booking = useSelector(state => state.booking)
@@ -65,10 +67,14 @@ const PahatidSundo = () => {
   
   
   return (
-    <div>
-      <Link to="/booking/services"><IoArrowBackCircle size={40}/></Link>
-    <h2>Pahatid/Sundo</h2>   
+    <div className="container-fluid d-flex">
+    <div className='col-md-6 d-md-block d-none mt-4'>
+    <h2>How it works</h2>
+        <PahatidSundoFlow />
+    </div>
+    <div className='col-md-6 col-12'>
       <Card className="m-3 shadow p-3">
+      <Link to="/booking/services"><IoArrowBackCircle size={40}/></Link>
       <h2>Book a Ride</h2>
         <Form>
           <Form.Group controlId="pickupAddress">
@@ -110,6 +116,8 @@ const PahatidSundo = () => {
         </Form>
       </Card>
   </div>
+  </div>
+
   );
 };
 
