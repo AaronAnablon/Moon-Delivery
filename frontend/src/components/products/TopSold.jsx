@@ -27,7 +27,7 @@ const TopSold = ({ toProductDetails }) => {
 
   useEffect(() => {
     getProducts();
-    console.log(data)
+    console.log(data);
   }, []);
 
   const settings = {
@@ -36,7 +36,7 @@ const TopSold = ({ toProductDetails }) => {
     arrows: true,
     slidesToScroll: 2,
     responsive: [
-        {
+      {
         breakpoint: 1024,
         settings: {
           slidesToShow: 8,
@@ -49,30 +49,28 @@ const TopSold = ({ toProductDetails }) => {
         },
       },
     ],
-   };
+  };
 
   return (
-    <div className="d-flex m-3 justify-content-center">
-           {loading && <p>Loading...</p>}
-      <div className="carousel-container">
+    <div className="d-flex justify-content-center"> {/* Center the slider */}
+      {loading && <p>Loading...</p>}
+      <div style={{ maxWidth: "70%" }}> {/* Set a max width to prevent overlapping */}
         <Slider {...settings}>
           {data.map((product) => (
             <div key={product._id}>
-              <Card className="col-9" onClick={() => toProductDetails(product)}>
+              <Card className="col-11" onClick={() => toProductDetails(product)}>
                 {product.image && (
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      style={{
-                        height: "90px",
-                        objectFit: "cover",
-                      }}
-                    />
-                   )}
-              <div style={{display: 'flex', flexDirection: 'row',
-               whiteSpace: 'nowrap', overflow: 'hidden', justifyContent: 'center',
-               textOverflow: 'ellipsis' }}>
-                {product.rating.count} Sold
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    style={{
+                      height: "90px",
+                      objectFit: "cover",
+                    }}
+                  />
+                )}
+                <div className="text-truncate d-flex justify-content-center">
+                  {product.rating.count} Sold
                 </div>
               </Card>
             </div>

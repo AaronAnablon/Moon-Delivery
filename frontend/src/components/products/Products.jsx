@@ -3,10 +3,10 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Container } from 'react-bootstrap';
 import { Card } from 'react-bootstrap';
-import { url } from "../../slices/api";
+import { url, setHeaders } from "../../slices/api";
 import axios from "axios";
 
-const Products = ({searchInput}) => {
+const Products = () => {
   const [results, setResults] = useState([]);
   const [totalResults, setTotalResults] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -14,16 +14,16 @@ const Products = ({searchInput}) => {
 
   const navigate = useNavigate()
 
-
   useEffect(() => {
     fetchSearchResults();
-  }, [searchInput, currentPage]);
+  }, [currentPage]);
 
   const fetchSearchResults = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get(`${url}/products/searchSimilar?keyword=${searchInput}`);
-      const { data: fetchedResults, total } = response.data;
+      const response = await axios.get(`${url}/products/highRating`, setHeaders)
+      const { data: fetchedResults, total } = response;
+      console.log(response)
       setResults((prevResults) =>
         currentPage === 1 ? fetchedResults : [...prevResults, ...fetchedResults]
       );
@@ -37,7 +37,7 @@ const Products = ({searchInput}) => {
 
 useEffect(() => {
     setCurrentPage(1)
-  }, [searchInput])
+  }, [])
 
   const handleScroll = () => {
     const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
@@ -46,11 +46,15 @@ useEffect(() => {
     }
   };
 
+  const toProductDetails = (product) => {
+    navigate('/productDetails', { state: { product } });
+  }
+
   return (
     <div>
-      <h3 className="text-light">You may also like</h3>
+      <h3>You may also like</h3>
     {isLoading && <h3>loading..</h3>}
-      <div onScroll={handleScroll} style={{ height: '300px', overflow: 'auto' }}>
+      <div onScroll={handleScroll}>
       <Container className="d-flex flex-wrap">
         {results &&
           results.map((product) => (

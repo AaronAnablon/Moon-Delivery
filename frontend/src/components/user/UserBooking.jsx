@@ -20,6 +20,7 @@ import {
   FcGlobe,
   FcAssistant
 } from "react-icons/fc";
+import { GiFullMotorcycleHelmet } from "react-icons/gi";
 
 const UserBooking = () => {
   const [booked, setBooked] = useState([]);
@@ -109,7 +110,7 @@ const UserBooking = () => {
                   <Card.Text><FcTodoList size={28}/> Status: <span>{booking.booking.booking.status}</span></Card.Text>
                 </div>
               <div className="col-6">
-                <Card.Text><FcInTransit size={28}/> Rider: <span>{booking.booking.booking.rider}</span></Card.Text>
+                <Card.Text><GiFullMotorcycleHelmet size={28}/> Rider: <span>{booking.booking.booking.rider}</span></Card.Text>
                  <Card.Text><FcNightPortrait size={28}/> Client Name: <span>{booking.user.name}</span></Card.Text>
                 </div>
               </div>

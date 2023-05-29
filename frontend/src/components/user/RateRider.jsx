@@ -21,6 +21,8 @@ import {
   FcDiploma2,
   FcRating
 } from "react-icons/fc";
+import { GiFullMotorcycleHelmet } from "react-icons/gi";
+
 
 const RateRider = () => {
   const auth = useSelector((state) => state.auth);
@@ -133,7 +135,7 @@ const RateRider = () => {
                 <Card.Text><FcTodoList size={28} /> Status: <span>{booking.booking.booking.status}</span></Card.Text>
               </div>
               <div className="col-6">
-                <Card.Text><FcInTransit size={28} /> Rider: <span>{booking.booking.booking.rider}</span></Card.Text>
+                <Card.Text><GiFullMotorcycleHelmet size={28} /> Rider: <span>{booking.booking.booking.rider}</span></Card.Text>
                 <Card.Text><FcDiploma2 size={28} /> RiderId: <span>{booking.booking.booking.riderId}</span></Card.Text>
                 <Card.Text><FcNightPortrait size={28} /> Client Name: <span>{booking.user.name}</span></Card.Text>
               </div>

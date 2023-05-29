@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { setHeaders, url } from "../../slices/api";
 import { useSelector } from "react-redux";
@@ -11,7 +11,7 @@ const DropOff = () => {
   const getBooking = () => {axios
      .get(`${url}/booking/${auth._id}/Completed`, setHeaders)
        .then((response) => {
-      setBooked((response.data).reverse);
+      setBooked((response.data).reverse());
     })
     .catch((error) => {
         console.log(error);
