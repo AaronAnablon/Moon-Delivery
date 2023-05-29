@@ -246,7 +246,7 @@ const Pabili = () => {
                             ))
                         }
                             <Card.Text>
-                                Total Fare: {
+                                Estimated Fare: {
                                 items.slice(-1)[0].Fare
                             } </Card.Text>
                         </div>

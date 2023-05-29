@@ -87,8 +87,8 @@ const DistanceCalculator = ({ pickupAddress, destination, phoneNumber }) => {
         {isLoading ? <span>Calculating...</span> : 'Fare'}
       </Button>
       <div className="col-12 d-flex justify-content-center">
-        {distance && <p className="col-6">Distance: {distance} km</p>}
-        {distance && <p className="col-6">Fare: {currency(totalFare)}</p>}
+        {distance && <p className="col-6">Estimated Distance: {distance} km</p>}
+        {distance && <p className="col-6">Estimated Fare: {currency(totalFare)}</p>}
       </div>
     </div>
   );
