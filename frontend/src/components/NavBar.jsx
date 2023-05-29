@@ -133,19 +133,22 @@ const NavBar = ({ setSearchData }) => {
                                 </div>
                             </Form>
                             <Nav.Link as={Link} to="/notification" className="d-flex">
-
-                                <IoMdNotificationsOutline className="col-9" size={38} />
-                                <div className="col-3">
-                                    {readNotification.length > 0 && <div className="cart-quantity">{readNotification.length}</div>}
+                                <div className="col-6">
+                                    <IoMdNotificationsOutline size={38} />
                                 </div>
+                                <div className="col-6">
+                                    <div className={readNotification.length > 0 ? 'cart-quantity' : 'cart-empty-quantity'}>{readNotification.length}</div>
+                                </div>
+                            </Nav.Link>
+                            <Nav.Link as={Link} to="/cart" className="d-flex">
+                                <div className="col-6">
+                                    <AiOutlineShoppingCart size={37} />
+                                </div>
+                                <div className="col-6">
+                                    <div className={cartTotalQuantity > 0 ? 'cart-quantity' : 'cart-empty-quantity'}>{cartTotalQuantity}</div>
+                                </div>
+                            </Nav.Link>
 
-                            </Nav.Link>
-                            <Nav.Link as={Link} to="/cart" className="d-flex ">
-                                <AiOutlineShoppingCart className="col-9" size={37} />
-                                {cartTotalQuantity > 0 && <div className="col-3">
-                                    <div className="cart-quantity">{cartTotalQuantity}</div>
-                                </div>}
-                            </Nav.Link>
                             <Nav.Link as={Link} to="/user/userBooking">
                                 <IoMdBook size={35} />
                             </Nav.Link>

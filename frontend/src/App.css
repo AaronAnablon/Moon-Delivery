@@ -76,6 +76,19 @@ a.nav-link.active {
   font-weight: 700;
   color: white;
 }
+
+.cart-empty-quantity {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  background: transparent;
+  font-size: 11px;
+  font-weight: 700;
+  color: transparent;
+}
 /* Sub Navigation */
 .sub-nav {
   display: flex;

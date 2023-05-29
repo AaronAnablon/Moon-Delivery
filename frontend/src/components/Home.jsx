@@ -73,48 +73,44 @@ const Home = ({ searchData }) => {
 
   return (
     <>
-      <div >
+      <div className="container-fluid">
         {hide && <><HighRating toProductDetails={toProductDetails} />
-        <div className="d-flex flex-row justify-content-center"><h2>Top Rated</h2></div></>}
+          <div className="d-flex flex-row justify-content-center"><h2>Top Rated</h2></div></>}
         {hide && <TopProducts toProductDetails={toProductDetails} />}
-
-        <div> 
-          <NavCategories handleSortByBrand={handleSortByBrand}/>
-          <>
-            <div className="d-flex flex-row justify-content-center">
-              <h2>New Arrivals</h2>
-            </div>
-            <Container className="d-flex flex-wrap">
-              {filteredData &&
-                filteredData.map((product) => (
-                  <div key={product._id}>
-                    <Card className="m-1" style={{ width: '10rem' }} onClick={() => toProductDetails(product)} >
-                      <Card.Img variant="top" src={product.image} style={{ zIndex: '1', width: '100%', height: '130px', objectFit: 'cover' }} />
-                      <Card.Body style={{ fontSize: '13px' }}>
-                        <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{product.name}</div>
-                        <div>₱{product.price}</div>
-                        <StarRating rating={product.rating.rating} overAll={product.rating.count} />
-                        <div style={{ fontSize: '10px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{product.address}</div>
-                      </Card.Body>
-                    </Card>
-                  </div>
-                ))
-              }
-            </Container>
-            <div className="d-flex flex-row justify-content-center border-bottom p-3">
-              {filteredData.length > 0 ?
-                <Button onClick={handleLoadMore}>Load more</Button> :
-                <div> <p>No Products found</p>
-                  <Button onClick={() => fetchProducts()}>Refresh</Button></div>}
-            </div>
-            {hide && <div style={{
-              background: 'rgb(250,81,48)',
-            background: 'linear-gradient(90deg, rgba(250,81,48,1) 0%, rgba(198,198,198,1) 50%, rgba(250,81,48,1) 96%)'
-            }}
-            ><div className="d-flex flex-row justify-content-center m-3"><h2>Top Sold</h2></div>
-             <TopSold toProductDetails={toProductDetails} /></div>}
-          </>
+        <NavCategories handleSortByBrand={handleSortByBrand} />
+        <div className="d-flex justify-content-center">
+          <h2>New Arrivals</h2>
         </div>
+        <div className="col-12 d-flex flex-wrap">
+          {filteredData &&
+            filteredData.map((product) => (
+              <div key={product._id} onClick={() => toProductDetails(product)} className="col-6 p-1">
+                <Card>
+                <Card.Img variant="top" src={product.image} style={{ zIndex: '1', width: '100%', height: '130px', objectFit: 'cover' }} />
+                <Card.Body style={{ fontSize: '13px' }}>
+                  <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{product.name}</div>
+                  <div>₱{product.price}</div>
+                  <StarRating rating={product.rating.rating} overAll={product.rating.count} />
+                  <div style={{ fontSize: '10px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{product.address}</div>
+                </Card.Body>
+                </Card>
+              </div>
+            ))
+          }
+        </div>
+        <div className="d-flex flex-row justify-content-center border-bottom p-3">
+          {filteredData.length > 0 ?
+            <Button onClick={handleLoadMore}>Load more</Button> :
+            <div> <p>No Products found</p>
+              <Button onClick={() => fetchProducts()}>Refresh</Button></div>}
+        </div>
+        {hide && <div style={{
+          background: 'rgb(250,81,48)',
+          background: 'linear-gradient(90deg, rgba(250,81,48,1) 0%, rgba(198,198,198,1) 50%, rgba(250,81,48,1) 96%)'
+        }}
+        ><div className="d-flex flex-row justify-content-center m-3"><h2>Top Sold</h2></div>
+          <TopSold toProductDetails={toProductDetails} /></div>}
+
       </div>
     </>
   );

@@ -29,25 +29,37 @@ const HighRating = () => {
   }
 
   return (
-    <div className="d-flex m-3 justify-content-center">
-      <div className="carousel-container">
-        {
-          <Carousel autoPlay={true} infiniteLoop={true} interval={4000}
-            showArrows={false} showThumbs={false} stopOnHover={true} showStatus={false}>
-            {services.map((service) => (
-              <div key={service._id}>
-                <div onClick={() => handleClick(service.location)}>
-                  <img src={service.image} alt={service._id} style={{
-                    width: "100%", objectFit: 'fill',
-                    borderRadius: "4px"
-                  }} />
-                </div>
-              </div>
-            ))}
-          </Carousel>
-        }
-      </div>
+    <div className="d-flex justify-content-center">
+    <div >
+      <Carousel
+        autoPlay={true}
+        infiniteLoop={true}
+        interval={4000}
+        showArrows={false}
+        showThumbs={false}
+        stopOnHover={true}
+        showStatus={false}
+        style={{maxWidth: '70%'}}
+      >
+        {services.map((service) => (
+          <div key={service._id}>
+            <div onClick={() => handleClick(service.location)}>
+              <img
+                src={service.image}
+                alt={service._id}
+                style={{
+                  width: "100%",
+                  objectFit: 'fill',
+                  borderRadius: "4px"
+                }}
+              />
+            </div>
+          </div>
+        ))}
+      </Carousel>
     </div>
+  </div>
+  
   );
 };
 
