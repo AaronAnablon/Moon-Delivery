@@ -18,7 +18,7 @@ const Services = () => {
                             <NavLink className="nav-link" to="/">
                                 <FcShop className="col-12" size={50} />
                                 <div className="col-12 d-flex justify-content-center">
-                                    Shopping
+                                    Shopping Page
                                 </div>
                             </NavLink>
                         </div>

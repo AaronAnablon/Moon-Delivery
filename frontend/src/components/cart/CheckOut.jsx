@@ -110,7 +110,7 @@ const currency = (price) => {
     let total = getSubtotals(cart.cartItems);
   return (
 
-       <div className="row">
+       <div className="container-fluid row">
     <Card className='col-lg-6'>
       <div className='m-4'>
   <h2 className="text-center">Order Information</h2>

@@ -83,7 +83,7 @@ const NavBar = ({ setSearchData }) => {
         <div className="bg-light" style={{
             position: 'sticky', top: 0, zIndex: '999',
             background: 'rgb(250,81,48)',
-            background: 'linear-gradient(90deg, rgba(250,81,48,1) 0%, rgba(198,198,198,1) 50%, rgba(250,81,48,1) 96%)'
+            background: 'linear-gradient(90deg, rgb(255, 244, 89) 0%, rgb(255, 240, 39) 50%, rgb(255, 244, 89)) 96%)'
         }}>
 
             {scroll && (
