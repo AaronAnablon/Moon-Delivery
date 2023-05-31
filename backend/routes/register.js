@@ -14,6 +14,7 @@ router.post("/", async (req, res) => {
     password: Joi.string().min(6).max(200).required(),
     isAdmin: Joi.boolean(),
     isRider: Joi.boolean(),
+    active: Joi.boolean(),
   });
 
   const { error } = schema.validate(req.body);
@@ -22,9 +23,9 @@ router.post("/", async (req, res) => {
 
   let user = await User.findOne({ email: req.body.email });
   if (user) return res.status(400).send("Email already exists.Please choose another one..");
-  const { name, email, phoneNumber, address, password, isAdmin, isRider} = req.body;
+  const { name, email, phoneNumber, address, password, isAdmin, isRider, active} = req.body;
 
-  user = new User({ name, email, phoneNumber, address, password , isAdmin, isRider});
+  user = new User({ name, email, phoneNumber, address, password , isAdmin, isRider, active});
 
   const salt = await bcrypt.genSalt(10);
   user.password = await bcrypt.hash(user.password, salt);

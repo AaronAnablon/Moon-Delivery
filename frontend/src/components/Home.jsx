@@ -10,8 +10,10 @@ import { Button } from 'react-bootstrap';
 import { Card } from 'react-bootstrap';
 import { url } from "../slices/api";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const Home = ({ searchData }) => {
+  const auth = useSelector((state) => state.auth)
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortedBrand, setSortedBrand] = useState("");
@@ -72,7 +74,11 @@ const Home = ({ searchData }) => {
   const toProductDetails = (product) => {
     navigate('/productDetails', { state: { product } });
   }
-
+  if (auth.isRider) {
+    navigate('/rider')
+  } else if (auth.isAdmin) {
+    navigate('/admin/summary')
+  }
   return (
     <>
       <div className="container-fluid">
@@ -88,13 +94,13 @@ const Home = ({ searchData }) => {
             filteredData.map((product) => (
               <div key={product._id} onClick={() => toProductDetails(product)} className="col-6 col-md-3 col-lg-2 p-1">
                 <Card>
-                <Card.Img variant="top" src={product.image} style={{ zIndex: '1', width: '100%', height: '130px', objectFit: 'cover' }} />
-                <Card.Body style={{ fontSize: '13px' }}>
-                  <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{product.name}</div>
-                  <div>₱{product.price}</div>
-                  <StarRating rating={product.rating.rating} overAll={product.rating.count} />
-                  <div style={{ fontSize: '10px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{product.address}</div>
-                </Card.Body>
+                  <Card.Img variant="top" src={product.image} style={{ zIndex: '1', width: '100%', height: '130px', objectFit: 'cover' }} />
+                  <Card.Body style={{ fontSize: '13px' }}>
+                    <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{product.name}</div>
+                    <div>₱{product.price}</div>
+                    <StarRating rating={product.rating.rating} overAll={product.rating.count} />
+                    <div style={{ fontSize: '10px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{product.address}</div>
+                  </Card.Body>
                 </Card>
               </div>
             ))

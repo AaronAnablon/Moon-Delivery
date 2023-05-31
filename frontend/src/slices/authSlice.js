@@ -10,6 +10,7 @@ const initialState = {
   phoneNumber: "",
   address: "",
   _id: "",
+  active: false,
   isAdmin: false,
   registerStatus: "",
   registerError: "",
@@ -31,6 +32,7 @@ export const registerUser = createAsyncThunk(
         password: values.password,
         isAdmin: values.isAdmin,
         isRider: values.isRider,
+        active: values.active,
       });
 
       localStorage.setItem("token", token.data);
@@ -86,6 +88,7 @@ const authSlice = createSlice({
 
       if (token) {
         const user = jwtDecode(token);
+        console.log(user)
         return {
           ...state,
           token,
@@ -96,6 +99,7 @@ const authSlice = createSlice({
           _id: user._id,
           isAdmin: user.isAdmin,
           isRider: user.isRider,
+          active: user.active,
           activeLocation: [{active: true, location: ''}],
           userLoaded: true,
         };
@@ -112,6 +116,7 @@ const authSlice = createSlice({
         phoneNumber: "",
         address: "",
         _id: "",
+        active: false,
         isAdmin: false,
         isRider: false,
         registerStatus: "",
@@ -139,6 +144,7 @@ const authSlice = createSlice({
           _id: user._id,
           isAdmin: user.isAdmin,
           isRider: user.isRider,
+          active: user.active,
           registerStatus: "success",
           activeLocation: [{active: true, location: ''}],
         };
@@ -167,6 +173,7 @@ const authSlice = createSlice({
           _id: user._id,
           isAdmin: user.isAdmin,
           isRider: user.isRider,
+          active: user.active,
           loginStatus: "success",
           activeLocation: [{active: true, location: ''}],
         };
@@ -198,6 +205,7 @@ const authSlice = createSlice({
           _id: user._id,
           isAdmin: user.isAdmin,
           isRider: user.isRider,
+          active: user.active,
           activeLocation: user.activeLocation,
           getUserStatus: "success",
         };

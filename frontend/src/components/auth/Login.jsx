@@ -15,6 +15,7 @@ const Login = () => {
   });
 
   useEffect(() => {
+    console.log(auth)
     if (auth._id && !auth.isRider && !auth.isAdmin) {
       navigate("/cart");
     } else if (auth.isAdmin && auth.isRider === true) {

@@ -65,13 +65,12 @@ const User = () => {
   };
 
   return (
-    <Container className="shadow" style={{ maxWidth: "310px" }}>
+    <div className="container-fluid shadow mt-5 col-lg-8 p-3">
       <Form onSubmit={handleSubmit}>
         <Form.Group>
           <Form.Label>Name:</Form.Label>
           <Form.Control type="text" name="name" value={user.name} onChange={handleChange} />
         </Form.Group>
-
         <Form.Group>
           <Form.Label>Email:</Form.Label>
           <Form.Control type="email" name="email" value={user.email} onChange={handleChange} />
@@ -110,7 +109,7 @@ const User = () => {
            </Form.Group>
         </Modal.Body>
       </Modal>
-    </Container>
+    </div>
   );
 };
 

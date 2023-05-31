@@ -17,6 +17,7 @@ const Register = () => {
     phoneNumber: "",
     address: "",
     password: "",
+    active: true,
   });
 
   const [addressSuggestions, setAddressSuggestions] = useState([]);
@@ -66,12 +67,13 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(user)
     const generatedCode = generateCode();
     setCode(generatedCode);
     const recipientEmail = user.email;
     const subject = 'Moon Delivery Authentication Code';
     const text = `Good day ${user.name}, This is Moon Delivery. Your Authentication Code is ${generatedCode}.
-    Please open your Moon Delivery Web Application here https://example.com/tracking"`;
+    Please open your Moon Delivery Web Application here https://moon-delivery.vercel.app"`;
     sendMail({ recipientEmail, subject, text });
     setShowPasswordModal(true);
   };
@@ -132,9 +134,8 @@ const Register = () => {
           <Form.Control
             type="tel"
             placeholder="Phone Number"
-            onChange={(e) => {setUser({ ...user, phoneNumber: e.target.value });
-            handleAddressClick([]);
-          }}
+            onChange={(e) => setUser({ ...user, phoneNumber: e.target.value })}
+            onClick={() => setAddressSuggestions([])}
             maxLength={11}
             required
             className="mb-2"
@@ -151,9 +152,8 @@ const Register = () => {
           <Form.Control
             type="password"
             placeholder="Password"
-            onChange={(e) => {setUser({ ...user, password: e.target.value });
-            handleAddressClick([]);
-          }}
+            onChange={(e) => setUser({ ...user, password: e.target.value })}
+            onClick={() => setAddressSuggestions([])}
             maxLength={150}
             required
           />

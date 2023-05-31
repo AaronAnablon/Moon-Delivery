@@ -29,7 +29,7 @@ const NavBar = ({ setSearchData }) => {
 
     const location = useLocation();
 
-    const showNavBar = ['/login', '/register'].includes(location.pathname);
+    const showNavBar = ['/login', '/register', '/registerSeller', '/registerRider', '/notApproved'].includes(location.pathname);
 
     useEffect(() => {
         const socket = io.connect(server);

@@ -50,15 +50,16 @@ import ToRate from "./components/user/ToRate";
 import Products from "./components/admin/Products";
 import Summary from "./components/admin/Summary";
 import CreateProduct from "./components/admin/CreateProduct";
-import Dashboard from "./components/admin/Dashboard";
 import Users from "./components/admin/Users";
 import Orders from "./components/admin/Oders";
+import AdminNav from "./components/admin/AdminNav";
 
 import ProductDetails from "./components/products/ProductDetails";
 
 import Booking from "./components/booking/Booking";
 import Notification from "./components/notification/Notifications";
 import Services from "./components/services/Services";
+import NotApproved from "./components/NotApproved";
 
 function App() {
   const dispatch = useDispatch();
@@ -90,6 +91,7 @@ function App() {
             <Route path="/notification" element={<Notification />} />
           
             <Route path="/register" element={<Register />} />
+            <Route path="/notApproved" element={<NotApproved />} />
             <Route path="/registerSeller" element={<RegisterAsSeller />} />
             <Route path="/registerRider" element={<RegisterAsRider />} />
             <Route path="/login" element={<Login />} />
@@ -102,7 +104,7 @@ function App() {
               <Route path="rateRider" element={<RateRider />} />
               <Route path="userSettings" element={<UserSettings />} />
             </Route>
-            <Route path="/admin" element={<Dashboard />}>
+            <Route path="/admin" element={<AdminNav />}>
               <Route path="summary" element={<Summary />} />
               <Route path="products" element={<Products />}>
                 <Route path="create-product" element={<CreateProduct />} />

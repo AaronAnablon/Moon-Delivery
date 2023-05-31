@@ -55,6 +55,18 @@ const DropOff = () => {
         }
       };
 
+      const formatDate = (date) =>{
+        return( new Date(date).toLocaleString('en-US', {
+       year: 'numeric',
+       month: '2-digit',
+       day: '2-digit',
+       hour: '2-digit',
+       minute: '2-digit',
+       second: '2-digit',
+       timeZoneName: 'short',
+      }))
+      }
+
    return (
     <div>
       <h2>Pick Up Client</h2>
@@ -63,24 +75,8 @@ const DropOff = () => {
         booked.map((booking) => (
           <div style={{ borderBottom: '1px solid black', marginBottom: '1px' }} key={booking._id}>
               <p>Service: {booking.booking.service}</p> 
-             <p>Date Booked: {new Date(booking.createdAt).toLocaleString('en-US', {
-              year: 'numeric',
-              month: '2-digit',
-              day: '2-digit',
-              hour: '2-digit',
-              minute: '2-digit',
-              second: '2-digit',
-              timeZoneName: 'short',
-            })}</p> 
-            <p>Date Completed: {new Date(booking.booking.completedAt).toLocaleString('en-US', {
-              year: 'numeric',
-              month: '2-digit',
-              day: '2-digit',
-              hour: '2-digit',
-              minute: '2-digit',
-              second: '2-digit',
-              timeZoneName: 'short',
-            })}</p>
+             <p>Date Booked: {formatDate(booking.createdAt)}</p> 
+            <p>Date Completed: {formatDate(booking.booking.completedAt)}</p>
             <p>Client Phone Number: {booking.booking.booking.phoneNumber}</p>
             <p>Destination: {booking.booking.booking.address.destination}</p>  
             <p>Pick Up Address: {booking.booking.booking.address.pickUpAdress}</p> 
