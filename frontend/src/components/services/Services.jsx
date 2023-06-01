@@ -10,7 +10,7 @@ import Flow from "./Flow";
 
 const Services = () => {
     return (
-        <div className="container-fluid">
+        <div className="container-fluid mt-3">
             <Nav>
                 <div className="col-12 d-flex border mb-5">
                     <div className="col-6 d-md-flex">

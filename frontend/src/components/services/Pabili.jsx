@@ -44,6 +44,7 @@ const Pabili = () => {
     const handleUseDefAddress = () => {
         if (!useDefaultAddress) {
             setUseDefaultAddress(true)
+            setUserAddress(auth.address)
             setFare(true)
         } else {
             setFare(false)
@@ -200,7 +201,7 @@ const Pabili = () => {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="address">Address</label>
+                        <label htmlFor="address">Destination:</label>
                         <input
                             className="form-control"
                             type="text"

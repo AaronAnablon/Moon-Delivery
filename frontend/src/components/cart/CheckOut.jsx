@@ -5,7 +5,7 @@ import { url, setHeaders } from '../../slices/api';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { clearCart } from '../../slices/cartSlice';
-import { Form, Button, Card, Container } from 'react-bootstrap';
+import { Form, Button, Card } from 'react-bootstrap';
 import io from 'socket.io-client';
 import {server} from '../../slices/api'
 

@@ -3,7 +3,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { setHeaders, url } from "../../slices/api";
 import { toast } from "react-toastify";
-import { Form, Button, Container, Modal } from "react-bootstrap";
+import { Form, Button, Modal } from "react-bootstrap";
 
 const User = () => {
   const auth = useSelector(state => state.auth)

@@ -83,7 +83,7 @@ const NavBar = ({ setSearchData }) => {
         <div className="bg-light" style={{
             position: 'sticky', top: 0, zIndex: '999',
             background: 'rgb(250,81,48)',
-            background: 'linear-gradient(90deg, rgb(255, 244, 89) 0%, rgb(255, 240, 39) 50%, rgb(255, 244, 89)) 96%)'
+            background: 'linear-gradient(90deg, rgb(254, 90, 1) 0%, rgb(245, 240, 39) 50%, rgb(254, 90, 1) 96%)'
         }}>
 
             {scroll && (
@@ -132,14 +132,14 @@ const NavBar = ({ setSearchData }) => {
                                     />
                                 </div>
                             </Form>
-                            <Nav.Link as={Link} to="/notification" className="d-flex">
+                           {auth._id && <Nav.Link as={Link} to="/notification" className="d-flex">
                                 <div className="col-6">
                                     <IoMdNotificationsOutline size={38} />
                                 </div>
                                 <div className="col-6">
                                     <div className={readNotification.length > 0 ? 'cart-quantity' : 'cart-empty-quantity'}>{readNotification.length}</div>
                                 </div>
-                            </Nav.Link>
+                            </Nav.Link>}
                             <Nav.Link as={Link} to="/cart" className="d-flex">
                                 <div className="col-6">
                                     <AiOutlineShoppingCart size={37} />
@@ -149,9 +149,9 @@ const NavBar = ({ setSearchData }) => {
                                 </div>
                             </Nav.Link>
 
-                            <Nav.Link as={Link} to="/user/userBooking">
+                            {auth._id && <Nav.Link as={Link} to="/user/userBooking">
                                 <IoMdBook size={35} />
-                            </Nav.Link>
+                            </Nav.Link>}
                         </>)}
                     {auth._id ? (<div> {auth.isAdmin && auth.isRider === true ? (
                         <div>

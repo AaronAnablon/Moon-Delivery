@@ -28,6 +28,7 @@ const PakuhaPadala = () => {
 
   const handleUseDefaultAddress = () => {
     setDefaultAddress(!defaultAddress)
+    setDestination(auth.address)
   }
 
   const handleUseDefaultNumber = () => {
@@ -97,7 +98,12 @@ const PakuhaPadala = () => {
             </Form.Group>
             <Form.Group controlId="pickupAddress">
               <Form.Label>Pickup Address:</Form.Label>
-              <Form.Control type="text" value={defaultAddress ? auth.address : pickupAddress} onChange={handlePickupAddressChange} />
+              <Form.Control type="text" value={pickupAddress} onChange={handlePickupAddressChange} />
+            </Form.Group>
+
+            <Form.Group controlId="destination">
+              <Form.Label>Destination:</Form.Label>
+              <Form.Control type="text" value={defaultAddress ? auth.address : destination} onChange={handleDestinationChange} />
             </Form.Group>
             <Form.Group controlId="useDefaultAddress">
               <Form.Check
@@ -105,10 +111,6 @@ const PakuhaPadala = () => {
                 onChange={handleUseDefaultAddress}
                 label="Use Default Address"
               />
-            </Form.Group>
-            <Form.Group controlId="destination">
-              <Form.Label>Destination:</Form.Label>
-              <Form.Control type="text" value={destination} onChange={handleDestinationChange} />
             </Form.Group>
             <Form.Group controlId="phoneNumber">
               <Form.Label>Phone Number:</Form.Label>
@@ -122,7 +124,14 @@ const PakuhaPadala = () => {
               />
             </Form.Group>
             <DistanceCalculator pickupAddress={pickupAddress} destination={destination} phoneNumber={phoneNumber} handleSubmitBooking={handleSubmitBooking} />
-            {booking.totalAmount && <Button className="col-12" type="submit" variant="primary">Submit Booking</Button>}
+            {auth._id ? (
+                        booking.totalAmount && <Button className="col-12" type="submit" variant="primary">Submit Booking</Button>
+                    ) : (
+                      booking.totalAmount &&
+                       <Button className="col-12" onClick={() => navigate("/login")}>
+                            Login to submit Booking
+                        </Button>
+                    )}
           </Form>
         </Card>
       </div>

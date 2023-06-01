@@ -81,7 +81,7 @@ const Home = ({ searchData }) => {
   }
   return (
     <>
-      <div className="container-fluid">
+      <div className="container-fluid mt-3">
         {hide && <><HighRating toProductDetails={toProductDetails} />
           <div className="d-flex flex-row justify-content-center"><h2>Top Rated</h2></div></>}
         {hide && <TopProducts toProductDetails={toProductDetails} />}
