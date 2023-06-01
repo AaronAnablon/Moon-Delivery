@@ -8,7 +8,7 @@ const HighRating = () => {
   const services = [
     {
       _id: 'Pabili',
-      image: 'https://res.cloudinary.com/dldx2inhf/image/upload/v1685182642/Flyers/photo_2023-05-27_18-13-55_fxq7uc.jpg',
+      image: 'https://res.cloudinary.com/dldx2inhf/image/upload/v1685596518/Flyers/photo_2023-06-01_13-13-33_dvkw1s.jpg',
       location: '/booking/pabili'
     },
     {
