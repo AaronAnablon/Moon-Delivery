@@ -56,7 +56,7 @@ const PahatidSundo = () => {
         toast.success('Booked successfully!');
         const socket = io.connect(server);
         socket.emit('booking', response.data);
-        navigate('/user/userBooking');
+        navigate('/');
       })
       .catch(error => {
         toast.error('Something went wrong!');
@@ -73,7 +73,7 @@ const PahatidSundo = () => {
       </div>
       <div className='col-md-6 col-12'>
         <Card className="m-3 shadow p-3">
-          <Link to="/booking/services"><IoArrowBackCircle size={40} /></Link>
+          <Link to="/"><IoArrowBackCircle size={40} /></Link>
           <h2>Book a Ride</h2>
           <Form>
             <Form.Group controlId="pickupAddress">

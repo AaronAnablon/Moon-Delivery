@@ -5,10 +5,11 @@ import { toast } from "react-toastify";
 import { setHeaders, url } from "../../slices/api";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { Button } from "react-bootstrap";
 
 
 const Products = () => {
-  const [products , setProducts] = useState('')
+  const [products, setProducts] = useState('')
   const auth = useSelector(state => state.auth)
   const navigate = useNavigate();
 
@@ -51,7 +52,7 @@ const Products = () => {
   };
 
   const handleDeleteProduct = async (productId) => {
-      const desc = {desc: "deleted"}
+    const desc = { desc: "deleted" }
     try {
       await axios.put(`${url}/products/${productId}`, desc, setHeaders());
       toast.success("Product deleted successfully");
@@ -70,7 +71,7 @@ const Products = () => {
         price,
         address,
       };
-        await axios.put(`${url}/products/${_id}`, editedProduct, setHeaders());
+      await axios.put(`${url}/products/${_id}`, editedProduct, setHeaders());
       toast.success("Product updated successfully");
       setEditingProduct(null);
       setName("");
@@ -85,17 +86,17 @@ const Products = () => {
 
   return (
     <>
-      <AdminHeaders>
+      <div className="d-flex justify-content-center">
         <h2>Products</h2>
-      </AdminHeaders>
-      <PrimaryButton onClick={() => navigate("/admin/products/create-product")}>
+      </div>
+      <Button className="m-3" onClick={() => navigate("/admin/products/create-product")}>
         ADD PRODUCT
-      </PrimaryButton>
+      </Button>
       <Outlet />
-      <div className="SellerProducts">
+      <div className="container-fluid col-12">
         {products &&
           products?.map((product) => (
-            <div key={product._id} className="SellerProduct">
+            <div key={product._id}>
               {editingProduct === product._id ? (
                 <>
                   <div className="SellerDetails">
@@ -113,7 +114,7 @@ const Products = () => {
                     </div>
                     <div className="buttons">
                       <button onClick={() => handleSaveProduct(product._id)}>
-                      Save
+                        Save
                       </button>
                       <button onClick={handleCancelEdit}>
                         Cancel
@@ -122,28 +123,28 @@ const Products = () => {
                   </div>
                 </>
               ) : (
-<>
-<div className="SellerProductImage">
-<img src={product.image} alt={product.name} />
-</div>
-<div className="SellerDetails">
-<h3>{product.name}</h3>
-<div title={product.desc}>{product.desc}</div>
-<div className="SellerPrice">PHP {product.price} </div>
-<div className="SelleAddress">{product.address}</div>
-<div className="buttons">
-<button onClick={() => handleEditProduct(product._id)}>Edit</button>
-<button onClick={() => handleDeleteProduct(product._id)}>
-</button>
-</div>
-</div>
-</>
-)}
-</div>
-))}
-</div>
-</>
-);
+                <div className="container-fluid col-12 d-flex">
+                  <div className="col-6" >
+                    <img src={product.image} alt={product.name} style={{ zIndex: '1', width: '100%', height: '130px', objectFit: 'cover' }}/>
+                  </div>
+                  <div className="col-6">
+                    <h3>{product.name}</h3>
+                    <div title={product.desc}>{product.desc}</div>
+                    <div className="SellerPrice">PHP {product.price} </div>
+                    <div className="SelleAddress">{product.address}</div>
+                    <div className="buttons">
+                      <Button onClick={() => handleEditProduct(product._id)}>Edit</Button>
+                      <Button onClick={() => handleDeleteProduct(product._id)}>Delete
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+      </div>
+    </>
+  );
 };
 
 export default Products;

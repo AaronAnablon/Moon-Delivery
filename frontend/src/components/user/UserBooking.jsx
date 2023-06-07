@@ -11,7 +11,6 @@ import {
   FcCalendar,
   FcServices, 
   FcTodoList, 
-  FcInTransit,
   FcNightPortrait,
   FcPortraitMode,
   FcMoneyTransfer,

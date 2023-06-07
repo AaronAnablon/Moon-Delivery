@@ -6,7 +6,6 @@ import { Nav, Navbar, Offcanvas, Form } from "react-bootstrap";
 import { BiLogOut, BiUserCircle, BiHomeAlt2 } from "react-icons/bi"
 import { IoMdBook, IoMdNotificationsOutline } from 'react-icons/io';
 import { AiOutlineShoppingCart } from "react-icons/ai";
-import { FaShippingFast } from 'react-icons/fa';
 import ProfileNav from "./user/ProfileNav";
 import { BiArrowToTop } from "react-icons/bi";
 import { useState, useEffect } from "react";
@@ -16,6 +15,8 @@ import { useNavigate } from "react-router-dom";
 import io from 'socket.io-client';
 import { server, url } from "../slices/api";
 import axios from "axios";
+import { GiFullMotorcycleHelmet } from "react-icons/gi";
+import NavBarEmployee from "./NavBarEmployee";
 
 const NavBar = ({ setSearchData }) => {
     const dispatch = useDispatch();
@@ -29,7 +30,9 @@ const NavBar = ({ setSearchData }) => {
 
     const location = useLocation();
 
-    const showNavBar = ['/login', '/register', '/registerSeller', '/registerRider', '/notApproved'].includes(location.pathname);
+    const showNavBar = ['/login', '/register',
+        '/registerSeller', '/registerRider',
+        '/notApproved', '/forgotPassword'].includes(location.pathname);
 
     useEffect(() => {
         const socket = io.connect(server);
@@ -82,10 +85,8 @@ const NavBar = ({ setSearchData }) => {
     return (
         <div className="bg-light" style={{
             position: 'sticky', top: 0, zIndex: '999',
-            background: 'rgb(250,81,48)',
             background: 'linear-gradient(90deg, rgb(254, 90, 1) 0%, rgb(245, 240, 39) 50%, rgb(254, 90, 1) 96%)'
         }}>
-
             {scroll && (
                 <BiArrowToTop
                     size={32}
@@ -96,11 +97,26 @@ const NavBar = ({ setSearchData }) => {
             )}
             {!showNavBar &&
                 <Navbar expand="true" className="py-3 align-items-center justify-content-evenly shadow">
+                    {auth.isRider &&
+                        <NavBarEmployee empType={"Rider"} linkTo={"/rider/booked"} authName={auth.name} />
+                    }
+                    {auth.isAdmin &&
+                        <NavBarEmployee logo={GiFullMotorcycleHelmet} empType={"Seller"} linkTo={"/admin/summary"} authName={auth.name} />
+                    }
+                  {auth.isAdmin && auth.isRider === true &&
+                        <div>
+                            <Nav.Link as={Link} to="/system">
+                                <div className="system">
+                                    <BiUserCircle size={24} />System
+                                </div>
+                            </Nav.Link>
+                        </div>
+                    }
                     {!auth.isAdmin && !auth.isRider && (
                         <>
                             <div>
                                 {location.pathname === '/' ?
-                                    <Nav.Link as={Link} to="/booking/services" ><RiMoonFoggyLine size={35} /></Nav.Link>
+                                    <Nav.Link as={Link} to="/shoppingPage" ><RiMoonFoggyLine size={35} /></Nav.Link>
                                     : <Nav.Link as={Link} to="/" ><BiHomeAlt2 size={35} /></Nav.Link>
                                 }
                             </div>
@@ -111,7 +127,7 @@ const NavBar = ({ setSearchData }) => {
                                     handleSearch()
                                 }}
                             >
-                                <div style={{ position: 'relative', width: '100%' }}>
+                                <div style={{ position: 'relative', width: '100%', borderRadius: '100%' }}>
                                     <Form.Control
                                         id="search"
                                         type="text"
@@ -132,7 +148,7 @@ const NavBar = ({ setSearchData }) => {
                                     />
                                 </div>
                             </Form>
-                           {auth._id && <Nav.Link as={Link} to="/notification" className="d-flex">
+                            {auth._id && <Nav.Link as={Link} to="/notification" className="d-flex">
                                 <div className="col-6">
                                     <IoMdNotificationsOutline size={38} />
                                 </div>
@@ -153,39 +169,11 @@ const NavBar = ({ setSearchData }) => {
                                 <IoMdBook size={35} />
                             </Nav.Link>}
                         </>)}
-                    {auth._id ? (<div> {auth.isAdmin && auth.isRider === true ? (
-                        <div>
-                            <Nav.Link as={Link} to="/system">
-                                <div className="system">
-                                    <BiUserCircle size={24} />System
-                                </div>
-                            </Nav.Link>
-                        </div>
-                    ) : (auth.isAdmin ? (
-                        <div>
-                            <Nav.Link as={Link} to="/admin/summary">
-                                <div className="profile">
-                                    Moon Delivery | Admin
-                                </div>
-                            </Nav.Link>
-                        </div>
-                    ) : (auth.isRider ? (
-                        <div>
-                            <Nav.Link as={Link} to="/rider">
-                                <div className="profile">
-                                    <FaShippingFast size={28} />
-                                    {auth.name}
-                                </div>
-                            </Nav.Link>
-                        </div>
-                    ) : null))}
-                    </div>
-                    ) : (
+                    {!auth._id &&
                         <>
                             <Nav.Link className="m-3" as={Link} to="/login">Login</Nav.Link>
                             <Nav.Link className="m-3" as={Link} to="register">Register</Nav.Link>
                         </>
-                    )
                     }
                     <Navbar.Toggle aria-controls="sidebar" className="navbar-toggle ">
                         <span className="navbar-toggler-icon"></span>
@@ -204,40 +192,43 @@ const NavBar = ({ setSearchData }) => {
                                 {auth._id &&
                                     <Nav className="flex-column px-5">
                                         <Nav.Link as={Link} to="/user/userSettings" className="d-flex align-items-center">
-                                            <BiUserCircle size={24} />{auth.name}
+                                            <BiUserCircle size={24} />
+                                            <div className="px-3">{auth.name}</div>
                                         </Nav.Link>
-                                        {auth.isAdmin | auth.isRider ? null : <ProfileNav />}
-                                        <div onClick={() => {
-                                            dispatch(logoutUser(null))
-                                            toast.warning("Logged out!", { position: "bottom-left" });
-                                            window.location.href = "/login";
-                                        }}>
-                                            <Nav.Link as={Link} to="" className="d-flex align-items-center">
-                                                <BiLogOut size={24} />Logout
-                                            </Nav.Link>
-                                        </div>
+                                        {!auth.isRider && !auth.isAdmin && <ProfileNav />}
+
+                                        <Nav.Link as={Link} to="/login" className="d-flex align-items-center"
+                                            onClick={() => {
+                                                dispatch(logoutUser(null))
+                                                toast.warning("Logged out!", { position: "bottom-left" });
+                                            }}>
+                                            <BiLogOut size={24} />
+                                            <div className="px-3">Logout</div>
+                                        </Nav.Link>
+
                                     </Nav>}
                             </Navbar.Offcanvas>
                         </Navbar.Collapse>
                     </Navbar.Toggle>
-                    <Form className="d-flex d-block d-md-none col-10 justify-content-center" onSubmit={(e) => { e.preventDefault(); handleSearch() }}>
-                        <div style={{ position: 'relative', width: '100%' }}>
-                            <Form.Control id="search" type="text" value={searchInput}
-                                onChange={(e) => setSearchInput(e.target.value)} />
-                            <FaSearch
-                                size={22}
-                                color="#0b5ed7"
-                                onClick={handleSearch}
-                                style={{
-                                    position: 'absolute',
-                                    top: '50%',
-                                    right: '10px',
-                                    transform: 'translateY(-50%)',
-                                    cursor: 'pointer',
-                                }}
-                            />
-                        </div>
-                    </Form>
+                    {!auth.isRider && !auth.isAdmin &&
+                        <Form className="d-flex d-block d-md-none col-10 justify-content-center mt-3" onSubmit={(e) => { e.preventDefault(); handleSearch() }}>
+                            <div style={{ position: 'relative', width: '100%' }}>
+                                <Form.Control id="search" type="text" value={searchInput}
+                                    onChange={(e) => setSearchInput(e.target.value)} />
+                                <FaSearch
+                                    size={22}
+                                    color="#0b5ed7"
+                                    onClick={handleSearch}
+                                    style={{
+                                        position: 'absolute',
+                                        top: '50%',
+                                        right: '10px',
+                                        transform: 'translateY(-50%)',
+                                        cursor: 'pointer',
+                                    }}
+                                />
+                            </div>
+                        </Form>}
                 </Navbar>}
         </div>
 

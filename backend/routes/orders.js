@@ -24,7 +24,7 @@ router.post("/:id", isUser, async (req, res) => {
       uploadedImage = uploadedResponse.secure_url;
     }
 
-    const newOrder = new Order({ userId, name, shipping, rider, products, subtotal, total, payment_status, image: uploadedImage });
+    const newOrder = new Order({ userId, name, shipping, rider, products, total, payment_status, image: uploadedImage });
     const savedOrder = await newOrder.save();
     console.log(savedOrder);
     res.status(200).send(savedOrder);

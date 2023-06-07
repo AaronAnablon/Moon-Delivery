@@ -10,7 +10,6 @@
   import { FcCalendar,
     FcServices, 
     FcTodoList, 
-    FcInTransit,
     FcNightPortrait,
     FcPodiumWithSpeaker,
     FcPortraitMode,

@@ -66,10 +66,10 @@ const PakuhaPadala = () => {
       .post(`${url}/booking`, booked, setHeaders)
       .then(response => {
         console.log('success', response.data);
-        const socket = io.connect(server);
-        socket.emit('booking', response.data);
         toast.success('Booked successfully!');
         navigate('/user/userBooking');
+        const socket = io.connect(server);
+        socket.emit('booking', response.data);
       })
       .catch(error => {
         toast.error('Something went wrong. Please try changing the address and other related input');
@@ -85,7 +85,7 @@ const PakuhaPadala = () => {
       </div>
       <div className='col-md-6 col-12'>
         <Card className="m-3 shadow p-3">
-        <Link to="/booking/services"><IoArrowBackCircle size={40} /></Link>
+        <Link to="/"><IoArrowBackCircle size={40} /></Link>
           <h2>Add items to pick up</h2>
           <Form onSubmit={handleSubmitBooking}>
             <Form.Group controlId="item">

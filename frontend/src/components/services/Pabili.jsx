@@ -134,7 +134,7 @@ const Pabili = () => {
             </div>
             <div className='col-md-6 col-12'>
                 <div className="col-11 m-3 p-4 rounded-bottom rounded-top mt-4 shadow">
-                    <Link to="/booking/services">
+                    <Link to="/">
                         <IoArrowBackCircle size={40} />
                     </Link>
                     <h2>Add items to purchase</h2>

@@ -60,6 +60,7 @@ import Booking from "./components/booking/Booking";
 import Notification from "./components/notification/Notifications";
 import Services from "./components/services/Services";
 import NotApproved from "./components/NotApproved";
+import ForgotPassword from "./components/auth/ForgotPassword";
 
 function App() {
   const dispatch = useDispatch();
@@ -74,22 +75,26 @@ function App() {
     <div >
       <BrowserRouter>
         <ToastContainer />
-        <div className="mx-auto" style={{maxWidth: '1200px'}}> 
-          <NavBar setSearchData={setSearchData}/>
+        <div className="mx-auto" style={{ maxWidth: '1200px' }}>
+          <NavBar setSearchData={setSearchData} />
           <Routes>
-            <Route path="/" element={<Home searchData={searchData}/>} />
-              <Route path="/booking" element={<Booking />}>
+            <Route path="/" element={<Services />} />
+
+            <Route path="/shoppingPage" element={<Home searchData={searchData} />} />
+
+            <Route path="/booking" element={<Booking />}>
               <Route path="pabili" element={<Pabili />} />
               <Route path="pahatidSundo" element={<PahatidSundo />} />
               <Route path="pakuhaPadala" element={<PakuhaPadala />} />
-              <Route path="services" element={<Services />} />
             </Route>
+
             <Route path="/productDetails" element={<ProductDetails />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/checkout" element={<CheckOut />} />
 
             <Route path="/notification" element={<Notification />} />
-          
+
+            <Route path="/forgotPassword" element={<ForgotPassword />} />
             <Route path="/register" element={<Register />} />
             <Route path="/notApproved" element={<NotApproved />} />
             <Route path="/registerSeller" element={<RegisterAsSeller />} />

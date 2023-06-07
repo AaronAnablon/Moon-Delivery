@@ -52,14 +52,14 @@ const Summary = () => {
 
   return (
     <div className="d-flex flex-wrap container-fluid">
-      <div className="col-6 shadow p-5">
+      <div className="col-lg-6 col-12 shadow p-5">
         <Chart
           orders={pendingOrders}
           completed={completedOrders}
           forPickUp={forPickUpOrders}
           cancelled={cancelledOrders} />
       </div>
-      <div className="col-6 shadow p-5">
+      <div className="col-lg-6 col-12 shadow p-5">
       <LineChart
         date={ordersByDate}
         pending={pendingOrders}

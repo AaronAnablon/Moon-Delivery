@@ -17,7 +17,27 @@ router.post('/', async (req, res) => {
   }
 });
 
-
+//GET RIDER BOOKING COMPLETED
+router.get('/rider/Arrived/:riderId', async (req, res) => {
+  try {
+    const bookings = await Booking.find({
+      "booking.booking.riderId": req.params.riderId,
+      "booking.booking.riderDelete": false,
+      $or: [
+        { "booking.booking.status": 'Completed' },
+        { "booking.booking.status": 'Arrived' },
+        ]},
+        );
+    if (!bookings) {
+      return res.status(404).json({ error: 'Bookings not found' });
+    }
+   
+    res.json(bookings);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+    console.log(error);
+  }
+});
 // Get all bookings
 router.get('/:status', async (req, res) => {
   try {
@@ -102,7 +122,10 @@ router.get('/user/Arrived/:id', async (req, res) => {
 });
 
 
-//GET USER BOOKING COMPLETED
+
+
+
+//GET User BOOKING COMPLETED
 router.get('/user/Completed/:id', async (req, res) => {
   try {
     const bookings = await Booking.find({

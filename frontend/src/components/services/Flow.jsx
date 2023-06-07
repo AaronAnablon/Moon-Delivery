@@ -20,7 +20,7 @@ const Flow = () => {
 </div>
 <div className="col-12 d-flex p-2 mt-5 border shadow align-items-center">
     <div className="col-6 d-flex justify-content-center">
-        <NavLink className="nav-link col-6" to="/">
+        <NavLink className="nav-link col-6" to="/shoppingPage">
             <FcShop className="col-12" size={100} />
             <div className="col-12 d-flex justify-content-center">
                 Shopping

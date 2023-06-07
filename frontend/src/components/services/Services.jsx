@@ -12,10 +12,10 @@ const Services = () => {
     return (
         <div className="container-fluid mt-3">
             <Nav>
-                <div className="col-12 d-flex border mb-5">
+                <div className="col-12 d-flex mb-5">
                     <div className="col-6 d-md-flex">
                         <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
-                            <NavLink className="nav-link" to="/">
+                            <NavLink className="nav-link" to="/shoppingPage">
                                 <FcShop className="col-12" size={50} />
                                 <div className="col-12 d-flex justify-content-center">
                                     Shopping Page

@@ -6,19 +6,16 @@ import { useSelector } from "react-redux";
 const Shipment = () => {
   const auth = useSelector((state) => state.auth);
   const [orders, setOrders] = useState([]);
-  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const fetchOrders = useCallback(async () => {
+    setLoading(true)
     try {
-      const res = await axios.get(`${url}/orders/rider/${auth._id}/Delivered`, {
-        headers: {
-          "x-auth-token": auth.token,
-        },
-      });
+      const res = await axios.get(`${url}/orders/rider/${auth._id}/Delivered`, setHeaders());
       setOrders((res.data).reverse());
+      setLoading(false)
     } catch (err) {
       console.log(err)
-      setError(err.response.data);
     }
   }, [auth.token]);
   
@@ -26,6 +23,7 @@ const Shipment = () => {
   useEffect(() => {
     fetchOrders();
   }, [fetchOrders]);
+
   const rider = [auth.name, auth._id]
   const updateOrder = async (orderId) => {
     try {
@@ -34,14 +32,9 @@ const Shipment = () => {
         rider: rider,
         updated_at: new Date().toLocaleString()
       }
-      await axios.put(`${url}/orders/${auth._id}/${orderId}`, updatedOrder, {
-        headers: {
-          'x-auth-token': auth.token
-        }
-      });
+      await axios.put(`${url}/orders/${auth._id}/${orderId}`, updatedOrder, setHeaders());
       fetchOrders();
     } catch (err) {
-      setError(err.response.data);
       console.log(err)
     }
   };
@@ -49,7 +42,8 @@ const Shipment = () => {
    return (
     <div>
       <h2>Shipped</h2>
-      {error && <div>{error}</div>}
+      {loading && <p>Loading...</p>}
+    {orders && orders.length === 0 && <p>No booking found</p>}
       <ul>
       {orders && orders.map((order) => (
           <li style={{ borderBottom: '1px solid black', marginBottom: '1px' }} key={order._id}>

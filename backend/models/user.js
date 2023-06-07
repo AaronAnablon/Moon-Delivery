@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema(
     password: { type: String, required: true, minlength: 3, maxlength: 1024 },
     isAdmin: { type: Boolean, default: false },
     isRider: { type: Boolean, default: false },
-    active: { type: Boolean, default: false },
+    active: { type: Boolean, default: false, required: true },
     comment: {type: Object},
     rating: {type: Number},
     count: {type: Number},

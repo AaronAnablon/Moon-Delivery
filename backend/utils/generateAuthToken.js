@@ -11,6 +11,7 @@ const generateAuthToken = (user) => {
       address: user.address,
       isAdmin: user.isAdmin,
       isRider: user.isRider,
+      active: user.active,
     },
     jwtSecretKey
   );

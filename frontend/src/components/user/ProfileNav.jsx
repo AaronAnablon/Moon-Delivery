@@ -1,18 +1,13 @@
 import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { Container, Nav } from 'react-bootstrap';
 import { IoMdBook } from 'react-icons/io';
 import { BsCardChecklist } from "react-icons/bs";
 import { MdOutlineHistory, MdOutlineRateReview } from "react-icons/md";
 
 const Profile = () => {
-  const auth = useSelector((state) => state.auth);
-
-  if (auth.isUser) return <p>Access denied. Not a User!</p>;
 
   return (
     <Container fluid className="d-flex align-items-start justify-content-start border-top border-bottom">
-       {!auth.isRider && !auth.isAdmin && 
       <Nav className="col-12">
         <Nav.Item>
           <NavLink
@@ -63,7 +58,7 @@ const Profile = () => {
             <span className="m-3">Rate Rider</span>
           </NavLink>
         </Nav.Item>
-      </Nav>}
+      </Nav>
     </Container>
   );
 };

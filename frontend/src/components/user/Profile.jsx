@@ -11,7 +11,6 @@ const Profile = () => {
   return (
    <Container fluid className="d-flex">
     <div className="col-12 d-lg-flex justify-content-center">
-
     <div className="col-lg-3 position-relative">
           <Col className="position-sticky" style={{top: '74px'}}>
             <SubNav />

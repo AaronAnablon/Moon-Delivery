@@ -2,23 +2,21 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { setHeaders, url } from "../../slices/api";
 import { useSelector } from "react-redux";
+import { Button, Card } from "react-bootstrap";
 
 const ToShip = () => {
   const auth = useSelector((state) => state.auth);
   const [orders, setOrders] = useState([]);
-  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const fetchOrders = useCallback(async () => {
+    setLoading(true)
     try {
-      const res = await axios.get(`${url}/orders/rider/${auth._id}/For Delivery`, {
-        headers: {
-          "x-auth-token": auth.token,
-        },
-      });
+      const res = await axios.get(`${url}/orders/rider/${auth._id}/For Delivery`, setHeaders());
       setOrders((res.data).reverse());
+      setLoading(false)
     } catch (err) {
       console.log(err)
-      setError(err.response.data);
     }
   }, [auth.token]);
   
@@ -35,27 +33,21 @@ const ToShip = () => {
         rider: rider,
         updated_at: new Date().toLocaleString()
       }
-      await axios.put(`${url}/orders/${auth._id}/${orderId}`, updatedOrder, {
-        headers: {
-          'x-auth-token': auth.token
-        }
-      });
+      await axios.put(`${url}/orders/${auth._id}/${orderId}`, updatedOrder, setHeaders());
       fetchOrders();
     } catch (err) {
-      setError(err.response.data);
       console.log(err)
     }
   };
 
-  if (orders.length === 0) return null;
-
   return (
-    <div>
+    <div className="shadow">
       <h2>ToShip</h2>
-      {error && <div>{error}</div>}
-      <ul>
+      {loading && <p>Loading...</p>}
+    {orders && orders.length === 0 && <p>No order found</p>}
+      <div className="container-fluid col-12">
       {orders && orders.map((order) => (
-          <li style={{ borderBottom: '1px solid black', marginBottom: '1px' }} key={order._id}>
+          <Card className="border-bottom col-12 p-4 shadow" key={order._id}>
             <p>Client ID: {order.userId}</p>
             <p>ProductId: {order.products[0].productId}</p>
             <p>Items: {order.products[0].quantity}</p>
@@ -73,11 +65,11 @@ const ToShip = () => {
             <p>Delivery Status: {order.delivery_status}</p>
             <p>Payment Status: {order.payment_status}</p>
             <p>Total: {order.total}</p>
-            <button onClick={() => updateOrder(order._id)}>Accept Delivery</button>
-          </li>
+            <Button onClick={() => updateOrder(order._id)}>Accept Delivery</Button>
+          </Card>
         ))}
      
-      </ul>
+      </div>
     </div>
   );
 };

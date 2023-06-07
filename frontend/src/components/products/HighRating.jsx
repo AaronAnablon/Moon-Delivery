@@ -13,12 +13,12 @@ const HighRating = () => {
     },
     {
       _id: 'Pakuha/Padala',
-      image: 'https://res.cloudinary.com/dldx2inhf/image/upload/v1685182639/Flyers/photo_2023-05-27_18-14-01_euvlcg.jpg',
+      image: 'https://res.cloudinary.com/dldx2inhf/image/upload/v1686110163/Flyers/photo_2023-06-01_10-41-05_enh9ef.jpg',
       location: '/booking/pakuhaPadala'
     },
     {
       _id: 'Book_Ride',
-      image: 'https://res.cloudinary.com/dldx2inhf/image/upload/v1685182634/Flyers/photo_2023-05-27_18-14-08_kstksy.jpg',
+      image: 'https://res.cloudinary.com/dldx2inhf/image/upload/v1686110153/Flyers/photo_2023-06-07_11-55-34_noawwa.jpg',
       location: '/booking/pahatidSundo'
     }
   ]

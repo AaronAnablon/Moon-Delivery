@@ -39,7 +39,7 @@ function ProductDetails() {
 
   return (
     <>
-      <NavLink to="/"><IoArrowBackCircleSharp color="black" size={30} /></NavLink>
+      <NavLink to="/shoppingPage"><IoArrowBackCircleSharp color="black" size={30} /></NavLink>
     
       <div className='col-12 m-3 d-lg-flex border-bottom'>
         <div className="col-lg-6 col-12 ">
