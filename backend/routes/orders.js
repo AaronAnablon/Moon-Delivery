@@ -6,8 +6,8 @@ const router = require("express").Router();
 
 //CREATE
 
-router.post("/:id", isUser, async (req, res) => {
-  const { userId, name, products, subtotal, total, shipping, rider, payment_status, image } = req.body;
+router.post("/:id", isAdmin, async (req, res) => {
+  const { userId, name, products, total, shipping, rider, payment_status, image } = req.body;
 
   try {
     let uploadedImage = null;
@@ -70,7 +70,7 @@ router.get("/find/:id/:status", isUser, async (req, res) => {
         { delivery_status: req.params.status },
         { delivery_status: 'pending' },
         ] });
-    res.status(200).send(orders);
+    res.status(200).send(orders); 
   } catch (err) {
     res.status(500).send(err);
   }
@@ -183,7 +183,7 @@ router.get("/income/:id", isAdmin, async (req, res) => {
 
 
 //get orders-by-status-and-date
-router.get('/orders-by-status-and-date', async (req, res) => {
+router.get('/orders-by-status-and-date', isAdmin, async (req, res) => {
   try {
     const startDate = moment().subtract(7, 'days').startOf('day'); // get the start date 7 days ago
     const endDate = moment().endOf('day'); // get the end date of today

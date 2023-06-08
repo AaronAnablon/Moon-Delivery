@@ -2,6 +2,20 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { setHeaders, url } from "../../slices/api";
 import { useSelector } from "react-redux";
+import { Card, Button } from "react-bootstrap";
+import {
+  FcCalendar,
+  FcTodoList,
+  FcPodiumWithSpeaker,
+  FcMoneyTransfer,
+  FcDeployment,
+  FcViewDetails,
+  FcGlobe,
+  FcAssistant
+} from "react-icons/fc";
+import { GiFullMotorcycleHelmet } from "react-icons/gi";
+import { HiOutlineClipboardDocumentCheck } from "react-icons/hi2";
+import { IoTrashBinOutline } from "react-icons/io5";
 
 const Shipment = () => {
   const auth = useSelector((state) => state.auth);
@@ -18,8 +32,8 @@ const Shipment = () => {
       console.log(err)
     }
   }, [auth.token]);
-  
-  
+
+
   useEffect(() => {
     fetchOrders();
   }, [fetchOrders]);
@@ -39,36 +53,53 @@ const Shipment = () => {
     }
   };
 
-   return (
+
+  const formatDate = (date) => {
+    return (new Date(date).toLocaleString('en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      timeZoneName: 'short',
+    }))
+  }
+
+  const currency = (price) => {
+    return price.toLocaleString('en-PH', { style: 'currency', currency: 'PHP' })
+  }
+
+  return (
     <div>
       <h2>Shipped</h2>
       {loading && <p>Loading...</p>}
-    {orders && orders.length === 0 && <p>No booking found</p>}
-      <ul>
+      {orders && orders.length === 0 && <p>No booking found</p>}
       {orders && orders.map((order) => (
-          <li style={{ borderBottom: '1px solid black', marginBottom: '1px' }} key={order._id}>
-            <p>Client ID: {order.userId}</p>
-            <p>ProductId: {order.products[0].productId}</p>
-            <p>Items: {order.products[0].quantity}</p>
-            <p>Date Ordered: {new Date(order.createdAt).toLocaleString('en-US', {
-              year: 'numeric',
-              month: '2-digit',
-              day: '2-digit',
-              hour: '2-digit',
-              minute: '2-digit',
-              second: '2-digit',
-              timeZoneName: 'short',
-            })}</p>
-             <p>Pick Up Loaction: {order.shipping.address1}</p>
-            <p>Dropping Location: {order.shipping.address2}</p>
-            <p>Delivery Status: {order.delivery_status}</p>
-            <p>Payment Status: {order.payment_status}</p>
-            <p>Total: {order.total}</p>
-            <button onClick={() => updateOrder(order._id)}>Delete</button>
-          </li>
-        ))}
-     
-      </ul>
+        <div className="p-3 border-bottom mb-2 shadow" key={order._id}>
+          <div className="d-md-flex border-bottom">
+            <Card.Text className="col-md-6 col-12"><FcCalendar size={28} /> Date Ordered: {formatDate(order.createdAt)}</Card.Text>
+            <Card.Text className="col-md-6 col-12"><FcPodiumWithSpeaker size={28} /> Client Name: {order.name}</Card.Text>
+          </div>
+          <div className="d-md-flex border-bottom">
+            <Card.Text className="col-md-6 col-12"><FcViewDetails size={28} /> Product No. : {order.products[0].productId}</Card.Text>
+            <Card.Text className="col-md-6 col-12"><FcDeployment size={28} /> Quantity: {order.products[0].quantity}</Card.Text>
+          </div>
+          <div className="d-md-flex border-bottom">
+            <Card.Text className="col-md-6 col-12"><FcAssistant size={28} /> Pick Up Location: {order.shipping.address1}</Card.Text>
+            <Card.Text className="col-md-6 col-12"><FcGlobe size={28} /> Dropping Location: {order.shipping.address2}</Card.Text>
+          </div>
+          <div className="d-md-flex border-bottom">
+            <Card.Text className="col-md-6 col-12"><FcViewDetails size={28} /> Delivery Status: {order.delivery_status}</Card.Text>
+            <Card.Text className="col-md-6 col-12"><FcTodoList size={28} /> Payment Status: {order.payment_status}</Card.Text>
+          </div>
+          <Card.Text className="col-md-6 col-12"><FcMoneyTransfer size={28} /> Total: {currency(order.total)}</Card.Text>
+          <div className="d-flex justify-content-end mt-2">
+            <Button variant="danger" onClick={() => updateOrder(order._id)}><IoTrashBinOutline size={24} /> Delete</Button>
+          </div>
+        </div>
+      ))}
+
     </div>
   );
 };

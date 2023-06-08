@@ -4,6 +4,7 @@ import { setHeaders, url } from "../../slices/api";
 import { useSelector } from "react-redux";
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import { toast } from "react-toastify";
 
 const Orders = () => {
   const auth = useSelector((state) => state.auth);
@@ -12,7 +13,7 @@ const Orders = () => {
   const [sortedBrand, setSortedBrand] = useState("");
 
 
-  const fetchOrders = useCallback(async () => {
+  const fetchOrders = async () => {
     setLoading(!loading)
     try {
       const res = await axios.get(`${url}/orders/seller-orders/${auth._id}/pending`, setHeaders());
@@ -20,12 +21,13 @@ const Orders = () => {
       setLoading(false)
     } catch (err) {
       console.log(err)
+      toast.error("Something went wrong!")
     }
-  }, [auth.token]);
+  };
 
   useEffect(() => {
     fetchOrders();
-  }, [fetchOrders]);
+  }, []);
 
   const updateOrder = async (orderId) => {
     try {
@@ -71,6 +73,7 @@ const Orders = () => {
       </Nav>
       <div>
         {loading && <p>Loading..</p>}
+        {filteredData && filteredData === 0 && <p>No Order found</p>}
         <ul className="products">
           {filteredData && filteredData.map((order) => (
             <li style={{ borderColor: 'white', borderWidth: '12px', borderStyle: 'solid' }} key={order._id}>

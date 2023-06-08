@@ -46,52 +46,55 @@ const Rider = () => {
           </Nav.Item>
         </Col>
       </Nav>
-    <div className="container-fluid col-12 d-md-flex ">
-      <Container fluid className="d-none d-md-block align-items-start justify-content-start">
-        <Nav className="d-flex flex-column position-fixed">
-          <Nav.Item>
-            <NavLink className="nav-link" to="/rider/booked">
-              <BsCardChecklist size={24} />
-              <span className="m-3">Booking</span>
-            </NavLink>
-          </Nav.Item>
-          <Nav.Item>
-            <NavLink className="nav-link" to="/rider/pickUpClient">
-              <MdOutlineHistory size={26} />
-              <span className="m-3">Pick Up Booked</span>
-            </NavLink>
-          </Nav.Item>
-          <Nav.Item>
-            <NavLink className="nav-link border-bottom" to="/rider/dropOff">
-              <MdOutlineRateReview size={26} />
-              <span className="m-3">Completed Booking</span>
-            </NavLink>
-          </Nav.Item>
-          <Nav.Item>
-            <NavLink className="nav-link" to="/rider/toShip">
-              <IoMdBook size={26} />
-              <span className="m-3">For Shipping</span>
-            </NavLink>
-          </Nav.Item>
-          <Nav.Item>
-            <NavLink className="nav-link" to="/rider/pickUp">
-              <MdOutlineHistory size={26} />
-              <span className="m-3">Pick Up Order</span>
-            </NavLink>
-          </Nav.Item>
-          <Nav.Item>
-            <NavLink className="nav-link" to="/rider/shipment">
-              <MdOutlineRateReview size={26} />
-              <span className="m-3">Completed Orders</span>
-            </NavLink>
-          </Nav.Item>
-        </Nav>
-      </Container>
+      <div className="container-fluid col-12 d-md-flex ">
 
-      <div className="col-md-8 col-lg-9 col-12 mt-5 mt-md-0" style={{ zIndex: '0' }}>
-        <Outlet />
+        <Container fluid className="d-none d-md-block border-top align-items-start justify-content-start">
+          <h2 className="border-bottom">Bookings</h2>
+          <Nav className="d-flex flex-column position-fixed">
+            <Nav.Item>
+              <NavLink className="nav-link" to="/rider/booked">
+                <BsCardChecklist size={24} />
+                <span className="m-3">Booking</span>
+              </NavLink>
+            </Nav.Item>
+            <Nav.Item>
+              <NavLink className="nav-link" to="/rider/pickUpClient">
+                <MdOutlineHistory size={26} />
+                <span className="m-3">Pick Up Booked</span>
+              </NavLink>
+            </Nav.Item>
+            <Nav.Item>
+              <NavLink className="nav-link border-bottom" to="/rider/dropOff">
+                <MdOutlineRateReview size={26} />
+                <span className="m-3">Completed Booking</span>
+              </NavLink>
+            </Nav.Item>
+            <h2 className="border-bottom">Orders</h2>
+            <Nav.Item>
+              <NavLink className="nav-link" to="/rider/toShip">
+                <IoMdBook size={26} />
+                <span className="m-3">For Shipping</span>
+              </NavLink>
+            </Nav.Item>
+            <Nav.Item>
+              <NavLink className="nav-link" to="/rider/pickUp">
+                <MdOutlineHistory size={26} />
+                <span className="m-3">Pick Up Order</span>
+              </NavLink>
+            </Nav.Item>
+            <Nav.Item>
+              <NavLink className="nav-link" to="/rider/shipment">
+                <MdOutlineRateReview size={26} />
+                <span className="m-3">Completed Orders</span>
+              </NavLink>
+            </Nav.Item>
+          </Nav>
+        </Container>
+
+        <div className="col-md-8 col-lg-9 col-12 mt-5 mt-md-0" style={{ zIndex: '0' }}>
+          <Outlet />
+        </div>
       </div>
-    </div>
     </>
   );
 };

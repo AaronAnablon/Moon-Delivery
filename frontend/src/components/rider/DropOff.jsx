@@ -7,18 +7,13 @@ import { Button, Card } from "react-bootstrap";
 import { FcCalendar,
   FcServices, 
   FcTodoList, 
-  FcInTransit,
-  FcNightPortrait,
   FcPodiumWithSpeaker,
-  FcPortraitMode,
   FcMoneyTransfer,
-  FcDeployment,
   FcViewDetails,
-  FcShop,
   FcGlobe,
   FcAssistant
 } from "react-icons/fc";
-import { GiFullMotorcycleHelmet } from "react-icons/gi";
+import { IoTrashBinOutline } from "react-icons/io5";
 
 
 const DropOff = () => {
@@ -102,34 +97,38 @@ const DropOff = () => {
       <h2>Pick Up Client</h2>
       {loading && <p>Loading...</p>}
       {booked && booked.length === 0 && <p>No Drop Off found</p>}
-      <ul>
         {booked &&
           booked.map((booking) => (
             <div className="border-bottom p-3 shadow mb-3 rounded" key={booking._id}>
               <Card.Text><FcServices size={28}/> Service: {booking.booking.service}</Card.Text>
-              <Card.Text><FcCalendar size={28}/> Date Booked: {formatDate(booking.createdAt)}</Card.Text>
-              <Card.Text><FcCalendar size={28}/> Date Completed: {formatDate(booking.booking.completedAt)}</Card.Text>
-              <Card.Text>📞 Client Phone Number: {booking.booking.booking.phoneNumber}</Card.Text>
-              <Card.Text><FcGlobe size={28}/> Destination: {booking.booking.booking.address.destination}</Card.Text>
-              <Card.Text><FcAssistant size={28}/> Pick Up Address: {booking.booking.booking.address.pickUpAdress}</Card.Text>
-              <Card.Text><FcMoneyTransfer size={28}/> Fare: {currency(booking.booking.booking.totalAmount)}</Card.Text>
-              <Card.Text><FcTodoList size={28}/> Status: {booking.booking.booking.status}</Card.Text>
-
-              <Card.Text>📞 RiderDelete: {booking.booking.booking.riderDelete}</Card.Text>
-
+              <div className="d-md-flex border-bottom border-top">
+              <Card.Text className="col-md-6 col-12"><FcCalendar size={28}/> Date Booked: {formatDate(booking.createdAt)}</Card.Text>
+              <Card.Text className="col-md-6 col-12"><FcCalendar size={28}/> Date Completed: {formatDate(booking.booking.completedAt)}</Card.Text>
+              </div>
+              <div className="d-md-flex border-bottom">
+              <Card.Text className="col-md-6 col-12">📞 Client Phone Number: {booking.booking.booking.phoneNumber}</Card.Text>
+              <Card.Text className="col-md-6 col-12"><FcPodiumWithSpeaker size={28} /> Client Name: {booking.user.name}</Card.Text>
+              </div>
+              <div className="d-md-flex border-bottom">
+              <Card.Text className="col-md-6 col-12"><FcGlobe size={28}/> Destination: {booking.booking.booking.address.destination}</Card.Text>
+              <Card.Text className="col-md-6 col-12"><FcAssistant size={28}/> Pick Up Address: {booking.booking.booking.address.pickUpAdress}</Card.Text>
+             </div>
+             <div className='d-md-flex border-bottom'>
+             <Card.Text className="col-md-6 col-12"><FcTodoList size={28}/> Status: {booking.booking.booking.status}</Card.Text>
+              <Card.Text className="col-md-6 col-12"><FcMoneyTransfer size={28}/> Estimated Fare: {currency(booking.booking.booking.totalAmount)}</Card.Text>
+            </div>
               {booking.booking.item ? <div><Card.Text><FcTodoList size={28}/> Item: {booking.booking.item}</Card.Text>
                 <Card.Text><FcViewDetails size={28}/> Details: {booking.booking.itemDetails}</Card.Text></div> : null}
 
               {booking.booking.items ? (<div>Items: {booking.booking.items.map((item, index) =>
                 <ul><li key={index}>{item.item} - {item.store} </li></ul>)}
-                <Card.Text><FcMoneyTransfer size={28}/> Fare: {currency(booking.booking.items.slice(-1)[0].Fare)}</Card.Text>
+                <Card.Text><FcMoneyTransfer size={28}/> Estimated Fare: {currency(booking.booking.items.slice(-1)[0].Fare)}</Card.Text>
               </div>) : null}
-
-              <Button onClick={() => handleDelete(booking)}>Delete</Button>
+              <div className="d-flex justify-content-end mt-2"> 
+              <Button variant="danger" onClick={() => handleDelete(booking)}><IoTrashBinOutline size={22}/> Delete</Button>
+              </div>
             </div>
           ))}
-
-      </ul>
     </div>
   );
 };

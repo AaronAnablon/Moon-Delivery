@@ -63,7 +63,7 @@ const NavBar = ({ setSearchData }) => {
 
 
     const handleSearch = () => {
-        navigate('/')
+        navigate('/shoppingPage')
         setSearchData(searchInput);
     };
 

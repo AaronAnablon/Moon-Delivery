@@ -4,7 +4,7 @@ import axios from "axios";
 import { url, setHeaders } from "./api";
 
 const initialState = {
-  token: localStorage.getItem("token"),
+  token: localStorage.getItem("moon-delivery"),
   name: "",
   email: "",
   phoneNumber: "",
@@ -35,7 +35,7 @@ export const registerUser = createAsyncThunk(
         active: values.active,
       });
 
-      localStorage.setItem("token", token.data);
+      localStorage.setItem("moon-delivery", token.data);
 
       return token.data;
     } catch (error) {
@@ -54,7 +54,7 @@ export const loginUser = createAsyncThunk(
         password: values.password,
       });
 
-      localStorage.setItem("token", token.data);
+      localStorage.setItem("moon-delivery", token.data);
       return token.data;
     } catch (error) {
       console.log(error.response);
@@ -69,7 +69,7 @@ export const getUser = createAsyncThunk(
     try {
       const token = await axios.get(`${url}/user/${id}`, setHeaders());
 
-      localStorage.setItem("token", token.data);
+      localStorage.setItem("moon-delivery", token.data);
 
       return token.data;
     } catch (error) {
@@ -106,7 +106,7 @@ const authSlice = createSlice({
       } else return { ...state, userLoaded: true };
     },
     logoutUser(state, action) {
-      localStorage.removeItem("token");
+      localStorage.removeItem("moon-delivery");
 
       return {
         ...state,

@@ -37,7 +37,7 @@ const AdminNav = () => {
           <NavLink
             className="nav-link m-2"
 
-            to="/admin/users"
+            to="/user/userSettings"
           ><FcSettings size={40}/>
             Settings
           </NavLink>

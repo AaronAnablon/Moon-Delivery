@@ -5,6 +5,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import moment from 'moment';
+import { toast } from "react-toastify";
 
 const Summary = () => {
   const auth = useSelector(state => state.auth)
@@ -25,6 +26,7 @@ const Summary = () => {
         setOrders(response.data)
       } catch (error) {
         console.log(error);
+        toast.error('Something went wrong!')
       }
     };
 
@@ -43,6 +45,7 @@ const Summary = () => {
         setForPickUp(response.data.forPickUpOrders)
       } catch (err) {
         console.error(err);
+        toast.error('Something went wrong!')
       }
     }
     fetchOrders();

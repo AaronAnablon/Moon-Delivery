@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { setHeaders, url } from "../../slices/api";
 import { useSelector } from "react-redux";
@@ -9,9 +9,6 @@ import {
   FcCalendar,
   FcServices,
   FcTodoList,
-  FcInTransit,
-  FcNightPortrait,
-  FcPodiumWithSpeaker,
   FcPortraitMode,
   FcMoneyTransfer,
   FcDeployment,
@@ -22,6 +19,8 @@ import {
 } from "react-icons/fc";
 import { GiFullMotorcycleHelmet } from "react-icons/gi";
 import { Button, Card } from "react-bootstrap";
+import { HiOutlineClipboardDocumentCheck } from "react-icons/hi2";
+
 
 const PickUpClient = () => {
   const auth = useSelector((state) => state.auth);
@@ -124,6 +123,10 @@ const PickUpClient = () => {
     }))
   }
 
+  const currency = (price) => {
+    return price.toLocaleString('en-PH', { style: 'currency', currency: 'PHP' })
+  }
+
   return (
     <div className="shadow">
       <h2>Pick Up Booked</h2>
@@ -151,15 +154,17 @@ const PickUpClient = () => {
               <Card.Text className="col-12 col-md-6"><GiFullMotorcycleHelmet size={28} /> Rider: <span>{booking.booking.booking.rider}</span></Card.Text>
             </div>
             <div className="d-md-flex border-bottom">
-            {booking.booking.item && <div><Card.Text><FcServices size={28} /> Item: <span>{booking.booking.item}</span></Card.Text>
-              <Card.Text><FcViewDetails size={28} /> Details: <span>{booking.booking.itemDetails}</span></Card.Text></div>}
-            {booking.booking.items && <div><FcViewDetails size={28} /> Items: {booking.booking.items.map((item) =>
-              <ul><li><span>{item.item} - {item.store}</span></li></ul>)}
-              <Card.Text><FcMoneyTransfer size={28} /> Fare: <span>{booking.booking.items.slice(-1)[0].Fare}</span></Card.Text>
-            </div>}
-           </div>
-           {!booking.booking.items && <Card.Text className="mt-3"><FcMoneyTransfer size={28} /> Fare: <span>{booking.booking.booking.totalAmount}</span></Card.Text>}
-            <Button onClick={() => handleCompleted(booking)}>Completed</Button>
+              {booking.booking.item && <div><Card.Text><FcServices size={28} /> Item: <span>{booking.booking.item}</span></Card.Text>
+                <Card.Text><FcViewDetails size={28} /> Details: <span>{booking.booking.itemDetails}</span></Card.Text></div>}
+              {booking.booking.items && <div><FcViewDetails size={28} /> Items: {booking.booking.items.map((item) =>
+                <ul><li><span>{item.item} - {item.store}</span></li></ul>)}
+                <Card.Text><FcMoneyTransfer size={28} /> Fare: <span>{currency(booking.booking.items.slice(-1)[0].Fare)}</span></Card.Text>
+              </div>}
+            </div>
+            {!booking.booking.items && <Card.Text className="mt-3"><FcMoneyTransfer size={28} /> Fare: <span>{currency(booking.booking.booking.totalAmount)}</span></Card.Text>}
+            <div className="d-flex justify-content-end mt-2">
+              <Button onClick={() => handleCompleted(booking)}><HiOutlineClipboardDocumentCheck size={24} /> Completed</Button>
+            </div>
           </div>
         ))}
     </div>

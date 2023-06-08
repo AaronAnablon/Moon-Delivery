@@ -55,7 +55,7 @@ router.delete("/:id",  async (req, res) => {
 
 //GET SELLER'S PRODUCTS
 
-router.get("/seller/:sellerId", async (req, res) => {
+router.get("/seller/:sellerId", isAdmin, async (req, res) => {
   const sellerId = req.params.sellerId;
 
   try {

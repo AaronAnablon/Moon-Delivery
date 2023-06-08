@@ -13,7 +13,8 @@ import {
   FcPortraitMode,
   FcMoneyTransfer,
   FcGlobe,
-  FcAssistant
+  FcAssistant,
+  FcAcceptDatabase
 } from "react-icons/fc";
 
 const Booked = () => {
@@ -139,14 +140,16 @@ const Booked = () => {
             </div>
             <Card.Text className="mt-3"><FcPortraitMode size={28} /> Client Name: <span>{booking.user.name}</span></Card.Text>
             <div className="d-flex border-bottom">
-            <Card.Text className="col-6"><FcGlobe size={28} /> Destination: <span>{booking.booking.booking.address.destination}</span></Card.Text>
-            <Card.Text className="col-6"><FcAssistant size={28} /> Pick Up Address: <span>{booking.booking.booking.address.pickUpAdress}</span></Card.Text>
-          </div>
-          <div className="d-flex mt-3">
-            <Card.Text className="col-6"><FcMoneyTransfer size={28} /> Fare: <span>{booking.booking.booking.totalAmount}</span></Card.Text>
-            <Card.Text className="col-6"><FcTodoList size={28} /> Status: <span>{booking.booking.booking.status}</span></Card.Text>
-           </div>
-            <Button onClick={() => handlePickUp(booking)}>Accept Booking</Button>
+              <Card.Text className="col-6"><FcGlobe size={28} /> Destination: <span>{booking.booking.booking.address.destination}</span></Card.Text>
+              <Card.Text className="col-6"><FcAssistant size={28} /> Pick Up Address: <span>{booking.booking.booking.address.pickUpAdress}</span></Card.Text>
+            </div>
+            <div className="d-flex mt-3">
+              <Card.Text className="col-6"><FcMoneyTransfer size={28} /> Fare: <span>{booking.booking.booking.totalAmount}</span></Card.Text>
+              <Card.Text className="col-6"><FcTodoList size={28} /> Status: <span>{booking.booking.booking.status}</span></Card.Text>
+            </div>
+            <div className="d-flex justify-content-end mt-2">
+              <Button onClick={() => handlePickUp(booking)}><FcAcceptDatabase size={24}/> Accept Booking</Button>
+            </div>
           </div>
         ))}
     </div>
