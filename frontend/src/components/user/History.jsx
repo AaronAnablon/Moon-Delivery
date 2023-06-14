@@ -3,21 +3,30 @@ import axios from "axios";
 import { setHeaders, url } from "../../slices/api";
 import { useSelector } from "react-redux";
 import { Button, Card } from "react-bootstrap";
+import CurrencyFormat from "../formatters/CurrencyFormat";
+import DateFormat from "../formatters/DateFormat";
+import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
+import { FaArrowAltCircleLeft } from "react-icons/fa";
 
 const History = () => {
   const auth = useSelector((state) => state.auth);
   const [orders, setOrders] = useState([]);
-  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false)
 
   const fetchOrders = useCallback(async () => {
+    setLoading(true)
     try {
       const res = await axios.get(
         `${url}/orders/findCompleted/${auth._id}`,
         setHeaders()
       );
       setOrders((res.data).reverse());
+      setLoading(false)
     } catch (err) {
-      setError(err.response.data);
+      console.log(err.response.data);
+      toast.error('Something Went wrong!!')
+      setLoading(false)
     }
   }, [auth.token]);
 
@@ -41,37 +50,28 @@ const History = () => {
         });
         fetchOrders();
       } catch (err) {
-        setError(err.response.data);
         console.log(err)
+        toast.error('Something Went wrong!!')
       }
     }
   };
 
-  const formatDate = (date) =>{
-    return( new Date(date).toLocaleString('en-US', {
-   year: 'numeric',
-   month: '2-digit',
-   day: '2-digit',
-   hour: '2-digit',
-   minute: '2-digit',
-   second: '2-digit',
- }))
- }
-
- const currency = (price) => {
-  return price.toLocaleString('en-PH', { style: 'currency', currency: 'PHP' })
- }
-
   return (
     <div>
       <h2>Purchase History</h2>
-      {error && <div>{error}</div>}
-      <div className="m-2">
+      {loading && <p>Loading...</p>}
+      {!loading && orders.length === 0 &&         <>
+        <p>No Orders made</p>
+        <Link to="/shoppingPage">
+        <FaArrowAltCircleLeft />
+        <span>Continue Shopping</span>
+      </Link></>}
+         <div className="m-2">
         {orders.map((order) => (
           <Card className="row ml-2 border-bottom shadow mb-3" key={order._id}> 
           <div className="row border-bottom">
-          <p className="col-lg-6">Date Ordered: {formatDate(order.createdAt)}</p>
-          <p className="col-lg-6">Date Completed: {formatDate(order.updatedAt)}</p>
+          <p className="col-lg-6">Date Ordered: {DateFormat(order.createdAt)}</p>
+          <p className="col-lg-6">Date Completed: {DateFormat(order.updatedAt)}</p>
           </div>
         {order.products.map((product) => (
                   <div key={product.productId}>
@@ -83,7 +83,7 @@ const History = () => {
                     <Card.Text>Product Name: <span>{product.name}</span></Card.Text>
                     </div>
                     <div className="col-lg-2">
-                    <Card.Text>Price: <span>{currency(product.price)}</span></Card.Text>
+                    <Card.Text>Price: <span>{CurrencyFormat(product.price)}</span></Card.Text>
                     <Card.Text>Quantity: <span>{product.quantity}</span></Card.Text>
                   </div>
                   </div>

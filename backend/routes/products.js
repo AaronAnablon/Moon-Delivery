@@ -1,5 +1,5 @@
 const { Product } = require("../models/product");
-const { auth, isUser, isAdmin } = require("../middleware/auth");
+const { isAdmin } = require("../middleware/auth");
 const cloudinary = require("../utils/cloudinary");
 const Fuse = require('fuse.js');
 
@@ -8,33 +8,50 @@ const router = require("express").Router();
 //CREATE
 
 router.post("/", isAdmin, async (req, res) => {
-  const { name, brand, desc, stores,storeId, address, rating, category, price, image } = req.body;
- 
+  const { name, brand, desc, stores, storeId, address, rating, category, price, image } = req.body;
   try {
     if (image) {
-      const uploadedResponse = await cloudinary.uploader
-      .upload(image, {
-        upload_preset: "online-shop",
-       folder: "products"
-      });
-      console.log(uploadedResponse)
-      if (uploadedResponse) {
-        const uploadedImage = uploadedResponse.secure_url
-        const product = new Product({
-          name,
-          brand,
-          desc,
-          stores,
-          storeId,
-          address,
-          rating,
-          category,
-          price,
-          image: uploadedImage,
+      const uploadedImages = [];
+
+      for (const img of image) {
+        const uploadedResponse = await cloudinary.uploader.upload(img, {
+          upload_preset: "online-shop",
+          folder: "products"
         });
-        const savedProduct = await product.save();
-        res.status(200).send(savedProduct);
+        
+        uploadedImages.push(uploadedResponse.secure_url);
       }
+      console.log(uploadedImages)
+      const product = new Product({
+        name,
+        brand,
+        desc,
+        stores,
+        storeId,
+        address,
+        rating,
+        category,
+        price,
+        image: uploadedImages,
+      });
+
+      const savedProduct = await product.save();
+      res.status(200).send(savedProduct);
+    } else {
+      const product = new Product({
+        name,
+        brand,
+        desc,
+        stores,
+        storeId,
+        address,
+        rating,
+        category,
+        price,
+      });
+
+      const savedProduct = await product.save();
+      res.status(200).send(savedProduct);
     }
   } catch (error) {
     console.log(error);
@@ -42,9 +59,10 @@ router.post("/", isAdmin, async (req, res) => {
   }
 });
 
+
 //DELETE
 
-router.delete("/:id",  async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     await Product.findByIdAndDelete(req.params.id);
     res.status(200).send("Product has been deleted...");
@@ -56,23 +74,14 @@ router.delete("/:id",  async (req, res) => {
 //GET SELLER'S PRODUCTS
 
 router.get("/seller/:sellerId", isAdmin, async (req, res) => {
-  const sellerId = req.params.sellerId;
-
   try {
-    const products = await Product.find({ storeId: sellerId });
-
-    if (products.length > 0) {
-      res.status(200).send({
-        products
-      });
-    } else {
-      res.status(404).send("No products found for the given seller");
-    }
+    const sellerId = req.params.sellerId;
+    const products = await Product.find({ storeId: sellerId, desc: { $ne: "deleted" } });
+    res.status(200).send(products);
   } catch (error) {
     res.status(500).send(error);
   }
 });
-
 
 
 //GET 10 PRODUCTS
@@ -85,23 +94,26 @@ router.get("/increment", async (req, res) => {
     let products;
     let count;
 
-    if (qbrand) {
-      products = await Product.find({ brand: qbrand })
-        .sort({ createdAt: -1 })
-        .skip((page - 1) * limit) // Skip items already displayed on previous pages
-        .limit(limit); // Get only the items for the current page
+    const query = { desc: { $ne: "deleted" } }; // Exclude products with desc value "deleted"
 
-      count = await Product.countDocuments({ brand: qbrand });
-    } else {
-      products = await Product.find()
+    if (qbrand) {
+      query.brand = qbrand;
+      products = await Product.find(query)
         .sort({ createdAt: -1 })
         .skip((page - 1) * limit)
         .limit(limit);
 
-      count = await Product.countDocuments();
+      count = await Product.countDocuments(query);
+    } else {
+      products = await Product.find(query)
+        .sort({ createdAt: -1 })
+        .skip((page - 1) * limit)
+        .limit(limit);
+
+      count = await Product.countDocuments(query);
     }
 
-    const totalPages = Math.ceil(count / limit); // Total number of pages
+    const totalPages = Math.ceil(count / limit);
 
     res.status(200).send({
       products,
@@ -113,11 +125,12 @@ router.get("/increment", async (req, res) => {
   }
 });
 
+
 //get search 
 router.get('/search', async (req, res) => {
   try {
     const query = req.query.keyword;
-    const products = await Product.find();
+    const products = await Product.find({ desc: { $ne: "deleted" } });
 
     const options = {
       keys: ['name', 'description'], // The properties of the Product model to search in
@@ -139,44 +152,30 @@ router.get('/search', async (req, res) => {
 
 //get the highest Rating product
 router.get("/highRating", async (req, res) => {
-  const qbrand = req.query.brand;
   try {
-    let products;
-
-    if (qbrand) {
-      products = await Product.find({ brand: qbrand })
-        .sort({ rating: -1 })
-        .limit(10);
-    } else {
-      products = await Product.find().sort({ rating: -1 }).limit(10);
-    }
-
+    const products = await Product.find({ desc: { $ne: "deleted" } })
+      .sort({ rating: -1 })
+      .limit(10);
     res.status(200).send(products);
   } catch (error) {
     res.status(500).send(error);
   }
 });
+
 
 //get the highest Sold product
 router.get("/highSold", async (req, res) => {
-  const qbrand = req.query.brand;
   try {
-    let products;
-
-    if (qbrand) {
-      products = await Product.find({ brand: qbrand })
-        .sort({ count: -1 })
-        .limit(10);
-    } else {
-      products = await Product.find().sort({ count: -1 }).limit(10);
-    }
-
+    const products = await Product.find({ desc: { $ne: "deleted" } })
+      .sort({ count: -1 })
+      .limit(10);
     res.status(200).send(products);
   } catch (error) {
     res.status(500).send(error);
-    console.log(error)
+    console.log(error);
   }
 });
+
 
 //GET PRODUCT
 
@@ -213,7 +212,7 @@ router.put("/submitRating/:id", async (req, res) => {
     const existingProduct = await Product.findById(req.params.id);
     const existingRating = existingProduct.rating;
     const newRating = +existingRating.rating + +rating.rating;
-    
+
     const updatedProduct = await Product.findByIdAndUpdate(
       req.params.id,
       {
@@ -224,7 +223,8 @@ router.put("/submitRating/:id", async (req, res) => {
       { new: true }
     );
     res.status(200).send(updatedProduct);
-  } catch (error) {ng
+  } catch (error) {
+    ng
     console.log(error)
     res.status(500).send(error);
   }

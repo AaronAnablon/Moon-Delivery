@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import sendMail from "../notification/sendMail";
-import { url, setHeaders } from '../../slices/api';
+import { url } from '../../slices/api';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('');
@@ -13,6 +14,7 @@ const ForgotPassword = () => {
     const [showUpdatePassword, setShowUpdatePassword] = useState(false);
     const [code, setCode] = useState('');
     const [disable, setDisable] = useState(false);
+    const navigate = useNavigate()
 
     const generateCode = () => {
         const characters = '0123456789';
@@ -23,8 +25,6 @@ const ForgotPassword = () => {
         }
         return code;
     };
-
-    let errorCount = 0;
 
     const handleSendCode = (e) => {
         e.preventDefault();
@@ -39,29 +39,27 @@ const ForgotPassword = () => {
         setShowModal(true);
     };
 
+    const [errorCount, setErrorCount] = useState(0);
+
     const handleVerifyCode = () => {
-        if (verificationCode === code) {
-            setShowModal(false);
-            setShowUpdatePassword(true);
-        } else {
-            toast.error('Code invalid!')
-            errorCount++
-            console.log(errorCount)
-        }
-        if (errorCount === 3) {
-            setDisable(true);
-            toast.warning("You have attempted 3 invalid entries! Try again after 12 hours");
-            setShowModal(false);
-            setTimeout(() => {
-                setDisable(false);
-            }, 43200000);
-        }
+      if (verificationCode === code) {
+        setShowModal(false);
+        setShowUpdatePassword(true);
+      } else {
+        toast.error('Code invalid!')
+        setErrorCount(count => count + 1)
+        console.log(errorCount)
+      }
+      if (errorCount === 2) {
+        setDisable(true);
+        toast.warning("You have attempted 3 invalid entries! Try again after 12 hours");
+        setShowModal(false);
+        setTimeout(() => {
+          setDisable(false);
+          setErrorCount(0);
+        }, 43200000); 
+      }
     };
-
-
-     
-
-
 
 
     const handleUpdatePassword = async (e) => {
@@ -69,8 +67,10 @@ const ForgotPassword = () => {
             e.preventDefault();
           }
           try {
-            const response = await axios.put(`${url}/user/password`, {email, newPassword});
+            const response = await axios.put(`${url}/register/password`, {email: email, password: newPassword});
             console.log(response.data);
+            toast.success('Successfully Changed')
+            navigate('/login')
           } catch (error) {
             console.error(error);
           }
@@ -98,7 +98,6 @@ const ForgotPassword = () => {
                 </Form.Group>
             </Form>
         }
-
             <Modal show={showModal} onHide={() => setShowModal(false)}>
                 <Modal.Header closeButton>
                     <Modal.Title>Enter Verification Code</Modal.Title>
@@ -124,7 +123,7 @@ const ForgotPassword = () => {
                 </Modal.Footer>
             </Modal>
 
-            {!disable && showUpdatePassword && ( <div>Hello</div> )}
+            {!disable && showUpdatePassword &&
                 <Form.Group className="col-md-6 col-12 p-5 shadow">
                     <Form.Label>New Password</Form.Label>
                     <Form.Control
@@ -137,7 +136,7 @@ const ForgotPassword = () => {
                         Update Password
                     </Button>
                 </Form.Group>
-          
+          }
         </div>
     );
 };

@@ -3,11 +3,14 @@ import axios from "axios";
 import { setHeaders, url } from "../../slices/api";
 import { useSelector } from "react-redux";
 import { Card, Button } from "react-bootstrap";
+import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
+import { FaArrowAltCircleLeft } from "react-icons/fa";
 
 const ToRate = () => {
   const auth = useSelector((state) => state.auth);
   const [orders, setOrders] = useState([]);
-  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const [rating, setRating] = useState(null);
   const [hover, setHover] = useState(null);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
@@ -21,14 +24,18 @@ const ToRate = () => {
   };
 
   const fetchOrders = useCallback(async () => {
+    setLoading(true)
     try {
       const res = await axios.get(
         `${url}/orders/findDelivered/${auth._id}`,
         setHeaders()
       );
       setOrders((res.data).reverse());
+      setLoading(false)
     } catch (err) {
-      setError(err.response.data);
+      console.log(err.response.data);
+      toast.error('Something Went Wrong!!')
+      setLoading(false)
     }
   }, [auth.token]);
 
@@ -50,7 +57,7 @@ const ToRate = () => {
       );
       fetchOrders();
     } catch (err) {
-      setError(err.response.data);
+      toast.error('Something Went Wrong!!')
       console.log(err);
     }
   };
@@ -63,6 +70,7 @@ const ToRate = () => {
         updateOrder(orderId)
         fetchOrders();
     } catch (error) {
+      toast.error('Something Went Wrong!!')
       console.log(error);
     }
   };
@@ -86,9 +94,15 @@ const ToRate = () => {
   return (
     <div>
       <h2>Orders</h2>
-      {error && <div>{error}</div>}
-      <ul>
-        {orders.map((order) => (
+      {loading && <p>Loading...</p>}
+      {!loading && orders.length === 0 ? (
+               <>
+               <p>No Orders made</p>
+               <Link to="/shoppingPage">
+               <FaArrowAltCircleLeft />
+               <span>Continue Shopping</span>
+             </Link></>
+      ) : (orders.map((order) => (
           <div className="row border-bottom" key={order._id}>  
           <p className="border-bottom">Date Ordered: {formatDate(order.createdAt)}</p>
           <div className="row border-bottom">
@@ -156,8 +170,7 @@ const ToRate = () => {
               </Button>
           
           </div>
-        ))}
-      </ul>
+        )))}
     </div>
   );
 };

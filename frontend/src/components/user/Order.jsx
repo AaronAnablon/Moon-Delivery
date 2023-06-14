@@ -3,6 +3,8 @@ import axios from "axios";
 import { setHeaders, url } from "../../slices/api";
 import { useSelector } from "react-redux";
 import { Card, Button } from "react-bootstrap";
+import { FaArrowAltCircleLeft } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Order = () => {
   const auth = useSelector((state) => state.auth);
@@ -30,11 +32,7 @@ const Order = () => {
       const updatedOrder = {
         delivery_status: 'Cancelled',
       }
-      await axios.put(`${url}/orders/${auth._id}/${orderId}`, updatedOrder, {
-        headers: {
-          'x-auth-token': auth.token
-        }
-      });
+      await axios.put(`${url}/orders/${auth._id}/${orderId}`, updatedOrder, setHeaders());
       fetchOrders();
     } catch (err) {
       console.log(err)
@@ -61,8 +59,13 @@ const Order = () => {
     <div >
       <h2>Orders</h2>
       {loading && <p>Loading...</p>}
-      {orders.length <= 0 ? (
+      {!loading && orders.length === 0 ? (
+        <>
         <p>No Orders made</p>
+        <Link to="/shoppingPage">
+        <FaArrowAltCircleLeft />
+        <span>Continue Shopping</span>
+      </Link></>
       ) : (
         orders.map((order) => (
           <Card className="border-bottom shadow p-4" key={order._id}>

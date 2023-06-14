@@ -5,6 +5,27 @@ import { useSelector } from "react-redux";
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { toast } from "react-toastify";
+import { Button, Card } from "react-bootstrap";
+import DateFormat from "../formatters/DateFormat";
+import CurrencyFormat from "../formatters/CurrencyFormat";
+import {
+  FcCalendar,
+  FcServices,
+  FcTodoList,
+  FcInTransit,
+  FcNightPortrait,
+  FcPodiumWithSpeaker,
+  FcPortraitMode,
+  FcMoneyTransfer,
+  FcDeployment,
+  FcViewDetails,
+  FcShop,
+  FcGlobe,
+  FcAssistant
+} from "react-icons/fc";
+import { GiFullMotorcycleHelmet } from "react-icons/gi";
+import { HiOutlineClipboardDocumentCheck } from "react-icons/hi2";
+import { IoTrashBinOutline } from "react-icons/io5";
 
 const Orders = () => {
   const auth = useSelector((state) => state.auth);
@@ -74,32 +95,31 @@ const Orders = () => {
       <div>
         {loading && <p>Loading..</p>}
         {filteredData && filteredData === 0 && <p>No Order found</p>}
-        <ul className="products">
+        <ul>
           {filteredData && filteredData.map((order) => (
-            <li style={{ borderColor: 'white', borderWidth: '12px', borderStyle: 'solid' }} key={order._id}>
-              <p>Client ID: {order.userId}</p>
-              <p>ProductId: {order.products[0].productId}</p>
-              <p>Items: {order.products[0].quantity}</p>
-              <p>Date Ordered: {new Date(order.createdAt).toLocaleString('en-US', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                timeZoneName: 'short',
-              })}</p>
-              <p>Delivery Status: {order.delivery_status}</p>
-              <p>Payment Status: {order.payment_status}</p>
-              <p>Total: {order.total}</p>
+            <li className="shadow p-3 mb-3" style={{ borderColor: 'white', borderWidth: '12px', borderStyle: 'solid' }} key={order._id}>
+              <div className="d-md-flex border-bottom">
+                <Card.Text className="col-md-6 col-12">Date Ordered: {DateFormat(order.createdAt)}</Card.Text>
+                <Card.Text className="col-md-6 col-12"><FcPodiumWithSpeaker size={24} /> Client Name: {order.name}</Card.Text>
+              </div>
+              <div className="d-md-flex border-bottom">
+                <Card.Text className="col-md-6 col-12"><FcTodoList size={24} /> ProductId: {order.products[0].productId}</Card.Text>
+                <Card.Text className="col-md-6 col-12"><FcDeployment size={24} /> Items: {order.products[0].quantity}</Card.Text>
+              </div>
+              <div className="d-md-flex border-bottom">
+                <Card.Text className="col-md-6 col-12"><FcViewDetails size={24} /> Delivery Status: {order.delivery_status}</Card.Text>
+                <Card.Text className="col-md-6 col-12"><FcServices size={24} /> Payment Status: {order.payment_status}</Card.Text>
+              </div>
+              <div className="d-md-flex border-bottom mb-3">
+                <Card.Text className="col-md-6 col-12"><FcMoneyTransfer size={24} /> Total: {CurrencyFormat(order.total)}</Card.Text>
+              </div>
               {order.delivery_status === 'For Pick Up' ?
-                <p><button onClick={() => callRider(order.shipping.phoneNumber)}>Call Rider</button>
-                  <button onClick={() => callClient(order.shipping.phoneNumber)}>Call Client</button></p> :
+                <><Button onClick={() => callRider(order.shipping.phoneNumber)}>Call Rider</Button>
+                  <Button onClick={() => callClient(order.shipping.phoneNumber)}>Call Client</Button></> :
                 order.delivery_status === 'Delivered' ? null :
-                  <button onClick={() => updateOrder(order._id)}>Request Delivery</button>}
+                  <Button onClick={() => updateOrder(order._id)}>Request Delivery</Button>}
             </li>
           ))}
-
         </ul>
       </div>
     </div>

@@ -33,6 +33,16 @@ a.nav-link {
   color: rgb(93, 97, 93);
 }
 
+.orderByStats :is(span) {
+  font-size: 5rem;
+}
+
+.NavBar :is(a.nav-link:hover) {
+  border-radius: 5px;
+  color: #000000;
+  background: transparent;
+}
+
 a.nav-link:hover {
   border-radius: 5px;
   color: #000000;
@@ -42,10 +52,6 @@ a.nav-link.active {
   border-radius: 5px;
   color: #000000;
   background: rgb(197, 196, 196);
-}
-
-.full-width {
-  width: 100%;
 }
 
 /* Not Found */

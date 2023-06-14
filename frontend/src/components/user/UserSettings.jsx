@@ -28,7 +28,7 @@ const UserSettings = () => {
   let errorCount = 0;
 
   const verifyPassword = () => {
-    axios.get(`${url}/login/verify-password/${auth._id}?password=${verifiedPassword}`)
+    axios.get(`${url}/login/verify-password/${auth._id}?password=${verifiedPassword}`, setHeaders())
       .then((response) => {
         const decryptedPassword = response.data;   
         if (decryptedPassword === true) {

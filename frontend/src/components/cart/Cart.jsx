@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useNavigate, NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addToCart,
@@ -50,8 +50,8 @@ const Cart = () => {
           <p>Your cart is currently empty</p>
           <div>
             <Link to="/shoppingPage">
-              <FaArrowAltCircleLeft />
-              <div className="px-2">Start Shopping</div>
+             
+              <div className="px-2"><FaArrowAltCircleLeft /> Start Shopping</div>
             </Link>
           </div>
         </div>

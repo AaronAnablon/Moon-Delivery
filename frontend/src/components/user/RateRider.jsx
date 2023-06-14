@@ -6,6 +6,8 @@ import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom'
+import DateFormat from "../formatters/DateFormat";
+import CurrencyFormat from "../formatters/CurrencyFormat";
 import { FaArrowAltCircleLeft } from "react-icons/fa";
 import {
   FcCalendar,
@@ -44,7 +46,7 @@ const RateRider = () => {
   const getBooking = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${url}/booking/user/Arrived/${auth._id}`, setHeaders);
+      const response = await axios.get(`${url}/booking/user/Arrived/${auth._id}`, setHeaders());
       setBooked((response.data).reverse());
       setLoading(false);
     } catch (error) {
@@ -80,10 +82,11 @@ const RateRider = () => {
           completedAt: booking.booking.completedAt,
         }
       };
-      await axios.put(`${url}/booking/${booking._id}`, updatedBooking, setHeaders()).then((response) => {
-        console.log(response.data)
-        getBooking()
-      });
+      await axios.put(`${url}/booking/${booking._id}`, updatedBooking, setHeaders())
+        .then((response) => {
+          console.log(response.data)
+          getBooking()
+        });
     } catch (err) {
       console.log(err);
     }
@@ -100,26 +103,11 @@ const RateRider = () => {
     }
   };
 
-  const formatDate = (date) => {
-    return (new Date(date).toLocaleString('en-US', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      timeZoneName: 'short',
-    }))
-  }
-
-  const currency = (price) => {
-    return price.toLocaleString('en-PH', { style: 'currency', currency: 'PHP' })
-  }
   return (
     <div>
       <h2>Booked</h2>
-      {!loading && booked.length === 0 && <><p>No bookings found
-      </p>  <Link to="/booking/pabili">
+      {!loading && booked.length === 0 && <><p>No bookings found  </p>
+        <Link to="/booking/pabili">
           <FaArrowAltCircleLeft />
           <span>Book a Ride</span>
         </Link></>}
@@ -127,8 +115,8 @@ const RateRider = () => {
       {booked &&
         booked.map((booking) => (
           <Card className="shadow mb-2 p-3" key={booking._id}>
-            <div><FcCalendar size={28} /> Date Booked: <span>{formatDate(booking.createdAt)}</span></div>
-            <div><FcCalendar size={28} /> Date Completed: <span>{formatDate(booking.booking.completedAt)}</span></div>
+            <div><FcCalendar size={28} /> Date Booked: <span>{DateFormat(booking.createdAt)}</span></div>
+            <div><FcCalendar size={28} /> Date Completed: <span>{DateFormat(booking.booking.completedAt)}</span></div>
             <div className="row border-bottom border-top">
               <div className="col-6 ">
                 <Card.Text><FcServices size={28} /> Service: <span>{booking.booking.service}</span></Card.Text>
@@ -139,49 +127,49 @@ const RateRider = () => {
                 <Card.Text><FcDiploma2 size={28} /> RiderId: <span>{booking.booking.booking.riderId}</span></Card.Text>
                 <Card.Text><FcNightPortrait size={28} /> Client Name: <span>{booking.user.name}</span></Card.Text>
               </div>
-                {selectedRiderId === booking.booking.booking.riderId ? (
-                  <div className="row border-top border-bottom">
-                    <div className="col-12 d-flex">
-                      <div className="col-6 mt-2">
-                        {rating
-                          ? `You rated: ${rating} stars`
-                          : "Rate this product:"}
-                      </div>
-                      <div className="col-6 rating">
-                        {[...Array(5)].map((star, index) => {
-                          const ratingValue = index + 1;
-                          return (
-                            <label key={index}>
-                              <input
-                                type="radio"
-                                name="rating"
-                                value={ratingValue}
-                                onClick={() => handleRating(ratingValue)}
-                              />
-                              <span
-                                onMouseEnter={() => setHover(ratingValue)}
-                                onMouseLeave={() => setHover(null)}
-                              >
-                                {ratingValue <= (hover || rating) ? "\u2605" : "\u2606"}
-                              </span>
-                            </label>
-                          );
-                        })}
-                      </div>
+              {selectedRiderId === booking.booking.booking.riderId ? (
+                <div className="row border-top border-bottom">
+                  <div className="col-12 d-flex">
+                    <div className="col-6 mt-2">
+                      {rating
+                        ? `You rated: ${rating} stars`
+                        : "Rate this product:"}
                     </div>
-                    <div className="col-12 mt-2">
-                      <textarea placeholder="Add a comment:" type="text" id="comment" value={comment} onChange={handleComment} />
-                    </div>
-                    <div className="row justify-content-evenly border-bottom">
-                      <Button className="col-lg-3 col-6 mt-2 mb-2" onClick={() => submitRating(booking.booking.booking.riderId, booking)}>Submit Rating</Button>
-                      <Button className="col-lg-3 col-6 mt-2 mb-2" onClick={() => setSelectedRiderId(!selectedRiderId)}>Cancel</Button>
+                    <div className="col-6 rating">
+                      {[...Array(5)].map((star, index) => {
+                        const ratingValue = index + 1;
+                        return (
+                          <label key={index}>
+                            <input
+                              type="radio"
+                              name="rating"
+                              value={ratingValue}
+                              onClick={() => handleRating(ratingValue)}
+                            />
+                            <span
+                              onMouseEnter={() => setHover(ratingValue)}
+                              onMouseLeave={() => setHover(null)}
+                            >
+                              {ratingValue <= (hover || rating) ? "\u2605" : "\u2606"}
+                            </span>
+                          </label>
+                        );
+                      })}
                     </div>
                   </div>
-                ) : (
-                  <div className="col-6 m-3 ">
-                    <Button onClick={() => setSelectedRiderId(booking.booking.booking.riderId)}><FcRating size={28} /> Rate</Button>
+                  <div className="col-12 mt-2">
+                    <textarea placeholder="Add a comment:" type="text" id="comment" value={comment} onChange={handleComment} />
                   </div>
-                )}
+                  <div className="row justify-content-evenly border-bottom">
+                    <Button className="col-lg-3 col-6 mt-2 mb-2" onClick={() => submitRating(booking.booking.booking.riderId, booking)}>Submit Rating</Button>
+                    <Button className="col-lg-3 col-6 mt-2 mb-2" onClick={() => setSelectedRiderId(!selectedRiderId)}>Cancel</Button>
+                  </div>
+                </div>
+              ) : (
+                <div className="col-6 m-3 ">
+                  <Button onClick={() => setSelectedRiderId(booking.booking.booking.riderId)}><FcRating size={28} /> Rate</Button>
+                </div>
+              )}
             </div>
             <div className="row border-bottom">
               <div className="col-6">
@@ -210,7 +198,7 @@ const RateRider = () => {
                 ))}
               </ListGroup>
             </div>) : null}
-            <Card.Text><FcMoneyTransfer size={28} />Fare: <span>{currency(booking.booking.booking.totalAmount)}</span></Card.Text>
+            <Card.Text><FcMoneyTransfer size={28} />Fare: <span>{CurrencyFormat(booking.booking.booking.totalAmount)}</span></Card.Text>
           </Card>
         ))}
     </div>

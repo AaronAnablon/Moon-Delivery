@@ -6,7 +6,7 @@ const router = require("express").Router();
 
 //CREATE
 
-router.post("/:id", isAdmin, async (req, res) => {
+router.post("/:id", isUser, async (req, res) => {
   const { userId, name, products, total, shipping, rider, payment_status, image } = req.body;
 
   try {

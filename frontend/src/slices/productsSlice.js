@@ -22,6 +22,8 @@ export const productsFetch = createAsyncThunk(
   }
 );
 
+
+
 export const productsCreate = createAsyncThunk(
   "products/productsCreate",
   async (values) => {
@@ -31,11 +33,10 @@ export const productsCreate = createAsyncThunk(
         values,
         setHeaders()
       );
-
       return response.data;
     } catch (error) {
       console.log(error);
-      toast.error(error.response?.data);
+      toast.error("Something Went Wrong!!");
     }
   }
 );
@@ -59,9 +60,9 @@ const productsSlice = createSlice({
       state.createStatus = "pending";
     },
     [productsCreate.fulfilled]: (state, action) => {
-      state.items.push(action.payload);
+      // state.items.push(action.payload);
       state.createStatus = "success";
-      toast.success("Product Created!");
+      toast.success("Product Added!");
     },
     [productsCreate.rejected]: (state, action) => {
       state.createStatus = "rejected";

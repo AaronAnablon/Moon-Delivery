@@ -21,27 +21,6 @@ router.put("/:id", isUser , async (req, res) => {
   }
 });
 
-router.put("/password", async (req, res) => {
-  const { email, password } = req.body;
-
-  try {
-    const updatedUser = await User.findOneAndUpdate(
-      { email },
-      { password },
-      { new: true }
-    );
-
-    if (!updatedUser) {
-      return res.status(404).json({ error: 'User not found' });
-    }
-
-    res.status(200).json(updatedUser);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
 // RATE RIDER
 router.put("/Rider/:id", isUser , async (req, res) => {
   try {

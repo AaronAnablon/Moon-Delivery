@@ -83,7 +83,7 @@ const NavBar = ({ setSearchData }) => {
         };
     }, []);
     return (
-        <div className="bg-light" style={{
+        <div className="bg-light NavBar" style={{
             position: 'sticky', top: 0, zIndex: '999',
             background: 'linear-gradient(90deg, rgb(254, 90, 1) 0%, rgb(245, 240, 39) 50%, rgb(254, 90, 1) 96%)'
         }}>

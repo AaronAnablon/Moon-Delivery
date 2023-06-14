@@ -6,6 +6,9 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import moment from 'moment';
 import { toast } from "react-toastify";
+import { Card } from "react-bootstrap";
+import CurrencyFormat from "../formatters/CurrencyFormat"
+import DateFormat from "../formatters/DateFormat"
 
 const Summary = () => {
   const auth = useSelector(state => state.auth)
@@ -23,7 +26,7 @@ const Summary = () => {
           `${url}/orders/seller-orders/${auth._id}/pending`,
           setHeaders()
         );
-        setOrders(response.data)
+        setOrders((response.data).reverse())
       } catch (error) {
         console.log(error);
         toast.error('Something went wrong!')
@@ -63,35 +66,67 @@ const Summary = () => {
           cancelled={cancelledOrders} />
       </div>
       <div className="col-lg-6 col-12 shadow p-5">
-      <LineChart
-        date={ordersByDate}
-        pending={pendingOrders}
-        cancelled={cancelledOrders} />
+        <LineChart
+          date={ordersByDate}
+          pending={pendingOrders}
+          cancelled={cancelledOrders} />
+      </div>
+
+
+      <div className="col-12">
+        <div className="orderByStats col-12 shadow p-5">
+          <h2 className="col-12">Orders by Status</h2>
+          <div className="d-lg-flex justify-content-center col-12">
+            <Card className="shadow d-flex align-items-center m-3 col-md-6 col-lg-4">
+              <span>
+                {completedOrders}
+              </span>
+              <Card.Text>Completed Orders </Card.Text>
+            </Card>
+            <Card className="shadow d-flex align-items-center m-3 col-md-6 col-lg-4">
+              <span>
+                {cancelledOrders}
+              </span>
+              <Card.Text>Cancelled Orders </Card.Text>
+            </Card>
+            <Card className="shadow d-flex align-items-center m-3 col-md-6 col-lg-4">
+              <span>
+                {pendingOrders}
+              </span>
+              <Card.Text>Pending Orders</Card.Text>
+            </Card>
+          </div>
         </div>
-      <div>
+
+        <div className="shadow mt-2 mb-3 p-3">
+          <h3>Orders by Date</h3>
+          <Card className="col-4 orderByStats align-items-center">
+            {ordersByDate.map((order) => (
+              <>
+                <span>
+                  {order.count}
+                </span>
+                <Card.Text key={`${order._id.year}-${order._id.month}-${order._id.day}`}>
+                  {`${moment(
+                    `${order._id.year}-${order._id.month}-${order._id.day}-${order._id.hour}-${order._id.minute}`,
+                    'YYYY-M-D'
+                  ).format('MMMM D, YYYY')}`}
+                </Card.Text>
+              </>))}
+          </Card>
+        </div>
+      </div>
+
+      <div className="col-12 shadow p-md-5">
         <h2>Recent Sales: </h2>
         {orders && orders.map((order) =>
-          <li>
-            <p>Customer Name:{order.name}</p>
-            <p>Rider: {order.rider[0]}</p>
-            <p>Total: {order.total}</p>
-          </li>
+          <Card className="shadow mb-md-3 p-3">
+            <Card.Text>Date Ordered: {DateFormat(order.createdAt)}</Card.Text>
+            <Card.Text>Client Name:{order.name}</Card.Text>
+            <Card.Text>Rider: {order.rider[0]}</Card.Text>
+            <Card.Text>Total Amount: {CurrencyFormat(order.total)}</Card.Text>
+          </Card>
         )}</div>
-      <div>
-        <h2>Orders by Status and Date</h2>
-        <p>Completed Orders: {completedOrders}</p>
-        <p>Cancelled Orders: {cancelledOrders}</p>
-        <p>Pending Orders: {pendingOrders}</p>
-        <h3>Orders by Date</h3>
-        <ul>
-          {ordersByDate.map((order) => (
-            <li key={`${order._id.year}-${order._id.month}-${order._id.day}`}>{`${moment(
-              `${order._id.year}-${order._id.month}-${order._id.day}-${order._id.hour}-${order._id.minute}`,
-              'YYYY-M-D'
-            ).format('MMMM D, YYYY')}: ${order.count}`}</li>
-          ))}
-        </ul>
-      </div>
     </div>
   );
 };
