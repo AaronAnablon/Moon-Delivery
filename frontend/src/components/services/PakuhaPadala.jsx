@@ -89,21 +89,21 @@ const PakuhaPadala = () => {
           <h2>Add items to pick up</h2>
           <Form onSubmit={handleSubmitBooking}>
             <Form.Group controlId="item">
-              <Form.Label>Item:</Form.Label>
-              <Form.Control type="text" value={item} onChange={handleItemChange} />
+              <Form.Label>Item: </Form.Label>
+              <Form.Control type="text" value={item} onChange={handleItemChange} placeholder='Add item to pick up...'/>
             </Form.Group>
             <Form.Group controlId="itemDetails">
-              <Form.Label>Item Details:</Form.Label>
-              <Form.Control type="text" value={itemDetails} onChange={handleItemDetailsChange} />
+              <Form.Label>Item Details:<br/>(Please include Details as much as possible)</Form.Label>
+              <Form.Control type="text" value={itemDetails} onChange={handleItemDetailsChange} placeholder='Item details...'/>
             </Form.Group>
             <Form.Group controlId="pickupAddress">
-              <Form.Label>Pickup Address:</Form.Label>
-              <Form.Control type="text" value={pickupAddress} onChange={handlePickupAddressChange} />
+              <Form.Label>Pickup Address: </Form.Label>
+              <Form.Control type="text" value={pickupAddress} onChange={handlePickupAddressChange} placeholder='Pickup Address...'/>
             </Form.Group>
 
             <Form.Group controlId="destination">
               <Form.Label>Destination:</Form.Label>
-              <Form.Control type="text" value={defaultAddress ? auth.address : destination} onChange={handleDestinationChange} />
+              <Form.Control type="text" value={defaultAddress ? auth.address : destination} onChange={handleDestinationChange} placeholder='Where to drop/Your address...'/>
             </Form.Group>
             <Form.Group controlId="useDefaultAddress">
               <Form.Check
@@ -114,7 +114,7 @@ const PakuhaPadala = () => {
             </Form.Group>
             <Form.Group controlId="phoneNumber">
               <Form.Label>Phone Number:</Form.Label>
-              <Form.Control type="text" value={defaultNumber ? auth.phoneNumber : phoneNumber} onChange={handlePhoneNumberChange} />
+              <Form.Control type="text" value={defaultNumber ? auth.phoneNumber : phoneNumber} onChange={handlePhoneNumberChange} placeholder='Mobile Number...'/>
             </Form.Group>
             <Form.Group controlId="useDefaultPhoneNumber">
               <Form.Check

@@ -26,12 +26,13 @@ router.get('/rider/Arrived/:riderId', async (req, res) => {
       $or: [
         { "booking.booking.status": 'Completed' },
         { "booking.booking.status": 'Arrived' },
-        ]},
-        );
+      ]
+    },
+    );
     if (!bookings) {
       return res.status(404).json({ error: 'Bookings not found' });
     }
-   
+
     res.json(bookings);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -48,6 +49,58 @@ router.get('/:status', async (req, res) => {
   }
 });
 
+
+// Get a Rider booking by ID and For Pick Up
+router.get('/rider/ForPickUp/:id', async (req, res) => {
+  try {
+    const bookings = await Booking.find({
+      "booking.booking.riderId": req.params.id,
+      "booking.booking.riderDelete": false,
+      "booking.booking.status": 'For Pick Up',
+    });
+    if (!bookings) {
+      return res.status(404).json({ error: 'Bookings not found' });
+    }
+
+    res.json(bookings);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+    console.log(error);
+  }
+});
+
+//GET RIDER BOOKING DATA
+router.get('/rider/summary/:id', async (req, res) => {
+  const DateFormatDb = (date) => {
+    return( new Date(date).toLocaleString('en-US', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        }))
+}
+  try {
+
+    const bookings = await Booking.find({
+      "booking.booking.riderId": req.params.id,
+      "booking.completedAt": DateFormatDb(new Date()),
+      $or: [
+        { "booking.booking.status": 'Completed' },
+        { "booking.booking.status": 'Arrived' },
+      ],
+    });
+
+    if (!bookings) {
+      return res.status(404).json({ error: 'Bookings not found' });
+    }
+
+    res.json(bookings);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+    console.log(error);
+  }
+});
+
+
 // Get a Rider booking by ID and Status
 router.get('/:id/:status', async (req, res) => {
   try {
@@ -55,22 +108,22 @@ router.get('/:id/:status', async (req, res) => {
       "booking.booking.riderId": req.params.id,
       "booking.booking.riderDelete": false,
       $or: [
-        {  "booking.booking.status": req.params.status },
+        { "booking.booking.status": req.params.status },
         { "booking.booking.status": 'For Pick Up' },
-        { "booking.booking.status": 'Cancelled' },
         { "booking.booking.status": 'Arrived' },
-        ],
+      ],
     });
     if (!bookings) {
       return res.status(404).json({ error: 'Bookings not found' });
     }
-   
+
     res.json(bookings);
   } catch (error) {
     res.status(500).json({ error: error.message });
     console.log(error);
   }
 });
+
 
 
 // Update a booking by ID
@@ -108,12 +161,13 @@ router.get('/user/Arrived/:id', async (req, res) => {
       "booking.booking.userDelete": false,
       $or: [
         { "booking.booking.status": 'Arrived' },
-        ]},
-        );
+      ]
+    },
+    );
     if (!bookings) {
       return res.status(404).json({ error: 'Bookings not found' });
     }
-   
+
     res.json(bookings);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -133,12 +187,13 @@ router.get('/user/Completed/:id', async (req, res) => {
       "booking.booking.userDelete": false,
       $or: [
         { "booking.booking.status": 'Completed' },
-        ]},
-        );
+      ]
+    },
+    );
     if (!bookings) {
       return res.status(404).json({ error: 'Bookings not found' });
     }
-   
+
     res.json(bookings);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -152,16 +207,17 @@ router.get('/user/:id/:status', async (req, res) => {
       "user._id": req.params.id,
       "booking.booking.userDelete": false,
       $or: [
-        {  "booking.booking.status": req.params.status },
+        { "booking.booking.status": req.params.status },
         { "booking.booking.status": 'For Pick Up' },
         { "booking.booking.status": 'Cancelled' },
         { "booking.booking.status": 'Arrived' },
-        ]},
-        );
+      ]
+    },
+    );
     if (!bookings) {
       return res.status(404).json({ error: 'Bookings not found' });
     }
-   
+
     res.json(bookings);
   } catch (error) {
     res.status(500).json({ error: error.message });

@@ -5,15 +5,17 @@ import { useSelector } from "react-redux";
 import sendMail from "../notification/sendMail";
 import io from 'socket.io-client';
 import { server } from "../../slices/api";
+import DateFormat from '../formatters/DateFormat'
+import CurrencyFormat from "../formatters/CurrencyFormat"
+import { toast } from "react-toastify"
+import { useNavigate } from "react-router-dom";
 import {
   FcCalendar,
   FcServices,
   FcTodoList,
   FcPortraitMode,
   FcMoneyTransfer,
-  FcDeployment,
   FcViewDetails,
-  FcShop,
   FcGlobe,
   FcAssistant
 } from "react-icons/fc";
@@ -26,10 +28,11 @@ const PickUpClient = () => {
   const auth = useSelector((state) => state.auth);
   const [booked, setBooked] = useState([]);
   const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
 
   const getBooking = () => {
     setLoading(!loading)
-    axios.get(`${url}/booking/${auth._id}/For Pick Up`, setHeaders)
+    axios.get(`${url}/booking/rider/ForPickUp/${auth._id}`, setHeaders)
       .then((response) => {
         setBooked((response.data).reverse());
       })
@@ -53,7 +56,7 @@ const PickUpClient = () => {
         email: 'sent',
         notification: `Good day, This is Moon Delivery. 
           Successfully arrived at the destination. Please rate how was the rider's service.
-           Click here to rate rider http://localhost:3000/user/rateRider`,
+           Click here to rate rider https://moon-delivery.vercel.app/user/rateRider`,
         payLoad: { read: false },
       });
       console.log(response.data);
@@ -62,13 +65,21 @@ const PickUpClient = () => {
     }
   };
 
+  const DateFormatDb = (date) => {
+    return (new Date(date).toLocaleString('en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    }))
+  }
+
 
   const handleCompleted = async (booking) => {
     const recipientEmail = booking.user.email;
     const subject = 'Rider is ready to pick you up';
     const text = `Good day ${booking.user.name}, This is Moon Delivery. 
       You successfully arrived at the destination. Please rate how was the rider's service.
-       Click here to rate rider http://localhost:3000/user/rateRider`;
+       Click here to rate rider https://moon-delivery.vercel.app/user/rateRider`;
     try {
       const updatedBooking = {
         booking: {
@@ -91,7 +102,7 @@ const PickUpClient = () => {
           item: booking.booking.item,
           itemDetails: booking.booking.itemDetails,
           service: booking.booking.service,
-          completedAt: Date.now()
+          completedAt: DateFormatDb(Date.now())
         }
       };
       await axios.put(`${url}/booking/${booking._id}`, updatedBooking, setHeaders()).then((response) => {
@@ -101,6 +112,8 @@ const PickUpClient = () => {
         sendMail({ recipientEmail, subject, text })
         sendNotif(booking.user._id)
         getBooking()
+        navigate("/rider/dropOff")
+        toast.success("Completed!")
       });
     } catch (err) {
       console.log(err);
@@ -111,21 +124,6 @@ const PickUpClient = () => {
     window.open(`tel:${ClientNumber}`);
   }
 
-  const formatDate = (date) => {
-    return (new Date(date).toLocaleString('en-US', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      timeZoneName: 'short',
-    }))
-  }
-
-  const currency = (price) => {
-    return price.toLocaleString('en-PH', { style: 'currency', currency: 'PHP' })
-  }
 
   return (
     <div className="shadow">
@@ -138,7 +136,7 @@ const PickUpClient = () => {
           <div className="border-bottom mb-3 shadow p-3 rounded" key={booking._id}>
             <div className="d-md-flex border-bottom">
               <Card.Text className="col-12 col-md-6"><FcServices size={28} /> Service: <span>{booking.booking.service}</span></Card.Text>
-              <Card.Text className="col-12 col-md-6"><FcCalendar size={28} /> Date Booked: <span>{formatDate(booking.createdAt)}</span></Card.Text>
+              <Card.Text className="col-12 col-md-6"><FcCalendar size={28} /> Date Booked: <span>{DateFormat(booking.createdAt)}</span></Card.Text>
             </div>
             <div className="d-md-flex border-bottom mt-3">
               <Card.Text className="col-12 col-md-6"><FcPortraitMode size={28} /> Client Name: <span>{booking.user.name}</span></Card.Text>
@@ -158,10 +156,10 @@ const PickUpClient = () => {
                 <Card.Text><FcViewDetails size={28} /> Details: <span>{booking.booking.itemDetails}</span></Card.Text></div>}
               {booking.booking.items && <div><FcViewDetails size={28} /> Items: {booking.booking.items.map((item) =>
                 <ul><li><span>{item.item} - {item.store}</span></li></ul>)}
-                <Card.Text><FcMoneyTransfer size={28} /> Fare: <span>{currency(booking.booking.items.slice(-1)[0].Fare)}</span></Card.Text>
+                <Card.Text><FcMoneyTransfer size={28} /> Fare: <span>{CurrencyFormat(booking.booking.items.slice(-1)[0].Fare)}</span></Card.Text>
               </div>}
             </div>
-            {!booking.booking.items && <Card.Text className="mt-3"><FcMoneyTransfer size={28} /> Fare: <span>{currency(booking.booking.booking.totalAmount)}</span></Card.Text>}
+            {!booking.booking.items && <Card.Text className="mt-3"><FcMoneyTransfer size={28} /> Fare: <span>{CurrencyFormat(booking.booking.booking.totalAmount)}</span></Card.Text>}
             <div className="d-flex justify-content-end mt-2">
               <Button onClick={() => handleCompleted(booking)}><HiOutlineClipboardDocumentCheck size={24} /> Completed</Button>
             </div>

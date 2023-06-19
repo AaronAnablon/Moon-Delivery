@@ -13,7 +13,6 @@ import {
   FcCalendar,
   FcServices,
   FcTodoList,
-  FcInTransit,
   FcNightPortrait,
   FcPodiumWithSpeaker,
   FcPortraitMode,
@@ -24,6 +23,7 @@ import {
   FcRating
 } from "react-icons/fc";
 import { GiFullMotorcycleHelmet } from "react-icons/gi";
+import { toast } from "react-toastify";
 
 
 const RateRider = () => {
@@ -33,8 +33,17 @@ const RateRider = () => {
 
   const [rating, setRating] = useState(null);
   const [hover, setHover] = useState(null);
-  const [selectedRiderId, setSelectedRiderId] = useState(null);
   const [comment, setComment] = useState("");
+  const [hiddenStates, setHiddenStates] = useState([]);
+
+  const toggleHiddenComponent = (index) => {
+    setHiddenStates((prevState) => {
+      const newState = [...prevState];
+      newState[index] = !newState[index];
+      return newState;
+    });
+  };
+
 
   const handleRating = (value) => {
     setRating(value);
@@ -51,8 +60,10 @@ const RateRider = () => {
       setLoading(false);
     } catch (error) {
       console.error(error);
+      toast.error('Something went wrong!')
     }
   };
+
 
   useEffect(() => {
     getBooking()
@@ -89,6 +100,7 @@ const RateRider = () => {
         });
     } catch (err) {
       console.log(err);
+      toast.error('Something went wrong!')
     }
   };
 
@@ -98,8 +110,13 @@ const RateRider = () => {
       console.log(response.data);
       handleCompleted(booking)
       getBooking()
+      setHover('')
+      setComment('')
+      setHiddenStates('')
+      toast.success('Successfully Submited!')
     } catch (error) {
       console.error(error);
+      toast.error('Something went wrong!')
     }
   };
 
@@ -113,9 +130,9 @@ const RateRider = () => {
         </Link></>}
       {loading && <div>Loading...</div>}
       {booked &&
-        booked.map((booking) => (
+        booked.map((booking, index) => (
           <Card className="shadow mb-2 p-3" key={booking._id}>
-            <div><FcCalendar size={28} /> Date Booked: <span>{DateFormat(booking.createdAt)}</span></div>
+            <div key={index}><FcCalendar size={28} /> Date Booked: <span>{DateFormat(booking.createdAt)}</span></div>
             <div><FcCalendar size={28} /> Date Completed: <span>{DateFormat(booking.booking.completedAt)}</span></div>
             <div className="row border-bottom border-top">
               <div className="col-6 ">
@@ -126,8 +143,8 @@ const RateRider = () => {
                 <Card.Text><GiFullMotorcycleHelmet size={28} /> Rider: <span>{booking.booking.booking.rider}</span></Card.Text>
                 <Card.Text><FcDiploma2 size={28} /> RiderId: <span>{booking.booking.booking.riderId}</span></Card.Text>
                 <Card.Text><FcNightPortrait size={28} /> Client Name: <span>{booking.user.name}</span></Card.Text>
-              </div>
-              {selectedRiderId === booking.booking.booking.riderId ? (
+              </div>  
+              {hiddenStates[index] &&
                 <div className="row border-top border-bottom">
                   <div className="col-12 d-flex">
                     <div className="col-6 mt-2">
@@ -162,14 +179,14 @@ const RateRider = () => {
                   </div>
                   <div className="row justify-content-evenly border-bottom">
                     <Button className="col-lg-3 col-6 mt-2 mb-2" onClick={() => submitRating(booking.booking.booking.riderId, booking)}>Submit Rating</Button>
-                    <Button className="col-lg-3 col-6 mt-2 mb-2" onClick={() => setSelectedRiderId(!selectedRiderId)}>Cancel</Button>
                   </div>
                 </div>
-              ) : (
+               }
                 <div className="col-6 m-3 ">
-                  <Button onClick={() => setSelectedRiderId(booking.booking.booking.riderId)}><FcRating size={28} /> Rate</Button>
+                  <Button onClick={() => toggleHiddenComponent(index)}>
+                    <FcRating size={22} /> {hiddenStates[index] ? <>Cancel</> : <>Rate Rider</>}</Button>
                 </div>
-              )}
+           
             </div>
             <div className="row border-bottom">
               <div className="col-6">

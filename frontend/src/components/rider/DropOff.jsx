@@ -94,7 +94,7 @@ const DropOff = () => {
 
   return (
     <div>
-      <h2>Pick Up Client</h2>
+      <h2>Completed Booking</h2>
       {loading && <p>Loading...</p>}
       {booked && booked.length === 0 && <p>No Drop Off found</p>}
         {booked &&

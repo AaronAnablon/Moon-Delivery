@@ -8,7 +8,7 @@ const router = require("express").Router();
 //CREATE
 
 router.post("/", isAdmin, async (req, res) => {
-  const { name, brand, desc, stores, storeId, address, rating, category, price, image } = req.body;
+  const { name, brand, desc, stores, storeId, sellerNumber, address, rating, category, price, image } = req.body;
   try {
     if (image) {
       const uploadedImages = [];
@@ -28,6 +28,7 @@ router.post("/", isAdmin, async (req, res) => {
         desc,
         stores,
         storeId,
+        sellerNumber,
         address,
         rating,
         category,
@@ -44,6 +45,7 @@ router.post("/", isAdmin, async (req, res) => {
         desc,
         stores,
         storeId,
+         sellerNumber,
         address,
         rating,
         category,

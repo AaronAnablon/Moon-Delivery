@@ -14,7 +14,7 @@ const Checkout = () => {
   const auth = useSelector((state) => state.auth);
 
   const [phoneNumber, setPhoneNumber] = useState(localStorage.getItem('phoneNumber') || '');
-  const [previewUrl, setPreviewUrl] = useState(localStorage.getItem('previewUrl') || null);
+  const [previewUrl, setPreviewUrl] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const [address2, setAddress2] = useState('');
@@ -37,7 +37,6 @@ const Checkout = () => {
     reader.readAsDataURL(file);
     reader.onload = () => {
       setPreviewUrl(reader.result);
-      localStorage.setItem('previewUrl', reader.result);
     };
     reader.onerror = () => {
       console.error('Error reading file');
@@ -48,12 +47,16 @@ const Checkout = () => {
     event.preventDefault();
   
     const products = cart.cartItems.map((item) => ({
+      sellerName: item.stores,
       sellerId: item.storeId,
       productId: item._id,
       quantity: item.cartQuantity,
-      image: item.image,
+      image: item.image[0],
       name: item.name,
       price: item.price,
+      address: item.address,
+      sellerNumber: item.sellerNumber,
+      deliveryStatus: 'Pending',
     }));
   
     const shipping = {
@@ -62,7 +65,7 @@ const Checkout = () => {
     };
   
     const total = cart.cartTotalAmount;
-    const image = localStorage.getItem('previewUrl');
+    const image = previewUrl
     const name = auth.name;
     const userId = auth._id;
     const payment_status = 'pending';
@@ -107,7 +110,7 @@ const Checkout = () => {
           {cart && cart.cartItems.map((item) => (
             <div className="row border-bottom" key={item._id}>
               <div className='col-6'>
-                <img src={item.image} alt={item.name} className="col-12" />
+                <img src={item.image[0]} alt={item.name} className="col-12" />
                 <p>{item.name}</p>
                 <p>Brand: {item.brand}</p>
               </div>

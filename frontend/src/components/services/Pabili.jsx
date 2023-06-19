@@ -129,7 +129,7 @@ const Pabili = () => {
     return (
         <div className="container-fluid d-flex">
             <div className='col-md-6 d-md-block d-none mt-4'>
-            <h2>How it works</h2>
+                <h2>How it works</h2>
                 <PabiliFlow />
             </div>
             <div className='col-md-6 col-12'>
@@ -139,13 +139,14 @@ const Pabili = () => {
                     </Link>
                     <h2>Add items to purchase</h2>
                     <div className="form-group">
-                        <label htmlFor="itemInput">Item/Items:</label>
+                        <label htmlFor="itemInput">Item/Items:<br/>(Please include Details as much as possible)</label>
                         <input
                             className="form-control"
                             type="text"
                             id="itemInput"
                             value={itemInput}
                             onChange={handleItemChange}
+                            placeholder="Items to buy..."
                         />
                     </div>
                     <div className="form-group">
@@ -157,7 +158,7 @@ const Pabili = () => {
                             value={storeInput}
                             onChange={handleStoreChange}
                         >
-                            <option value="">Please select a store</option>
+                            <option value="">Where to buy...</option>
                             <option value="Grocery">Grocery</option>
                             <option value="Public Market">Public Market</option>
                             <option value="Wet Market">Wet Market</option>
@@ -176,7 +177,7 @@ const Pabili = () => {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="address">Select a Store Address:</label>
+                        <label htmlFor="address">Select Store Address:</label>
                         <select
                             className="form-control"
                             id="address"
@@ -184,7 +185,7 @@ const Pabili = () => {
                             value={addressInput}
                             onChange={handleAddressChange}
                         >
-                            <option value="">Please select a Route</option>
+                            <option value="">Where to start...</option>
                             <option value="Lagawe Trading, Lagawe, Ifugao">Lagawe Trading, Lagawe, Ifugao</option>
                             <option value="Public Market, Lagawe, Ifugao">Public Market, Lagawe, Ifugao</option>
                             <option value="Wet Market, Lagawe, Ifugao">Wet Market, Lagawe, Ifugao</option>
@@ -207,6 +208,7 @@ const Pabili = () => {
                             type="text"
                             value={useDefaultAddress ? auth.address : userAddress}
                             onChange={handleUserAddressChange}
+                            placeholder="Where to drop..."
                         />
                     </div>
 

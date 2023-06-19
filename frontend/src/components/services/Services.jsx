@@ -7,6 +7,7 @@ import {
     FcAutomotive
 } from "react-icons/fc";
 import Flow from "./Flow";
+import Blog from "../Blog";
 
 const Services = () => {
     return (
@@ -16,15 +17,15 @@ const Services = () => {
                     <div className="col-6 d-md-flex">
                         <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
                             <NavLink className="nav-link" to="/shoppingPage">
-                                <FcShop className="col-12" size={50} />
+                                <FcShop className="col-12 circle-background" size={50} />
                                 <div className="col-12 d-flex justify-content-center">
                                     Shopping Page
                                 </div>
                             </NavLink>
                         </div>
                         <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
-                            <NavLink className="nav-link" to="/booking/pabili">
-                                <FcPaid className="col-12" size={50} />
+                            <NavLink className="nav-link col-6" to="/booking/pabili">
+                                <FcPaid className="col-12 circle-background" size={50} />
                                 <div className="col-12 d-flex justify-content-center">
                                     Pabili
                                 </div>
@@ -33,8 +34,8 @@ const Services = () => {
                     </div>
                     <div className="col-6 d-md-flex">
                         <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
-                            <NavLink className="nav-link " to="/booking/pakuhaPadala">
-                                <FcDeployment className="col-12" size={50} />
+                            <NavLink className="nav-link" to="/booking/pakuhaPadala">
+                                <FcDeployment className="col-12 circle-background" size={50} />
                                 <div className="col-12 d-flex justify-content-center">
                                     Pakuha/Padala
                                 </div>
@@ -42,7 +43,7 @@ const Services = () => {
                         </div>
                         <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
                             <NavLink className="nav-link" to="/booking/pahatidSundo">
-                                <FcAutomotive className="col-12" size={50} />
+                                <FcAutomotive className="col-12 circle-background" size={50} />
                                 <div className="col-12 d-flex justify-content-center">
                                     Book a Ride
                                 </div>
@@ -51,6 +52,7 @@ const Services = () => {
                     </div>
                 </div>
             </Nav>
+            <Blog />
             <Flow />
         </div>
     )

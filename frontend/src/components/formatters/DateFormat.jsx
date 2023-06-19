@@ -9,4 +9,4 @@ const DateFormat = (date) => {
         }))
 }
 
-export default DateFormat
+export default DateFormat;

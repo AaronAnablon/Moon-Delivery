@@ -63,6 +63,7 @@ const CreateProduct = () => {
         desc,
         stores: auth.name,
         storeId: auth._id,
+        sellerNumber: auth.phoneNumber,
         address: auth.address,
         rating: { rating: 0, count: 0, },
         category,

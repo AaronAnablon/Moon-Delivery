@@ -14,7 +14,7 @@
   overflow-wrap: break-word;
 }
 
-.card-text span{
+.card-text span {
   color: #000000;
   font-weight: bold;
 }
@@ -48,6 +48,7 @@ a.nav-link:hover {
   color: #000000;
   background: rgb(241, 240, 240);
 }
+
 a.nav-link.active {
   border-radius: 5px;
   color: #000000;
@@ -63,9 +64,11 @@ a.nav-link.active {
   color: rgb(68, 69, 68);
   min-height: 80vh;
 }
+
 .not-found h2 {
   font-size: 55px;
 }
+
 .not-found p {
   font-size: 20px;
 }
@@ -95,12 +98,14 @@ a.nav-link.active {
   font-weight: 700;
   color: transparent;
 }
+
 /* Sub Navigation */
 .sub-nav {
   display: flex;
   overflow-x: auto;
   white-space: nowrap;
 }
+
 .sub-nav a {
   color: black;
   text-decoration: none;
@@ -110,9 +115,10 @@ a.nav-link.active {
   font-weight: bold;
   color: rgb(80, 78, 78);
 }
+
 .sub-nav-ul {
   display: flex;
- }
+}
 
 /* Carousel Container */
 .carousel-container {
@@ -122,6 +128,7 @@ a.nav-link.active {
 .carousel .carousel-indicators {
   justify-content: center;
 }
+
 /* Rating Design */
 
 .rating {
@@ -130,13 +137,16 @@ a.nav-link.active {
   color: #f1c40f;
   cursor: pointer;
 }
+
 .rating p {
   font-size: 1rem;
   color: #050505;
 }
+
 .rating:hover {
   color: #f1c40f;
 }
+
 .rating input {
   display: none;
 }
@@ -173,9 +183,145 @@ a.nav-link.active {
   box-shadow: none !important;
   width: fit-content;
 }
+
 .navbar-toggle:focus {
   border: 0 !important;
   box-shadow: none !important;
 }
+
+
+.circle-background {
+  background-color: #64e1dc;
+  border-radius: 100%;
+}
+
+
+.image-container  {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  height: 600px;
+}
+
+.image-container>img {
+  width: 6rem;
+}
+
+.animation-finished .top-left-image {
+  animation-name: moveTopLeft;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+}
+
+.animation-finished .top-right-image {
+  animation-name: moveTopRight;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+}
+
+.animation-finished .right-image {
+  animation-name: moveToRight;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+}
+
+.animation-finished .center-image {
+  width: 12rem;
+  animation-name: moveToCenter;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+}
+
+.animation-finished .bottom-left-image {
+  animation-name: moveBottomLeft;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+}
+
+.animation-finished .left-image {
+  animation-name: moveLeft;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+}
+
+.animation-finished .bottom-right-image {
+  animation-name: moveBottomRight;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes moveTopLeft {
+  0% {
+    transform: translate(calc(280%), calc(120%));
+  }
+
+  100% {
+    transform: translate(calc(280%), calc(-120%)) rotate(-30deg);
+  }
+}
+
+@keyframes moveToRight {
+  0% {
+    transform: translate(calc(50%));
+  }
+
+  100% {
+    transform: translate(calc(100%));
+  }
+}
+
+@keyframes moveToCenter {
+  0% {
+    transform: translate(calc(50%));
+  }
+
+  100% {
+    transform: translate(calc(50%));
+  }
+}
+
+@keyframes moveTopRight {
+  0% {
+    transform: translate(calc(50%));
+  }
+
+  100% {
+    transform: translate(calc(370% - 10px), calc(-120%));
+  }
+}
+
+@keyframes moveBottomLeft {
+  0% {
+    transform: translate(calc(50%));
+  }
+
+  100% {
+    transform: translate(calc(-330%), calc(120%)) rotate(217deg);
+  }
+}
+
+@keyframes moveLeft {
+  0% {
+    transform: translate(calc(50%));
+  }
+
+  100% {
+    transform: translate(calc(-290%));
+  }
+}
+
+@keyframes moveBottomRight {
+  0% {
+    transform: translate(calc(50%));
+  }
+
+  100% {
+    transform: translate(calc(-250%), calc(110%)) rotate(100deg);
+  }
+}
+
+
+
 
 /*************** TO BE KEPT ***************/

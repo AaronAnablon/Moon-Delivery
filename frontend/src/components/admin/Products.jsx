@@ -51,7 +51,8 @@ const Products = () => {
     setAddress("");
   };
 
-  const handleSaveProduct = async (_id) => {
+  const handleSaveProduct = async (_id, event) => {
+    event.preventDefault(); 
     try {
       const editedProduct = {
         ...products.find(p => p._id === editingProduct),
@@ -75,7 +76,7 @@ const Products = () => {
 
 
 
-  const handleConfirmAction = async(productId) => {
+  const handleConfirmAction = async (productId) => {
     const desc = { desc: "deleted" }
     // desc, 
     try {
@@ -98,56 +99,148 @@ const Products = () => {
         ADD PRODUCT
       </Button>
       <Outlet />
-      <div className="container-fluid col-12">
+      <div className="container-fluid">
         {products && products?.map((product) => (
-            <div key={product._id}>
-              {editingProduct === product._id ? (
-                <>
-                  <div className="SellerDetails">
-                    <h3>
-                      <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-                    </h3>
-                    <div title={desc}>
-                      <textarea value={desc} onChange={(e) => setDesc(e.target.value)} />
-                    </div>
-                    <div className="SellerPrice">
-                      <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
-                    </div>
-                    <div className="SelleAddress">
-                      <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
-                    </div>
-                    <div className="buttons">
-                      <button onClick={() => handleSaveProduct(product._id)}>
-                        Save
-                      </button>
-                      <button onClick={handleCancelEdit}>
-                        Cancel
-                      </button>
-                    </div>
-                  </div>
-                </>
-              ) : (
-                <div className="container-fluid col-12 d-flex mb-3 shadow">
-                  <div className="col-6" >
-                    <img src={product.image[0]} alt={product.name} style={{ zIndex: '1', width: '100%', height: '300px', objectFit: 'cover' }}/>
-                  </div>
-                  <div className="col-6">
-                    <h3>{product.name}</h3>
-                    <div title={product.desc}>{product.desc}</div>
-                    <div className="SellerPrice"> {CurrencyFormat(product.price)} </div>
-                    <div className="SelleAddress">{product.address}</div>
-                    <div className="buttons">
-                      <Button onClick={() => handleEditProduct(product._id)}>Edit</Button>
-                      <DeleteConfirmation 
-                      onConfirm={handleConfirmAction} 
-                      params={product._id} 
-                      message={"Deleting itmes can not be retrieved. Items deleted will not be visible to the shopping page for users."}/>
-                    </div>
-                  </div>
+          <div key={product._id}>
+            {editingProduct === product._id ? (
+              <div className="d-flex">
+                <div className="col-6 d-none d-md-block">
+                  <img
+                    src={product.image[0]}
+                    alt={product.name}
+                    style={{ zIndex: '1', width: '100%', height: '300px', objectFit: 'cover' }}
+                  />
                 </div>
-              )}
-            </div>
-          ))}
+                <div className="col-12 col-md-6 shadow p-5">
+                  <form>
+                    <div className="form-group">
+                      <label htmlFor="productName">Product Name:</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="productName"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        spellCheck="false"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="description">Description:</label>
+                      <textarea
+                        className="form-control"
+                        id="description"
+                        value={desc}
+                        onChange={(e) => setDesc(e.target.value)}
+                        spellCheck="false"
+                      ></textarea>
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="price">Price:</label>
+                      <input
+                        type="number"
+                        className="form-control"
+                        id="price"
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="storeAddress">Store Address:</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="storeAddress"
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                      />
+                    </div>
+                    <div className="buttons">
+                      <Button variant="primary" className="m-2" onClick={(e) => handleSaveProduct(product._id, e)}>
+                        Save
+                      </Button>
+                      <Button variant="secondary" className="m-2" onClick={handleCancelEdit}>
+                        Cancel
+                      </Button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+            ) : (
+              <div className="container-fluid col-12 d-flex mb-3 shadow">
+                <div className="col-6" >
+                  <img src={product.image[0]} alt={product.name} style={{ zIndex: '1', width: '100%', height: '300px', objectFit: 'cover' }} />
+                </div>
+                <div className="col-6 px-2">
+                  <h3>Product Details</h3>
+                  <form>
+                    <div className="form-group">
+                      <label htmlFor="productName">Product Name:</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="productName"
+                        value={product.name}
+                        disabled
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="productNumber">Product Number:</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="productNumber"
+                        value={product._id}
+                        disabled
+                      />
+                    </div>
+                    <div className="form-group" title={product.desc}>
+                      <label htmlFor="productDescription">Description:</label>
+                      <textarea
+                        className="form-control"
+                        id="productDescription"
+                        value={product.desc}
+                        disabled
+                      ></textarea>
+                    </div>
+                    <div className="form-group SellerPrice">
+                      <label htmlFor="productPrice">Price:</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="productPrice"
+                        value={CurrencyFormat(product.price)}
+                        disabled
+                      />
+                    </div>
+                    <div className="form-group SelleAddress">
+                      <label htmlFor="storeAddress">Store Address:</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="storeAddress"
+                        value={product.address}
+                        disabled
+                      />
+                    </div>
+                    <div className="buttons">
+                      <button className="btn btn-primary m-2" onClick={() => handleEditProduct(product._id)}>
+                        Edit
+                      </button>
+                      <DeleteConfirmation
+                        className="btn btn-danger m-2"
+                        onConfirm={handleConfirmAction}
+                        params={product._id}
+                        message="Deleting items cannot be retrieved. Items deleted will not be visible on the shopping page for users."
+                      />
+                    </div>
+                  </form>
+                </div>
+
+              </div>
+            )}
+          </div>
+        ))}
       </div>
     </>
   );

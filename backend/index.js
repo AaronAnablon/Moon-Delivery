@@ -12,6 +12,7 @@ const bookingRoutes = require('./routes/booking');
 const userRoutes = require('./routes/updateUser');
 const email = require("./routes/email");
 const notification = require("./routes/notification");
+const ratings = require("./routes/ratings")
 
 const app = express();
 require("dotenv").config();
@@ -57,8 +58,7 @@ app.use('/api/booking', bookingRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/email', email);
 app.use('/api/notification', notification);
-
-
+app.use('/api/ratings', ratings);
 
 const uri = process.env.DB_URI;
 const port = process.env.PORT || 5000;

@@ -4,13 +4,14 @@ import TopProducts from "./products/TopProducts";
 import TopSold from "./products/TopSold";
 import NavCategories from "./NavCategories";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from 'react-bootstrap';
 import { Card } from 'react-bootstrap';
 import { url } from "../slices/api";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const Home = ({ searchData }) => {
   const auth = useSelector((state) => state.auth)
@@ -22,7 +23,7 @@ const Home = ({ searchData }) => {
 
   const navigate = useNavigate();
 
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback(async () => {
     const response = await axios.get(`${url}/products/increment?page=${currentPage}`);
     const newData = response.data.products;
     setTotalPage(response.data.totalPages)
@@ -30,7 +31,7 @@ const Home = ({ searchData }) => {
       const filteredData = newData.filter(product => !prevData.find(p => p._id === product._id));
       return [...prevData, ...filteredData];
     });
-  };
+  }, []);
 
   const handleSearch = () => {
     setHide(!hide)
@@ -41,6 +42,7 @@ const Home = ({ searchData }) => {
       })
       .catch((error) => {
         console.log(error);
+        toast.error("Something Went Wrong!")
       });
   };
 
@@ -68,7 +70,6 @@ const Home = ({ searchData }) => {
 
   const handleLoadMore = () => {
     setCurrentPage((prevPage) => prevPage + 1);
-    console.log(currentPage)
   };
 
   const toProductDetails = (product) => {
@@ -94,7 +95,7 @@ const Home = ({ searchData }) => {
             filteredData.map((product) => (
               <div key={product._id} onClick={() => toProductDetails(product)} className="col-6 col-md-3 col-lg-2 p-1">
                 <Card>
-                  <Card.Img variant="top" src={product.image} style={{ zIndex: '1', width: '100%', height: '130px', objectFit: 'cover' }} />
+                  <Card.Img variant="top" src={product.image[0]} style={{ zIndex: '1', width: '100%', height: '130px', objectFit: 'cover' }} />
                   <Card.Body style={{ fontSize: '13px' }}>
                     <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{product.name}</div>
                     <div>₱{product.price}</div>

@@ -5,27 +5,19 @@ import { useSelector } from "react-redux";
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { toast } from "react-toastify";
-import { Button, Card } from "react-bootstrap";
+import { Button, Card, NavLink } from "react-bootstrap";
 import DateFormat from "../formatters/DateFormat";
 import CurrencyFormat from "../formatters/CurrencyFormat";
 import {
   FcCalendar,
   FcServices,
   FcTodoList,
-  FcInTransit,
-  FcNightPortrait,
   FcPodiumWithSpeaker,
   FcPortraitMode,
   FcMoneyTransfer,
   FcDeployment,
   FcViewDetails,
-  FcShop,
-  FcGlobe,
-  FcAssistant
 } from "react-icons/fc";
-import { GiFullMotorcycleHelmet } from "react-icons/gi";
-import { HiOutlineClipboardDocumentCheck } from "react-icons/hi2";
-import { IoTrashBinOutline } from "react-icons/io5";
 
 const Orders = () => {
   const auth = useSelector((state) => state.auth);
@@ -34,17 +26,18 @@ const Orders = () => {
   const [sortedBrand, setSortedBrand] = useState("");
 
 
-  const fetchOrders = async () => {
+  const fetchOrders = useCallback(async () => {
     setLoading(!loading)
     try {
-      const res = await axios.get(`${url}/orders/seller-orders/${auth._id}/pending`, setHeaders());
+      const res = await axios.get(`${url}/orders/seller-orders/${auth._id}/Pending`, setHeaders());
       setOrders((res.data).reverse());
+      console.log('orders', res.data)
       setLoading(false)
     } catch (err) {
       console.log(err)
       toast.error("Something went wrong!")
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchOrders();
@@ -76,21 +69,39 @@ const Orders = () => {
   };
 
   const filteredData = sortedBrand
-    ? orders?.filter((order) => order.delivery_status === sortedBrand)
-    : orders;
+  ? orders.filter((order) =>
+      order.products.some((product) => product.deliveryStatus === sortedBrand)
+    )
+  : orders;
+
+
+  const updateOrders = async (orderId, nestedIndex) => {
+    const updatedOrder = {
+      $set: {
+        [`products.${nestedIndex}.deliveryStatus`]: 'For Delivery',
+      },
+    };
+    try {
+      await axios.put(`${url}/orders/${auth._id}/${orderId}`, updatedOrder, setHeaders());
+      fetchOrders();
+    } catch (err) {
+      console.log(err)
+    }
+  };
 
   return (
     <div>
       <Nav className="d-flex flex-column align-items-center justify-content-center">
-        <h2>My Orders</h2>
-        <NavDropdown id="dropdown-basic-button" title="Orders Sort by">
-          <NavDropdown.Item onClick={() => handleSortByBrand("")}>All</NavDropdown.Item>
-          <NavDropdown.Item onClick={() => handleSortByBrand("pending")}>Pending</NavDropdown.Item>
-          <NavDropdown.Item onClick={() => handleSortByBrand("For Delivery")}>For Delivery</NavDropdown.Item>
-          <NavDropdown.Item onClick={() => handleSortByBrand("Delivered")}>Delivered</NavDropdown.Item>
-          <NavDropdown.Item onClick={() => handleSortByBrand("For Pick Up")}>For Pick Up</NavDropdown.Item>
-          <NavDropdown.Item onClick={() => handleSortByBrand("Cancelled")}>Cancelled</NavDropdown.Item>
-        </NavDropdown>{sortedBrand}
+        <h2>Client Orders</h2>
+        <div className="d-flex bg-light flex-row sticky-top 
+         flex-nowrap overflow-auto container-fluid">
+          <NavLink className="m-1 d-flex flex-nowrap" onClick={() => handleSortByBrand("")}>All</NavLink>
+          <NavLink className="m-1 d-flex flex-nowrap" onClick={() => handleSortByBrand("Pending")}>Pending</NavLink>
+          <NavLink className="m-1 d-flex flex-nowrap" onClick={() => handleSortByBrand("For Delivery")}>For Delivery</NavLink>
+          <NavLink className="m-1 d-flex flex-nowrap" onClick={() => handleSortByBrand("Delivered")}>Delivered</NavLink>
+          <NavLink className="m-1 d-flex flex-nowrap" onClick={() => handleSortByBrand("For Pick Up")}>For Pick Up</NavLink>
+          <NavLink className="m-1 d-flex flex-nowrap" onClick={() => handleSortByBrand("Cancelled")}>Cancelled</NavLink>
+        </div>
       </Nav>
       <div>
         {loading && <p>Loading..</p>}
@@ -99,25 +110,44 @@ const Orders = () => {
           {filteredData && filteredData.map((order) => (
             <li className="shadow p-3 mb-3" style={{ borderColor: 'white', borderWidth: '12px', borderStyle: 'solid' }} key={order._id}>
               <div className="d-md-flex border-bottom">
-                <Card.Text className="col-md-6 col-12">Date Ordered: {DateFormat(order.createdAt)}</Card.Text>
+                <Card.Text className="col-md-6 col-12"><FcCalendar size={24} /> Date Ordered: {DateFormat(order.createdAt)}</Card.Text>
                 <Card.Text className="col-md-6 col-12"><FcPodiumWithSpeaker size={24} /> Client Name: {order.name}</Card.Text>
               </div>
-              <div className="d-md-flex border-bottom">
-                <Card.Text className="col-md-6 col-12"><FcTodoList size={24} /> ProductId: {order.products[0].productId}</Card.Text>
-                <Card.Text className="col-md-6 col-12"><FcDeployment size={24} /> Items: {order.products[0].quantity}</Card.Text>
+              <div className=" border-bottom">
+                {order.products.filter((product) => product.sellerId === auth._id).map((product, index) => (
+                  <div className="d-flex">
+
+                    <div className="col-3">
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        style={{ zIndex: '1', width: '100%', height: '100px', objectFit: 'cover' }}
+                      />
+                      <Card.Text><FcTodoList size={24} /> Delivery Status: {product.deliveryStatus}</Card.Text>
+                    </div>
+                    <div className="col-9">
+                      <Card.Text><FcTodoList size={24} /> Product Number: {product.productId}</Card.Text>
+                      <Card.Text><FcTodoList size={24} /> Product Name: {product.name}</Card.Text>
+                      <Card.Text className="col-md-6 col-12"><FcDeployment size={24} /> Quantity: {product.quantity}</Card.Text>
+                      <div className="d-md-flex border-bottom mb-3">
+                        <Card.Text className="col-md-6 col-12"><FcMoneyTransfer size={24} /> Total: {CurrencyFormat(product.price * product.quantity)}</Card.Text>
+                      </div>
+                    
+                      {product.deliveryStatus === 'For Pick Up' ?
+                        <><Button className="m-2" onClick={() => callRider(order.shipping.phoneNumber)}>Call Rider</Button>
+                          <Button className="m-2" onClick={() => callClient(order.shipping.phoneNumber)}>Call Client</Button></> :
+                        order.delivery_status === 'Delivered' ? null : <>
+                           <Button className="m-2" onClick={() => updateOrders(order._id, index)}>Request Delivery</Button>
+                        </>
+                      }
+                    </div>
+                  </div>
+                ))}
               </div>
               <div className="d-md-flex border-bottom">
                 <Card.Text className="col-md-6 col-12"><FcViewDetails size={24} /> Delivery Status: {order.delivery_status}</Card.Text>
                 <Card.Text className="col-md-6 col-12"><FcServices size={24} /> Payment Status: {order.payment_status}</Card.Text>
               </div>
-              <div className="d-md-flex border-bottom mb-3">
-                <Card.Text className="col-md-6 col-12"><FcMoneyTransfer size={24} /> Total: {CurrencyFormat(order.total)}</Card.Text>
-              </div>
-              {order.delivery_status === 'For Pick Up' ?
-                <><Button onClick={() => callRider(order.shipping.phoneNumber)}>Call Rider</Button>
-                  <Button onClick={() => callClient(order.shipping.phoneNumber)}>Call Client</Button></> :
-                order.delivery_status === 'Delivered' ? null :
-                  <Button onClick={() => updateOrder(order._id)}>Request Delivery</Button>}
             </li>
           ))}
         </ul>

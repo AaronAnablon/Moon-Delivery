@@ -31,6 +31,8 @@ import PickUp from "./components/rider/PickUp";
 import Shipment from "./components/rider/Shipment";
 import ToShip from "./components/rider/ToShip";
 import Rider from "./components/rider/Rider"
+import RiderSummary from "./components/rider/RiderSummary"
+import RiderRating from "./components/rider/RiderRating";
 
 import GeneralAdmin from "./components/general_admin/GeneralAdmin";
 import Stores from "./components/general_admin/Stores"
@@ -124,6 +126,8 @@ function App() {
               <Route path="shipment" element={<Shipment />} />
               <Route path="toShip" element={<ToShip />} />
               <Route path="pickUpClient" element={<PickUpClient />} />
+              <Route path="summary" element={<RiderSummary />} />
+              <Route path="riderRating" element={<RiderRating />} />
             </Route>
             <Route path="/system" element={<GeneralAdmin />}>
               <Route path="systemStores" element={<Stores />} />

@@ -9,6 +9,7 @@ import { IoArrowBackCircleSharp } from "react-icons/io5"
 import { BsCartPlus } from "react-icons/bs";
 import { useState } from 'react';
 import FullScreenImage from './FullScreenImage';
+import Slider from 'react-slick';
 
 function ProductDetails() {
   const { state } = useLocation();
@@ -37,21 +38,29 @@ function ProductDetails() {
     return price.toLocaleString('en-PH', { style: 'currency', currency: 'PHP' })
   }
 
+  const settings = {
+    dots: true,
+    slidesToShow: 1,
+    arrows: false,
+   };
+
   return (
     <>
       <NavLink to="/shoppingPage"><IoArrowBackCircleSharp color="black" size={30} /></NavLink>
     
-      <div className='col-12 m-3 d-lg-flex border-bottom'>
-        <div className="col-lg-6 col-12 ">
-          <div onClick={() => handleClick()}>
-            <img
-              src={product.image}
-              alt={product.name}
-              style={{ width: "90%", height: '400px', objectFit: 'cover' }}
-            />
-          </div>
-        </div>
-        <div className='col-lg-6 col-12'>
+      <div className='col-12 d-lg-flex border-bottom'>
+        <Slider {...settings} className='col-lg-6'>
+          {(product.image).map((image) => (
+            <div key={image}>
+                    <img
+                      src={image}
+                      alt={image}
+                       style={{ width: "100%", height: '400px', objectFit: 'cover' }}
+                    />
+            </div>
+          ))}
+        </Slider>
+        <div className='col-lg-6 col-11'>
           <div className='m-3'>
             <h3>{product.name}</h3>
             <div className="d-flex border-bottom border-top mt-3 mb-3">
@@ -63,7 +72,7 @@ function ProductDetails() {
             <Card.Text className='border-bottom'>Store Address: {product.address}</Card.Text>
             <div className='m-3'>
               <Button variant="outline-primary" className='d-flex align-items-center justify-content-between px-2' onClick={() =>
-                handleAddToCart(product)}><BsCartPlus />Add To Cart</Button>
+                handleAddToCart(product)}><BsCartPlus size={22}/>  Add To Cart</Button>
             </div>
           </div>
         </div>

@@ -40,15 +40,14 @@ router.post("/:id", isUser, async (req, res) => {
 router.put("/:id/:orderId", isUser, async (req, res) => {
   try {
     const updatedOrder = await Order.findByIdAndUpdate(
-      req.params.orderId,
-      {
-        $set: req.body,
-      },
+      req.params.orderId,   
+      req.body,
       { new: true }
     );
     res.status(200).send(updatedOrder);
   } catch (err) {
     res.status(500).send(err);
+    console.log(err)
   }
 });
 
@@ -59,20 +58,24 @@ router.delete("/:id", isUser, async (req, res) => {
     res.status(200).send("Order has been deleted...");
   } catch (err) {
     res.status(500).send(err);
+    console.log(err)
   }
 });
 
 //GET USER ORDERS
 router.get("/find/:id/:status", isUser, async (req, res) => {
   try {
-    const orders = await Order.find({ userId: req.params.id, 
+    const orders = await Order.find({
+      userId: req.params.id,
       $or: [
         { delivery_status: req.params.status },
         { delivery_status: 'pending' },
-        ] });
-    res.status(200).send(orders); 
+      ]
+    });
+    res.status(200).send(orders);
   } catch (err) {
     res.status(500).send(err);
+   
   }
 });
 
@@ -80,9 +83,10 @@ router.get("/find/:id/:status", isUser, async (req, res) => {
 
 router.get("/findDelivered/:id", isUser, async (req, res) => {
   try {
-    const orders = await Order.find({ userId: req.params.id, 
-     delivery_status: 'Delivered' ,
-           });
+    const orders = await Order.find({
+      userId: req.params.id,
+      delivery_status: 'Delivered',
+    });
     res.status(200).send(orders);
   } catch (err) {
     res.status(500).send(err);
@@ -91,12 +95,13 @@ router.get("/findDelivered/:id", isUser, async (req, res) => {
 //GET USER COMPLETED ORDERS
 router.get("/findCompleted/:id", isUser, async (req, res) => {
   try {
-    const orders = await Order.find({ userId: req.params.id, 
+    const orders = await Order.find({
+      userId: req.params.id,
       $or: [
         { delivery_status: 'Completed' },
-        {delivery_status: 'Cancelled'},
+        { delivery_status: 'Cancelled' },
       ]
-           });
+    });
     res.status(200).send(orders);
   } catch (err) {
     res.status(500).send(err);
@@ -119,17 +124,20 @@ router.get("/", isAdmin, async (req, res) => {
 
 router.get("/seller-orders/:seller/:status", isAdmin, async (req, res) => {
   try {
-    const orders = await Order.find({  products: {
-      $elemMatch: {
-        storeId: req.params.seller
-      }
-    },  $or: [
-      { delivery_status: req.params.status },
-      { delivery_status: 'Delivered' },
-      {delivery_status: 'Cancelled'},
-      {delivery_status: 'For Pick Up'},
-      {delivery_status: 'For Delivery'},
-    ] });
+    const orders = await Order.find({
+      products: {
+        $elemMatch: {
+          sellerId: req.params.seller,
+          $or: [
+            { deliveryStatus: req.params.status },
+            { deliveryStatus: 'Delivered' },
+            { deliveryStatus: 'Cancelled' },
+            { deliveryStatus: 'For Pick Up' },
+            { deliveryStatus: 'For Delivery' },
+          ]
+        }
+      },
+    });
     res.status(200).send(orders);
   } catch (err) {
     console.log(err)
@@ -154,11 +162,13 @@ router.get("/rider/:id/:deliveryStatus", isRider, async (req, res) => {
 
 router.get("/rider/:id/:delivery_status", isRider, async (req, res) => {
   try {
-    const orders = await Order.find({ rider: {
-      $elemMatch: {
-        1: req.params.id
-      }
-    }, delivery_status: req.params.delivery_status});
+    const orders = await Order.find({
+      rider: {
+        $elemMatch: {
+          1: req.params.id
+        }
+      }, delivery_status: req.params.delivery_status
+    });
     res.status(200).send(orders);
   } catch (err) {
     console.log(err)
@@ -169,17 +179,49 @@ router.get("/rider/:id/:delivery_status", isRider, async (req, res) => {
 
 router.get("/income/:id", isAdmin, async (req, res) => {
   try {
-    const orders = await Order.find({ userId: req.params.id, 
+    const orders = await Order.find({
+      userId: req.params.id,
       $or: [
         { delivery_status: 'Completed' },
-        {delivery_status: 'Cancelled'},
+        { delivery_status: 'Cancelled' },
       ]
-           });
+    });
     res.status(200).send(orders);
   } catch (err) {
     res.status(500).send(err);
   }
 });
+
+
+// GET RIDER ORDERS DATA 
+router.get('/riders/orderSummary/:id', async (req, res) => {
+  const DateFormatDb = (date) => {
+    return (new Date(date).toLocaleString('en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    }))
+  }
+  try {
+
+    const orders = await Order.find({
+      "rider.1": req.params.id,
+      updated_at: DateFormatDb(new Date()),
+      delivery_status: 'Delivered',
+    });
+
+    if (!orders) {
+      return res.status(404).json({ error: 'Orders not found' });
+    }
+
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+    console.log(error);
+  }
+});
+
+
 
 
 //get orders-by-status-and-date
@@ -208,10 +250,10 @@ router.get('/orders-by-status-and-date', isAdmin, async (req, res) => {
             year: { $year: '$createdAt' },
             month: { $month: '$createdAt' },
             day: { $dayOfMonth: '$createdAt' },
-               },
+          },
           count: { $sum: 1 },
         },
-        
+
       },
       {
         $sort: { _id: 1 },

@@ -78,7 +78,7 @@ const PahatidSundo = () => {
           <Form>
             <Form.Group controlId="pickupAddress">
               <Form.Label>Pickup Address:</Form.Label>
-              <Form.Control type="text" value={defaultAddress ? auth.address : pickupAddress} onChange={handlePickupAddressChange} />
+              <Form.Control placeholder='Pick up address...' type="text" value={defaultAddress ? auth.address : pickupAddress} onChange={handlePickupAddressChange} />
             </Form.Group>
             <Form.Group controlId="useDefaultAddress">
               <Form.Check
@@ -89,11 +89,11 @@ const PahatidSundo = () => {
             </Form.Group>
             <Form.Group controlId="destination">
               <Form.Label>Destination:</Form.Label>
-              <Form.Control type="text" value={destination} onChange={handleDestinationChange} />
+              <Form.Control placeholder='Destination...' type="text" value={destination} onChange={handleDestinationChange} />
             </Form.Group>
             <Form.Group controlId="phoneNumber">
               <Form.Label>Phone Number:</Form.Label>
-              <Form.Control type="text" value={defaultNumber ? auth.phoneNumber : phoneNumber} onChange={handlePhoneNumberChange} />
+              <Form.Control placeholder='Mobile Number...' type="text" value={defaultNumber ? auth.phoneNumber : phoneNumber} onChange={handlePhoneNumberChange} />
             </Form.Group>
             <Form.Group controlId="useDefaultPhoneNumber">
               <Form.Check

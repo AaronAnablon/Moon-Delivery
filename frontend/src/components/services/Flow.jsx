@@ -54,7 +54,7 @@ const Flow = () => {
                 <Accordion.Item eventKey="1" className="mt-3 border-top">
                     <Accordion.Header>
                         <div className="col-6">
-                            <FcPaid size={35} /> Shopping
+                            <FcPaid size={35} /> Pabili
                         </div>
                         <div className="col-5">
                             <FcReadingEbook size={40} />  Book in the Pabili Page. Add items for the rider to buy
@@ -84,7 +84,7 @@ const Flow = () => {
                 <Accordion.Item eventKey="2" className="mt-3 border-top">
                     <Accordion.Header>
                         <div className="col-6">
-                            <FcDeployment size={35} />   Pakuha/Padala
+                            <FcDeployment size={35} /> Pakuha
                         </div>
                         <div className="col-5">
                             <FcReadingEbook size={40} />  Book in the Pakuha/Padala Page

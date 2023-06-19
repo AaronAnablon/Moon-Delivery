@@ -64,10 +64,10 @@ const Cart = () => {
                   <div className="d-flex justify-content-center align-items-center border-bottom" key={cartItem._id}>
                     <div> <AiFillDelete onClick={() => handleRemoveFromCart(cartItem)} size={'1.3rem'} className="hover" /></div>
                     <div className="m-3" style={{ width: "100%" }}>
-                      <img src={cartItem.image} alt={cartItem._id} style={{ zIndex: 1, width: "5rem", height: "5rem" }}
+                      <img src={cartItem.image[0]} alt={cartItem._id} style={{ zIndex: 1, width: "5rem", height: "5rem" }}
                         className="d-block d-sm-none" />
                       <img
-                        src={cartItem.image}
+                        src={cartItem.image[0]}
                         alt={cartItem._id}
                         style={{ zIndex: 1, width: "8rem", height: "8rem" }}
                         className="d-none d-sm-block"
@@ -102,7 +102,7 @@ const Cart = () => {
                 className="d-flex align-items-center m-2 hover text-decoration-none text-nowrap fs-6 "
               >
                 <FaArrowAltCircleLeft />
-                <div className="px-md-2">Continue Shopping</div>
+                <div className="px-md-2"> Continue Shopping</div>
               </Link>
               <Button variant="outline-secondary" onClick={() => handleClearCart()}>
                 Clear Cart

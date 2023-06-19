@@ -18,7 +18,6 @@ const Notification = () => {
   useEffect(() => {
     const socket = io.connect(server);
     socket.on('notification', (notification) => {
-      console.log('Received new notification:', notification);
       setNewNotif(notification)
     });
     return () => {
@@ -31,8 +30,7 @@ const Notification = () => {
     try {
       const response = await axios.get(`${url}/notification/${auth._id}`);
       const notification = response.data;
-      console.log('reversed', notification.reverse())
-      setNotification(notification);
+      setNotification(notification.reverse());
     } catch (error) {
       toast.error("Something went wrong!")
       console.log(error)
@@ -43,8 +41,7 @@ const Notification = () => {
     try {
       const response = await axios.get(`${url}/notification/notification/${auth._id}`);
       const notification = response.data;
-      console.log(notification)
-      setReadNotification(notification);
+      setReadNotification(notification.reverse());
     } catch (error) {
       toast.error("Something went wrong!")
       console.log(error)
@@ -72,12 +69,9 @@ const updateRead = async (notifId) => {
     fetchReadNotification();
     fetchNotification();
   } catch (err) {
-    console.log(err);
+    toast.error("Something went wrong!")
   }
 };
-
-
-
   const formatDate = (date) => {
     return (new Date(date).toLocaleString('en-US', {
       year: 'numeric',

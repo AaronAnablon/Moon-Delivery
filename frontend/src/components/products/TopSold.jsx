@@ -61,7 +61,7 @@ const TopProducts = ({ toProductDetails }) => {
               <Card className="col-9" onClick={() => toProductDetails(product)}>
                 {product.image && (
                     <img
-                      src={product.image}
+                      src={product.image[0]}
                       alt={product.name}
                       style={{
                         height: "90px",
