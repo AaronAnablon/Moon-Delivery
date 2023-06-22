@@ -22,6 +22,7 @@ import { GiFullMotorcycleHelmet } from "react-icons/gi";
 import { HiOutlineClipboardDocumentCheck } from "react-icons/hi2";
 import { IoTrashBinOutline } from "react-icons/io5";
 import CurrencyFormat from "../formatters/CurrencyFormat";
+import { toast } from "react-toastify";
 
 const ToShip = () => {
   const auth = useSelector((state) => state.auth);
@@ -31,11 +32,12 @@ const ToShip = () => {
   const fetchOrders = useCallback(async () => {
     setLoading(true)
     try {
-      const res = await axios.get(`${url}/orders/rider/${auth._id}/For Delivery`, setHeaders());
+      const res = await axios.get(`${url}/orders/rider/${auth._id}/pending`, setHeaders());
       setOrders((res.data).reverse());
       setLoading(false)
     } catch (err) {
       console.log(err)
+      toast.error('Something went wrong')
     }
   }, [auth.token]);
 
@@ -54,8 +56,10 @@ const ToShip = () => {
       }
       await axios.put(`${url}/orders/${auth._id}/${orderId}`, updatedOrder, setHeaders());
       fetchOrders();
+      toast.success('Successfully accepted the order')
     } catch (err) {
       console.log(err)
+      toast.error('Something went wrong')
     }
   };
 
@@ -82,7 +86,7 @@ const ToShip = () => {
       {orders && orders.length === 0 && <p>No order found</p>}
         {orders && orders.map((order) => (
           <Card className="border-bottom col-12 p-4 shadow" key={order._id}>
-            <div className="d-md-flex border-bottom"> 
+            <div className="d-md-flex border-bottom bg-info"> 
             <Card.Text className="col-md-6 col-12"><FcCalendar size={28} /> Date Ordered: {formatDate(order.createdAt)}</Card.Text>
             <Card.Text className="col-md-6 col-12"><FcServices size={28} /> Order Number: {order._id}</Card.Text>
             </div>
@@ -90,24 +94,24 @@ const ToShip = () => {
             <Card.Text className="col-md-6 col-12"><FcPodiumWithSpeaker size={28} /> Client Name: {order.name}</Card.Text>
             <Card.Text className="col-md-6 col-12">📞 Client Phone Number: 🟢{order.shipping.phoneNumber}</Card.Text>
             </div>
-            <Card.Text><FcDeployment size={28} /> Items: {order.products.map((product) => (
-            <div className="shadow p-3">
-              <div className="d-flex">
-                <Card.Text className="col-md-6 col-12">Seller: {product.sellerName}</Card.Text>
-                <Card.Text className="col-md-6 col-12">📞 Seller: 🟢{product.sellerNumber}</Card.Text>
+            <Card.Text className="shadow"><FcDeployment size={28} /> Items: {order.products.map((product) => (
+            <div className="border-bottom border-top p-3">
+              <div className="d-md-flex">
+                <Card.Text className="col-md-3 col-12">Seller: {product.sellerName}</Card.Text>
+                <Card.Text className="col-md-3 col-12">📞 Seller: 🟢{product.sellerNumber}</Card.Text>
+                <Card.Text className="col-md-6 col-12"><FcAssistant size={28} /> Pick Up Location: {product.address}</Card.Text>
               </div>
-              <Card.Text><FcAssistant size={28} /> Pick Up Location: {product.address}</Card.Text>
-              <div className="d-flex">
+            
+              <div className="d-md-flex">
                 <Card.Text className="col-md-6 col-12">Product: {product.name}</Card.Text>
                 <Card.Text className="col-md-6 col-12">Subtotal: {CurrencyFormat(product.price)}</Card.Text>
               </div>
             </div>
           ))}</Card.Text>
             <div className="d-md-flex border-bottom"> 
-            <Card.Text className="col-md-6 col-12"><FcAssistant size={28} /> Pick Up Location: {order.shipping.address1}</Card.Text>
             <Card.Text className="col-md-6 col-12"><FcGlobe size={28} /> Dropping Location: {order.shipping.address2}</Card.Text>
             </div>
-            <div className="d-md-flex border-bottom"> 
+            <div className="d-md-flex mt-3 mb-3 border-bottom"> 
             <Card.Text className="col-md-6 col-12"><FcTodoList size={28} /> Delivery Status: {order.delivery_status}</Card.Text>
             <Card.Text className="col-md-6 col-12"><FcViewDetails size={28} /> Payment Status: {order.payment_status}</Card.Text>
            </div>

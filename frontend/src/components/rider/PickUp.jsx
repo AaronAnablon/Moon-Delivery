@@ -86,23 +86,25 @@ const PickUp = () => {
 
       {orders && orders.map((order) => (
         <div className="p-3 mb-2 shadow" key={order._id}>
-          <div className="d-md-flex border-bottom">
+          <div className="d-md-flex bg-info border-bottom">
             <Card.Text className="col-md-6 col-12"><FcCalendar size={28} /> Date Ordered: {DateFormat(order.createdAt)}</Card.Text>
             <Card.Text className="col-md-6 col-12"><FcTodoList size={28} /> Order Number: {order._id}</Card.Text>
           </div>
-          <Card.Text><FcDeployment size={28} /> Items: {order.products.map((product) => (
-            <div className="shadow p-3">
-              <div className="d-flex">
-                <Card.Text className="col-md-6 col-12">Seller: {product.sellerName}</Card.Text>
-                <Card.Text className="col-md-6 col-12">📞 Seller: 🟢{product.sellerNumber}</Card.Text>
+          <Card.Text><FcDeployment size={28} /> Items:
+            {order.products.map((product) => (
+              <div className="shadow p-3">
+                <div className="d-flex">
+                  <Card.Text className="col-md-6 col-12">Seller: {product.sellerName}</Card.Text>
+                  <Card.Text className="col-md-6 col-12">📞 Seller: 🟢{product.sellerNumber}</Card.Text>
+                </div>
+                <Card.Text><FcAssistant size={28} /> Pick Up Location: {product.address}</Card.Text>
+                <div className="d-flex">
+                  <Card.Text className="col-md-6 col-12">Product: {product.name}</Card.Text>
+                  <Card.Text className="col-md-6 col-12">Subtotal: {CurrencyFormat(product.price)}</Card.Text>
+                </div>
+                <Card.Text className="col-md-6 col-12"><FcTodoList size={28} /> Delivery Status: {product.deliveryStatus}</Card.Text>
               </div>
-              <Card.Text><FcAssistant size={28} /> Pick Up Location: {product.address}</Card.Text>
-              <div className="d-flex">
-                <Card.Text className="col-md-6 col-12">Product: {product.name}</Card.Text>
-                <Card.Text className="col-md-6 col-12">Subtotal: {CurrencyFormat(product.price)}</Card.Text>
-              </div>
-            </div>
-          ))}</Card.Text>
+            ))}</Card.Text>
           <div className="d-md-flex border-bottom">
             <Card.Text className="col-md-6 col-12"><FcPodiumWithSpeaker size={28} /> Client Name: {order.name}</Card.Text>
             <Card.Text className="col-md-6 col-12">📞 Client Phone Number: 🟢{order.shipping.phoneNumber}</Card.Text>
@@ -112,7 +114,6 @@ const PickUp = () => {
           </div>
           <img className="col-12" style={{ width: '7rem', height: '100px' }} src={order.image} />
           <div className="d-md-flex border-bottom">
-            <Card.Text className="col-md-6 col-12"><FcTodoList size={28} /> Delivery Status: {order.delivery_status}</Card.Text>
             <Card.Text className="col-md-6 col-12"><FcViewDetails size={28} /> Payment Status: {order.payment_status}</Card.Text>
           </div>
           <Card.Text className="col-md-6 col-12"><FcMoneyTransfer size={28} /> Total: {CurrencyFormat(order.total)}</Card.Text>

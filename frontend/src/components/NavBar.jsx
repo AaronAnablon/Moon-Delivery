@@ -95,12 +95,12 @@ const NavBar = ({ setSearchData }) => {
                     onClick={handleTop}
                 />
             )}
-            {!showNavBar &&
+            {!showNavBar && 
                 <Navbar expand="true" className="py-3 align-items-center justify-content-evenly shadow">
-                    {auth.isRider &&
+                    {auth.isRider && !auth.isAdmin &&
                         <NavBarEmployee empType={"Rider"} linkTo={"/rider/booked"} authName={auth.name} />
                     }
-                    {auth.isAdmin &&
+                    {auth.isAdmin && !auth.isRider &&
                         <NavBarEmployee logo={GiFullMotorcycleHelmet} empType={"Seller"} linkTo={"/admin/summary"} authName={auth.name} />
                     }
                   {auth.isAdmin && auth.isRider === true &&

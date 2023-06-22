@@ -35,7 +35,7 @@ const RiderRating = () => {
                         <Card.Text>{rating[0]}</Card.Text>
                     </div>
                     <div className='col-3'>
-                        <StarRating rating={3} overAll={5} />
+                        <StarRating rating={rating[2] * 5} overAll={5} />
                     </div>
                 </div>
             ))}

@@ -2,7 +2,19 @@ const express = require('express');
 const router = express.Router();
 const { User } = require("../models/user");
 const bcrypt = require('bcrypt');
-const { isUser } = require('../middleware/auth');
+const { isUser, isAdmin } = require('../middleware/auth');
+
+router.get('/', isAdmin, async (req, res) => {
+  try {
+
+    const users = await User.find()
+
+    res.status(200).send(users)
+  } catch (err) {
+    console.log(err)
+    res.status(500).send(err);
+  }
+})
 
 router.put("/:id", isUser , async (req, res) => {
   const { name, email, password, phoneNumber, address } = req.body;

@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { loadUser } from "./slices/authSlice";
+import { useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 
 import Home from "./components/Home";
@@ -66,7 +67,7 @@ import ForgotPassword from "./components/auth/ForgotPassword";
 
 function App() {
   const dispatch = useDispatch();
-
+  const auth = useSelector((state) => state.auth)
   const [searchData, setSearchData] = useState('');
 
   useEffect(() => {
@@ -80,7 +81,15 @@ function App() {
         <div className="mx-auto" style={{ maxWidth: '1200px' }}>
           <NavBar setSearchData={setSearchData} />
           <Routes>
-            <Route path="/" element={<Services />} />
+            {auth.isRider || auth.isAdmin ? (
+              <>
+                {auth.isRider && <Route path="/" element={<Booked />} />}
+                {auth.isAdmin && <Route path="/" element={<Summary />} />}
+              </>
+            ) : (
+              <Route path="/" element={<Services />} />
+            )}
+
 
             <Route path="/shoppingPage" element={<Home searchData={searchData} />} />
 

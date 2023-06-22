@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import jwtDecode from "jwt-decode";
 import axios from "axios";
 import { url, setHeaders } from "./api";
+import {toast} from 'react-toastify'
 
 const initialState = {
   token: localStorage.getItem("moon-delivery"),
@@ -57,6 +58,7 @@ export const loginUser = createAsyncThunk(
       localStorage.setItem("moon-delivery", token.data);
       return token.data;
     } catch (error) {
+      toast.error('Something Went Wrong!!')
       console.log(error.response);
       return rejectWithValue(error.response.data);
     }

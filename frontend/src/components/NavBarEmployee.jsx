@@ -1,6 +1,7 @@
 import { BiUserCircle } from "react-icons/bi"
 import { Link } from "react-router-dom"
 import { Nav } from "react-bootstrap"
+import { RxHamburgerMenu } from "react-icons/rx";
 
 const NavBarEmployee = ({ empType, linkTo, authName }) => {
     return (
@@ -8,7 +9,7 @@ const NavBarEmployee = ({ empType, linkTo, authName }) => {
             <div>
                 <Nav.Link as={Link} to={linkTo}>
                     <img style={{ width: '2.34rem' }} src="/logo192.png" alt="logo"></img>
-                   Moon Delivery | {empType}
+                   Moon Delivery | {empType} | <RxHamburgerMenu size={28}/>
                 </Nav.Link>
             </div>
             <div>
