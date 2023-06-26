@@ -47,7 +47,7 @@ const Login = () => {
 
   return (
     <div className="d-flex justify-content-center align-items-center m-5">
-      <Card className="col-lg-5 col-12 col-md-8 shadow d-flex justify-content-center align-items-center m-5">
+      <Card style={{background: 'linear-gradient(45deg, rgba(255,255,255,1) 71%, rgba(244,61,0,1) 71%)'}} className="col-lg-5 col-12 col-md-8 shadow d-flex justify-content-center align-items-center m-5">
         <Form className="col-10 m-4" onSubmit={handleSubmit}>
           <h2>Login</h2>
           <Form.Group>

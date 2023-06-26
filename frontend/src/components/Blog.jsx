@@ -43,7 +43,7 @@ const Blog = () => {
 
  
   return (
-    <div className="d-md-flex mb-5 align-items-center bg-dark">
+    <div className="d-md-flex mb-5 align-items-center" style={{background: 'linear-gradient(45deg, rgba(244,61,0,1) 66%, rgba(229,212,11,1) 66%)'}}> 
       <div className="col-md-6 col-12">
         <h4 className="text-light p-5">
           {typedText}

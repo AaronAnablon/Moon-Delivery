@@ -43,7 +43,7 @@ const Cart = () => {
   }
 
   return (
-    <Container>
+    <Container className="mb-5">
       <h2>Shopping Cart</h2>
       {cart.cartItems.length === 0 ? (
         <div>

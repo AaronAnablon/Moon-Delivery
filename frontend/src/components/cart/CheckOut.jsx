@@ -102,7 +102,7 @@ const Checkout = () => {
 
   return (
 
-    <div className="container-fluid row">
+    <div className="container-fluid row mb-5">
       <Card className='col-lg-6'>
         <div className='m-4'>
           <h2 className="text-center">Order Information</h2>

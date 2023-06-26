@@ -41,12 +41,14 @@ a.nav-link {
   border-radius: 5px;
   color: #000000;
   background: transparent;
+  transform: scale(1.1);
 }
 
 a.nav-link:hover {
   border-radius: 5px;
   color: #000000;
   background: rgb(241, 240, 240);
+  transform: scale(1.1);
 }
 
 a.nav-link.active {
@@ -106,14 +108,19 @@ a.nav-link.active {
   white-space: nowrap;
 }
 
+a.d-flex.nav-link,
+a.nav-link {
+  color: rgb(0, 0, 0);
+}
+
 .sub-nav a {
-  color: black;
+  color: rgb(255, 254, 254);
   text-decoration: none;
 }
 
 .sub-nav a .link-active {
   font-weight: bold;
-  color: rgb(80, 78, 78);
+  color: rgb(0, 0, 0);
 }
 
 .sub-nav-ul {
@@ -196,7 +203,7 @@ a.nav-link.active {
 }
 
 
-.image-container  {
+.image-container {
   display: flex;
   justify-content: center;
   align-items: center;

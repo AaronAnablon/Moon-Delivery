@@ -99,7 +99,7 @@ const Register = () => {
 
   return (
     <div className="d-flex align-items-center mt-5 justify-content-center">
-       <div className="col-lg-5 col-md-8 col-11 d-flex shadow align-items-center justify-content-center">
+       <div style={{background: 'linear-gradient(45deg, rgba(255,255,255,1) 71%, rgba(244,61,0,1) 71%)'}} className="col-lg-5 col-md-8 col-11 d-flex shadow align-items-center justify-content-center">
       <Form className="col-lg-10 col-12 p-3 m-lg-5" onSubmit={handleSubmit}>
         <h2>Register</h2>
         <Form.Group>

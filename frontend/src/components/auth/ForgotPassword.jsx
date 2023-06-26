@@ -82,7 +82,7 @@ const ForgotPassword = () => {
 
     return (
         <div className="container-fluid flex-wrap d-flex justify-content-center align-items-center">
-            {!disable && !showUpdatePassword && <Form onSubmit={handleSendCode} className="col-12 mt-3 col-md-6 p-5 shadow">
+            {!disable && !showUpdatePassword && <Form onSubmit={handleSendCode} style={{background: 'linear-gradient(45deg, rgba(255,255,255,1) 71%, rgba(244,61,0,1) 71%)'}} className="col-12 mt-3 col-md-6 p-5 shadow">
                 <Form.Group >
                     <Form.Label>Email:</Form.Label>
                     <Form.Control

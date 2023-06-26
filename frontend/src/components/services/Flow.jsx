@@ -12,6 +12,7 @@ import {
     FcDown
 } from "react-icons/fc";
 import { Accordion } from "react-bootstrap";
+import { FaArrowAltCircleRight } from "react-icons/fa";
 
 const Flow = () => {
     return (
@@ -111,7 +112,7 @@ const Flow = () => {
                         </div>
                     </Accordion.Body>
                 </Accordion.Item>
-                <Accordion.Item eventKey="3" className="mt-3 border-top">
+                <Accordion.Item eventKey="3" className="mt-3 mb-5 border-top">
                     <Accordion.Header>
                         <div className="col-6">
                             <FcAutomotive size={35} />    Book a Ride
@@ -142,7 +143,11 @@ const Flow = () => {
                         </div>
                     </Accordion.Body>
                 </Accordion.Item>
+                <div className="mb-5" style={{ fontSize: '1.5rem' }}>
+                    <Link to={'https://sites.google.com/view/moon-delivery/home'} target="_blank">More <FaArrowAltCircleRight /></Link>
+                </div>
             </Accordion>
+
         </>
     )
 }

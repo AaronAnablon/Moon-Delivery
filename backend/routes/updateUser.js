@@ -33,6 +33,24 @@ router.put("/:id", isUser , async (req, res) => {
   }
 });
 
+//APPROVE ACCOUNT
+router.put("/status/:status/:id", isUser , async (req, res) => {
+ 
+  try {
+    const approveUser = await User.findByIdAndUpdate(
+      req.params.id,
+      { $set: {
+        active: req.params.status
+      } },
+      { new: true }
+    );
+    res.status(200).send(approveUser);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+});
+
 // RATE RIDER
 router.put("/Rider/:id", isUser , async (req, res) => {
   try {

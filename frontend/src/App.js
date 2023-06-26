@@ -65,6 +65,8 @@ import Services from "./components/services/Services";
 import NotApproved from "./components/NotApproved";
 import ForgotPassword from "./components/auth/ForgotPassword";
 
+import Footer from "./components/Footer";
+
 function App() {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth)
@@ -78,7 +80,7 @@ function App() {
     <div >
       <BrowserRouter>
         <ToastContainer />
-        <div className="mx-auto" style={{ maxWidth: '1200px' }}>
+        <div className="mx-auto" style={{ maxWidth: '1200px'}}>
           <NavBar setSearchData={setSearchData} />
           <Routes>
             {auth.isRider || auth.isAdmin ? (
@@ -146,6 +148,7 @@ function App() {
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <Footer />
         </div>
       </BrowserRouter>
     </div>
