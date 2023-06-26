@@ -96,7 +96,9 @@ const NavBar = ({ setSearchData }) => {
                 />
             )}
             {!showNavBar && 
-                <Navbar expand="true" className="py-3 align-items-center justify-content-evenly shadow">
+                <Navbar expand="true" className={
+                    !auth.isRider && !auth.isAdmin ?
+                    "py-3 align-items-center justify-content-evenly shadow" : "py-3 align-items-center shadow"}>
                     {auth.isRider && !auth.isAdmin &&
                         <NavBarEmployee empType={"Rider"} linkTo={"/rider/booked"} authName={auth.name} />
                     }

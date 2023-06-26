@@ -58,38 +58,37 @@ const Summary = () => {
 
   return (
     <div className="d-flex flex-wrap justify-content-center container-fluid">
-      <div className="col-lg-6 col-11 border p-5">
+      <div className="col-lg-5 m-3 col-11 border p-5">
+        <LineChart
+          date={ordersByDate}
+          pending={pendingOrders}
+          cancelled={cancelledOrders} />
+      </div>
+      <div className="col-lg-5 m-3 col-11 border p-5">
         <Chart
           orders={pendingOrders}
           completed={completedOrders}
           forPickUp={forPickUpOrders}
           cancelled={cancelledOrders} />
       </div>
-      <div className="col-lg-6 col-11 border p-5">
-        <LineChart
-          date={ordersByDate}
-          pending={pendingOrders}
-          cancelled={cancelledOrders} />
-      </div>
-
 
       <div className="col-12">
         <div className="orderByStats col-12 border p-5">
           <h2 className="col-12">Orders by Status</h2>
           <div className="d-lg-flex justify-content-center col-12">
-            <Card className="border d-flex align-items-center m-3 col-md-6 col-lg-4">
+            <Card className="border text-light bg-success d-flex align-items-center m-3 col-md-6 col-lg-4">
               <span>
                 {completedOrders}
               </span>
               <Card.Text>Completed Orders </Card.Text>
             </Card>
-            <Card className="border d-flex align-items-center m-3 col-md-6 col-lg-4">
+            <Card className="border text-light bg-warning d-flex align-items-center m-3 col-md-6 col-lg-4">
               <span >
                 {cancelledOrders}
               </span>
               <Card.Text>Cancelled Orders </Card.Text>
             </Card>
-            <Card className="border d-flex align-items-center m-3 col-md-6 col-lg-4">
+            <Card className="border text-light bg-secondary d-flex align-items-center m-3 col-md-6 col-lg-4">
               <span>
                 {pendingOrders}
               </span>
@@ -98,21 +97,24 @@ const Summary = () => {
           </div>
         </div>
         <h3>Orders by Date</h3>
-        <div className="border d-flex mt-2 mb-3 p-3">
-
-          {ordersByDate.map((order) => (
-            <Card className="col-4 orderByStats align-items-center">
-              <span>
-                {order.count}
-              </span>
-              <Card.Text key={`${order._id.year}-${order._id.month}-${order._id.day}`}>
-                {`${moment(
-                  `${order._id.year}-${order._id.month}-${order._id.day}-${order._id.hour}-${order._id.minute}`,
-                  'YYYY-M-D'
-                ).format('MMMM D, YYYY')}`}
-              </Card.Text>
-            </Card>))}
+        <div className="border mt-2 mb-3 p-3">
+          <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+            {ordersByDate.map((order) => (
+              <div className="col">
+                <Card className="orderByStats text-light bg-secondary align-items-center">
+                  <span>{order.count}</span>
+                  <Card.Text  key={`${order._id.year}-${order._id.month}-${order._id.day}`}>
+                    {`${moment(
+                      `${order._id.year}-${order._id.month}-${order._id.day}-${order._id.hour}-${order._id.minute}`,
+                      'YYYY-M-D'
+                    ).format('MMMM D, YYYY')}`}
+                  </Card.Text>
+                </Card>
+              </div>
+            ))}
+          </div>
         </div>
+
       </div>
 
       <div className="col-12 border p-md-5">

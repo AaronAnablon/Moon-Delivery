@@ -9,7 +9,7 @@ const NavBarEmployee = ({ empType, linkTo, authName }) => {
             <div>
                 <Nav.Link as={Link} to={linkTo}>
                     <img style={{ width: '2.34rem' }} src="/logo192.png" alt="logo"></img>
-                   Moon Delivery | {empType} | <RxHamburgerMenu size={28}/>
+                   Moon Delivery | {empType}
                 </Nav.Link>
             </div>
             <div>
