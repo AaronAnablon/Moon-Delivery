@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../slices/authSlice";
 import { toast } from "react-toastify";
 import { Nav, Navbar, Offcanvas, Form } from "react-bootstrap";
-import { BiLogOut, BiUserCircle, BiHomeAlt2 } from "react-icons/bi"
+import { BiLogOut, BiUserCircle, BiHomeAlt2, BiLogIn } from "react-icons/bi"
 import { IoMdBook, IoMdNotificationsOutline } from 'react-icons/io';
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import ProfileNav from "./user/ProfileNav";
@@ -95,17 +95,17 @@ const NavBar = ({ setSearchData }) => {
                     onClick={handleTop}
                 />
             )}
-            {!showNavBar && 
+            {!showNavBar &&
                 <Navbar expand="true" className={
                     !auth.isRider && !auth.isAdmin ?
-                    "py-3 align-items-center justify-content-evenly shadow" : "py-3 align-items-center shadow"}>
+                        "py-3 align-items-center justify-content-evenly shadow" : "py-3 align-items-center shadow"}>
                     {auth.isRider && !auth.isAdmin &&
                         <NavBarEmployee empType={"Rider"} linkTo={"/rider/booked"} authName={auth.name} />
                     }
                     {auth.isAdmin && !auth.isRider &&
                         <NavBarEmployee logo={GiFullMotorcycleHelmet} empType={"Seller"} linkTo={"/admin/summary"} authName={auth.name} />
                     }
-                  {auth.isAdmin && auth.isRider === true &&
+                    {auth.isAdmin && auth.isRider === true &&
                         <div>
                             <Nav.Link as={Link} to="/system">
                                 <div className="system">
@@ -191,7 +191,7 @@ const NavBar = ({ setSearchData }) => {
                                         Menu
                                     </Offcanvas.Title>
                                 </Offcanvas.Header>
-                                {auth._id &&
+                                {auth._id ?
                                     <Nav className="flex-column px-5">
                                         <Nav.Link as={Link} to="/user/userSettings" className="d-flex align-items-center">
                                             <BiUserCircle size={24} />
@@ -208,7 +208,11 @@ const NavBar = ({ setSearchData }) => {
                                             <div className="px-3">Logout</div>
                                         </Nav.Link>
 
-                                    </Nav>}
+                                    </Nav> : <Nav.Link as={Link} to="/login" className="d-flex align-items-center"
+                                        >
+                                        <BiLogIn size={24} />
+                                        <div className="px-3">Please Log In!</div>
+                                    </Nav.Link>}
                             </Navbar.Offcanvas>
                         </Navbar.Collapse>
                     </Navbar.Toggle>

@@ -114,7 +114,7 @@ a.nav-link {
 }
 
 .sub-nav a {
-  color: rgb(255, 254, 254);
+  color: rgb(0, 0, 0);
   text-decoration: none;
 }
 
@@ -212,7 +212,7 @@ a.nav-link {
 }
 
 .image-container>img {
-  width: 6rem;
+  width: 5rem;
 }
 
 .animation-finished .top-left-image {

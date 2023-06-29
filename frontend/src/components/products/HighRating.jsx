@@ -8,17 +8,17 @@ const HighRating = () => {
   const services = [
     {
       _id: 'Pabili',
-      image: 'https://res.cloudinary.com/dldx2inhf/image/upload/v1685596518/Flyers/photo_2023-06-01_13-13-33_dvkw1s.jpg',
+      image: 'https://res.cloudinary.com/dldx2inhf/image/upload/v1688011864/Flyers/pabili_zd4wbu.png',
       location: '/booking/pabili'
     },
     {
       _id: 'Pakuha/Padala',
-      image: 'https://res.cloudinary.com/dldx2inhf/image/upload/v1686110163/Flyers/photo_2023-06-01_10-41-05_enh9ef.jpg',
+      image: 'https://res.cloudinary.com/dldx2inhf/image/upload/v1688011902/Flyers/pakuha_padala_jdgpmh.png',
       location: '/booking/pakuhaPadala'
     },
     {
       _id: 'Book_Ride',
-      image: 'https://res.cloudinary.com/dldx2inhf/image/upload/v1686110153/Flyers/photo_2023-06-07_11-55-34_noawwa.jpg',
+      image: 'https://res.cloudinary.com/dldx2inhf/image/upload/v1688011899/Flyers/pahatid_sundo_t2rdvh.png',
       location: '/booking/pahatidSundo'
     }
   ]

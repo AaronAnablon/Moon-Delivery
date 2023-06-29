@@ -19,6 +19,7 @@ const Rider = () => {
   const Navigation = () => {
     return (
       <>
+        <h2 className="d-md-block d-none border-bottom border-top">Summary</h2>
         <NavLink className="nav-link m-2 text-nowrap" to="/rider/summary">
           <FcComboChart size={22} /> Today
         </NavLink>

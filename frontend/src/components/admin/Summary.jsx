@@ -9,6 +9,16 @@ import { toast } from "react-toastify";
 import { Card } from "react-bootstrap";
 import CurrencyFormat from "../formatters/CurrencyFormat"
 import DateFormat from "../formatters/DateFormat"
+import {
+  FcCalendar,
+  FcServices,
+  FcTodoList,
+  FcPodiumWithSpeaker,
+  FcMoneyTransfer,
+  FcDeployment,
+  FcViewDetails,
+} from "react-icons/fc";
+
 
 const Summary = () => {
   const auth = useSelector(state => state.auth)
@@ -27,6 +37,7 @@ const Summary = () => {
           setHeaders()
         );
         setOrders((response.data).reverse())
+        console.log('Orders', response.data)
       } catch (error) {
         console.log(error);
         toast.error('Something went wrong!')
@@ -40,7 +51,7 @@ const Summary = () => {
     async function fetchOrders() {
       try {
         const response = await axios.get(`${url}/orders/orders-by-status-and-date`, setHeaders());
-        console.log(response.data)
+
         setCompletedOrders(response.data.completedOrders);
         setCancelledOrders(response.data.cancelledOrders);
         setPendingOrders(response.data.pendingOrders);
@@ -103,7 +114,7 @@ const Summary = () => {
               <div className="col">
                 <Card className="orderByStats text-light bg-secondary align-items-center">
                   <span>{order.count}</span>
-                  <Card.Text  key={`${order._id.year}-${order._id.month}-${order._id.day}`}>
+                  <Card.Text key={`${order._id.year}-${order._id.month}-${order._id.day}`}>
                     {`${moment(
                       `${order._id.year}-${order._id.month}-${order._id.day}-${order._id.hour}-${order._id.minute}`,
                       'YYYY-M-D'
@@ -114,19 +125,40 @@ const Summary = () => {
             ))}
           </div>
         </div>
-
       </div>
-
       <div className="col-12 border p-md-5">
         <h2>Recent Sales: </h2>
-        {orders && orders.map((order) =>
-          <Card className="border mb-md-3 p-3">
-            <Card.Text>Date Ordered: {DateFormat(order.createdAt)}</Card.Text>
-            <Card.Text>Client Name:{order.name}</Card.Text>
-            <Card.Text>Rider: {order.rider[0]}</Card.Text>
-            <Card.Text>Total Amount: {CurrencyFormat(order.total)}</Card.Text>
-          </Card>
-        )}</div>
+        {orders && orders.map((order) => (
+          <li className="shadow p-3 mb-3" style={{ borderColor: 'white', borderWidth: '12px', borderStyle: 'solid' }} key={order._id}>
+            <div className="d-md-flex border-bottom">
+              <Card.Text className="col-md-6 col-12"><FcCalendar size={24} /> Date Ordered: {DateFormat(order.createdAt)}</Card.Text>
+              <Card.Text className="col-md-6 col-12"><FcPodiumWithSpeaker size={24} /> Client Name: {order.name}</Card.Text>
+            </div>
+            <div className=" border-bottom">
+              {order.products.filter((product) => product.sellerId === auth._id).map((product, index) => (
+                <div className="d-flex">
+
+                  <div className="col-3">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      style={{ zIndex: '1', width: '100%', height: '100px', objectFit: 'cover' }}
+                    />
+                  </div>
+                  <div className="col-9">
+                    <Card.Text><FcTodoList size={24} /> Product Number: {product.productId}</Card.Text>
+                    <Card.Text><FcTodoList size={24} /> Product Name: {product.name}</Card.Text>
+                    <Card.Text className="col-md-6 col-12"><FcDeployment size={24} /> Quantity: {product.quantity}</Card.Text>
+                    <div className="d-md-flex border-bottom mb-3">
+                      <Card.Text className="col-md-6 col-12"><FcMoneyTransfer size={24} /> Total: {CurrencyFormat(product.price * product.quantity)}</Card.Text>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </li>
+        ))}
+      </div>
     </div>
   );
 };

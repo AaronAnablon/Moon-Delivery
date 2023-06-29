@@ -51,7 +51,7 @@ const Blog = () => {
         </h4>
       </div>
       <div
-        className={`col-md-6 col-11 container-fluid image-container animation-finished`}
+        className={`col-md-6 col-12 container-fluid image-container animation-finished`}
         ref={imageContainerRef}
       >
         <img src={delivery} alt="Delivery" className="top-left-image" />

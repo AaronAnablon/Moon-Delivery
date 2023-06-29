@@ -3,7 +3,6 @@ import axios from "axios";
 import { setHeaders, url } from "../../slices/api";
 import { useSelector } from "react-redux";
 import Nav from 'react-bootstrap/Nav';
-import NavDropdown from 'react-bootstrap/NavDropdown';
 import { toast } from "react-toastify";
 import { Button, Card, NavLink } from "react-bootstrap";
 import DateFormat from "../formatters/DateFormat";
@@ -13,7 +12,6 @@ import {
   FcServices,
   FcTodoList,
   FcPodiumWithSpeaker,
-  FcPortraitMode,
   FcMoneyTransfer,
   FcDeployment,
   FcViewDetails,
@@ -43,20 +41,6 @@ const Orders = () => {
     fetchOrders();
   }, []);
 
-  const updateOrder = async (orderId) => {
-    try {
-      const updatedOrder = {
-        delivery_status: 'For Delivery',
-        payment_status: 'Cash on Delivery',
-        updated_at: new Date().toLocaleString()
-      }
-      await axios.put(`${url}/orders/${auth._id}/${orderId}`, updatedOrder, setHeaders());
-      fetchOrders();
-    } catch (err) {
-      console.log(err)
-    }
-  };
-
   const callRider = (RiderNumber) => {
     window.open(`tel:${RiderNumber}`);
   }
@@ -73,7 +57,6 @@ const Orders = () => {
       order.products.some((product) => product.deliveryStatus === sortedBrand)
     )
   : orders;
-
 
   const updateOrders = async (orderId, nestedIndex) => {
     const updatedOrder = {
@@ -107,6 +90,7 @@ const Orders = () => {
         {loading && <p>Loading..</p>}
         {filteredData && filteredData === 0 && <p>No Order found</p>}
         <ul>
+          {filteredData.length == 0 && <p>No {sortedBrand} orders were found</p>}
           {filteredData && filteredData.map((order) => (
             <li className="shadow p-3 mb-3" style={{ borderColor: 'white', borderWidth: '12px', borderStyle: 'solid' }} key={order._id}>
               <div className="d-md-flex border-bottom">

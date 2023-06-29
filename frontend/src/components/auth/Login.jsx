@@ -46,9 +46,10 @@ const Login = () => {
   }
 
   return (
-    <div className="d-flex justify-content-center align-items-center m-5">
-      <Card style={{background: 'linear-gradient(45deg, rgba(255,255,255,1) 71%, rgba(244,61,0,1) 71%)'}} className="col-lg-5 col-12 col-md-8 shadow d-flex justify-content-center align-items-center m-5">
-        <Form className="col-10 m-4" onSubmit={handleSubmit}>
+    <div className="d-flex justify-content-center align-items-center m-md-5 m-2 mt-5">
+        <div style={{background: 'linear-gradient(45deg, rgba(255,255,255,1) 71%, rgba(244,61,0,1) 71%)'}} 
+        className="col-lg-5 col-md-8 col-12 d-flex shadow align-items-center justify-content-center">
+        <Form className="col-lg-8 col-10 m-md-4" onSubmit={handleSubmit}>
           <h2>Login</h2>
           <Form.Group>
             <Form.Control
@@ -67,6 +68,7 @@ const Login = () => {
               required
             />
           </Form.Group>
+      
 
           <Card.Text> <span onClick={handleForgot} style={{ cursor: 'pointer' }}>Forgot Password?</span></Card.Text>
           <Card.Text>Don't have an account? <span onClick={handleRegister} style={{ cursor: 'pointer' }}>Create account</span></Card.Text>
@@ -76,7 +78,7 @@ const Login = () => {
             </Button>
             {auth.loginStatus === 'rejected' ? <p>{auth.loginError}</p> : null}
         </Form>
-      </Card>
+      </div>
     </div>
   );
 };

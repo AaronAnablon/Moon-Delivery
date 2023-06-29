@@ -5,7 +5,6 @@ import Slider from "react-slick";
 import { setHeaders, url } from "../../slices/api";
 import axios from "axios";
 import { Card } from "react-bootstrap";
-import StarRating from "./StarRating";
 
 const TopProducts = ({ toProductDetails }) => {
   const [loading, setLoading] = useState(false);
@@ -69,9 +68,7 @@ const TopProducts = ({ toProductDetails }) => {
                       }}
                     />
                    )}
-        
                <div className="d-flex justify-content-center">{product.rating.count} Sold</div>
-         
               </Card>
             </div>
           ))}

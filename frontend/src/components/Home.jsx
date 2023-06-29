@@ -113,11 +113,7 @@ const Home = ({ searchData }) => {
             <div> <p>No Products found</p>
               <Button onClick={() => fetchProducts()}>Refresh</Button></div>}
         </div>
-        {hide && <div style={{
-          background: 'rgb(250,81,48)',
-          background: 'linear-gradient(90deg, rgba(250,81,48,1) 0%, rgba(198,198,198,1) 50%, rgba(250,81,48,1) 96%)'
-        }}
-        ><div className="d-flex flex-row justify-content-center m-3"><h2>Top Sold</h2></div>
+        {hide && <div><div className="d-flex flex-row justify-content-center m-3"><h2>Top Sold</h2></div>
           <TopSold toProductDetails={toProductDetails} /></div>}
 
       </div>

@@ -18,7 +18,7 @@ const app = express();
 require("dotenv").config();
 
 const corsOptions = {
-  origin: process.env.CLIENT_URL,
+  origin: [process.env.CLIENT_URL , process.env.CLIENT_URL_ADMIN],
   optionsSuccessStatus: 200,
 };
 
