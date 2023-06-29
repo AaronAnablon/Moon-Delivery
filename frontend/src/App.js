@@ -91,8 +91,6 @@ function App() {
             ) : (
               <Route path="/" element={<Services />} />
             )}
-
-
             <Route path="/shoppingPage" element={<Home searchData={searchData} />} />
 
             <Route path="/booking" element={<Booking />}>

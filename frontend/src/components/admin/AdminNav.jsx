@@ -1,6 +1,5 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import { FcComboChart, FcExport, FcFinePrint, FcSettings } from "react-icons/fc";
-import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Col } from "react-bootstrap";
 

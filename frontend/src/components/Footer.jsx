@@ -17,38 +17,38 @@ const Footer = () => {
                     </div>
                     <div className="col-lg-2 col-12 d-flex flex-column justify-content-center">
                         <Link
-                            className='text-decoration-none text-light text-lg-start text-center'
+                            className='text-decoration-none text-dark text-lg-start text-center'
                             to={'https://sites.google.com/view/moon-delivery/about-us'}
                             target="_blank"
                             rel="noopener noreferrer">
                             About us
                         </Link>
-                        <Link className='text-decoration-none text-light text-lg-start text-center'
+                        <Link className='text-decoration-none text-dark text-lg-start text-center'
                             to={'https://sites.google.com/view/moon-delivery/documentation'}
                             target="_blank"
                             rel="noopener noreferrer">
                             Documentation
                         </Link>
-                        <Link className='text-decoration-none text-light text-lg-start text-center'
+                        <Link className='text-decoration-none text-dark text-lg-start text-center'
                             to={'https://sites.google.com/view/moon-delivery/home'}
                             target="_blank"
                             rel="noopener noreferrer">
                             Vision
                         </Link>
-                        <Link className='text-decoration-none text-light text-lg-start text-center'
+                        <Link className='text-decoration-none text-dark text-lg-start text-center'
                             to={'https://sites.google.com/view/moon-delivery/home'}
                             target="_blank"
                             rel="noopener noreferrer">
                             Mission
                         </Link>
 
-                        <Link className='text-decoration-none text-light text-lg-start text-center'
+                        <Link className='text-decoration-none text-dark text-lg-start text-center'
                             to={'https://sites.google.com/view/moon-delivery/terms-of-service'}
                             target="_blank"
                             rel="noopener noreferrer">
                             Terms and Conditions
                         </Link>
-                        <Link className='text-decoration-none text-light text-lg-start text-center'
+                        <Link className='text-decoration-none text-dark text-lg-start text-center'
                             to={'https://sites.google.com/view/moon-delivery/home'}
                             target="_blank"
                             rel="noopener noreferrer">
@@ -56,7 +56,7 @@ const Footer = () => {
                         </Link>
                     </div>
                     <div className="col-lg-3 text-center col-12">
-                        <div className='text-light mt-2'>
+                        <div className='text-dark mt-2'>
                             Moon Delivery, where dreams take flight and packages find their way!
                         </div>
 
@@ -71,7 +71,7 @@ const Footer = () => {
                         </iframe>
                     </div>
                 </div>
-                <div class="text-center text-light">
+                <div class="text-center text-dark">
                     <p>&copy; 2023 Moon Delivery. All rights reserved.</p>
                 </div>
             </div>}
