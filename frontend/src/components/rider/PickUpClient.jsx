@@ -22,6 +22,7 @@ import {
 import { GiFullMotorcycleHelmet } from "react-icons/gi";
 import { Button, Card } from "react-bootstrap";
 import { HiOutlineClipboardDocumentCheck } from "react-icons/hi2";
+import Loading from "../Loading";
 
 
 const PickUpClient = () => {
@@ -129,7 +130,7 @@ const PickUpClient = () => {
     <div className="shadow">
       <h2>Pick Up Booked</h2>
       {booked && booked.length === 0 && <p>No booking found</p>}
-      {loading && <p>Loading...</p>}
+      {loading && <Loading />}
 
       {booked &&
         booked.map((booking) => (

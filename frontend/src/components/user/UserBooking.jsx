@@ -20,6 +20,7 @@ import {
   FcAssistant
 } from "react-icons/fc";
 import { GiFullMotorcycleHelmet } from "react-icons/gi";
+import Loading from "../Loading";
 
 const UserBooking = () => {
   const [booked, setBooked] = useState([]);
@@ -80,7 +81,7 @@ const UserBooking = () => {
   return (
     <div>
       <h2>Booked</h2>
-      {loading && <p>Loading...</p>}
+      {loading && <Loading />}
       {!loading && booked.length === 0 && <><p>No bookings found  
            </p>  <Link to="/booking/pabili">
               <FaArrowAltCircleLeft />

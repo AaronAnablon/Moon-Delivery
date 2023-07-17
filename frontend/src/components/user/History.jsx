@@ -8,6 +8,7 @@ import DateFormat from "../formatters/DateFormat";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { FaArrowAltCircleLeft } from "react-icons/fa";
+import Loading from "../Loading";
 
 const History = () => {
   const auth = useSelector((state) => state.auth);
@@ -59,7 +60,7 @@ const History = () => {
   return (
     <div>
       <h2>Purchase History</h2>
-      {loading && <p>Loading...</p>}
+      {loading && <Loading />}
       {!loading && orders.length === 0 &&         <>
         <p>No Orders made</p>
         <Link to="/shoppingPage">

@@ -12,6 +12,7 @@ import { url } from "../slices/api";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import Loading from "./Loading";
 
 const Home = ({ searchData }) => {
   const auth = useSelector((state) => state.auth)
@@ -20,17 +21,26 @@ const Home = ({ searchData }) => {
   const [sortedBrand, setSortedBrand] = useState("");
   const [hide, setHide] = useState(true)
   const [totalPage, setTotalPage] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const navigate = useNavigate();
 
   const fetchProducts = useCallback(async () => {
-    const response = await axios.get(`${url}/products/increment?page=${currentPage}`);
-    const newData = response.data.products;
-    setTotalPage(response.data.totalPages)
-    setData(prevData => {
-      const filteredData = newData.filter(product => !prevData.find(p => p._id === product._id));
-      return [...prevData, ...filteredData];
-    });
+    try {
+      setLoading(true)
+      const response = await axios.get(`${url}/products/increment?page=${currentPage}`);
+      const newData = response.data.products;
+      setLoading(false)
+      setTotalPage(response.data.totalPages)
+      setData(prevData => {
+        const filteredData = newData.filter(product => !prevData.find(p => p._id === product._id));
+        return [...prevData, ...filteredData];
+      });
+    }
+    catch (err) {
+      console.log(err)
+      toast.error('Something Went Wrong!')
+    }
   }, []);
 
   const handleSearch = () => {
@@ -110,12 +120,13 @@ const Home = ({ searchData }) => {
         <div className="d-flex flex-row justify-content-center border-bottom p-3">
           {filteredData.length > 0 ?
             totalPage > currentPage && <Button onClick={handleLoadMore}>Load more</Button> :
-            <div> <p>No Products found</p>
-              <Button onClick={() => fetchProducts()}>Refresh</Button></div>}
+            <div>
+              {loading ?  <Loading /> : <p>No {sortedBrand} product found</p>}
+              <Button onClick={() => fetchProducts()}>Refresh</Button>
+            </div>}
         </div>
         {hide && <div><div className="d-flex flex-row justify-content-center m-3"><h2>Top Sold</h2></div>
           <TopSold toProductDetails={toProductDetails} /></div>}
-
       </div>
     </>
   );

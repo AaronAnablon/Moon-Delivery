@@ -1,23 +1,23 @@
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import StarRating from "./StarRating";
 import { BiUserCircle } from "react-icons/bi"
 import { Card, Button } from 'react-bootstrap';
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { addToCart } from "../../slices/cartSlice";
 import { IoArrowBackCircleSharp } from "react-icons/io5"
 import { BsCartPlus } from "react-icons/bs";
 import { useState } from 'react';
 import FullScreenImage from './FullScreenImage';
 import Slider from 'react-slick';
+import CurrencyFormat from '../formatters/CurrencyFormat';
 
 function ProductDetails() {
   const { state } = useLocation();
   const { product } = state;
   const [showModal, setShowModal] = useState(false)
+  const navigate = useNavigate()
 
   const dispatch = useDispatch();
-  const navigate = useNavigate()
 
   const handleAddToCart = (product) => {
     dispatch(addToCart(product));
@@ -28,15 +28,16 @@ function ProductDetails() {
     setShowModal(!showModal)
   }
 
+  const handleImage = (imageLink) => {
+    window.location.href = imageLink
+  }
+
   const comments = product.rating.comment && product.rating.comment.map((comments) =>
     comments.map(comment =>
       comment))
 
   const comment = comments && comments.map(comment => comment)
 
-  const currency = (price) => {
-    return price.toLocaleString('en-PH', { style: 'currency', currency: 'PHP' })
-  }
 
   const settings = {
     dots: true,
@@ -56,6 +57,7 @@ function ProductDetails() {
                       src={image}
                       alt={image}
                        style={{ width: "100%", height: '400px', objectFit: 'cover' }}
+                      onClick={() => handleImage(image)}
                     />
             </div>
           ))}
@@ -67,7 +69,7 @@ function ProductDetails() {
               <StarRating rating={product.rating.rating} overAll={product.rating.count} />
               sold
             </div>
-            <Card.Text><span>{currency(product.price)}</span></Card.Text>
+            <Card.Text><span>{CurrencyFormat(product.price)}</span></Card.Text>
             <Card.Text className='border-top mt-3'>Store: <span>{product.stores}</span></Card.Text>
             <Card.Text className='border-bottom'>Store Address: {product.address}</Card.Text>
             <div className='m-3'>

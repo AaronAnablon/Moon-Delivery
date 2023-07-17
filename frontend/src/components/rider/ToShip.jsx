@@ -7,22 +7,17 @@ import {
   FcCalendar,
   FcServices,
   FcTodoList,
-  FcInTransit,
-  FcNightPortrait,
   FcPodiumWithSpeaker,
-  FcPortraitMode,
   FcMoneyTransfer,
   FcDeployment,
   FcViewDetails,
-  FcShop,
   FcGlobe,
   FcAssistant
 } from "react-icons/fc";
-import { GiFullMotorcycleHelmet } from "react-icons/gi";
 import { HiOutlineClipboardDocumentCheck } from "react-icons/hi2";
-import { IoTrashBinOutline } from "react-icons/io5";
 import CurrencyFormat from "../formatters/CurrencyFormat";
 import { toast } from "react-toastify";
+import Loading from "../Loading";
 
 const ToShip = () => {
   const auth = useSelector((state) => state.auth);
@@ -82,7 +77,7 @@ const ToShip = () => {
   return (
     <div className="shadow">
       <h2>ToShip</h2>
-      {loading && <p>Loading...</p>}
+      {loading && <Loading />}
       {orders && orders.length === 0 && <p>No order found</p>}
         {orders && orders.map((order) => (
           <Card className="border-bottom col-12 p-4 shadow" key={order._id}>

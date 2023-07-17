@@ -14,6 +14,7 @@ import { FcCalendar,
   FcAssistant
 } from "react-icons/fc";
 import { IoTrashBinOutline } from "react-icons/io5";
+import Loading from "../Loading";
 
 
 const DropOff = () => {
@@ -95,7 +96,7 @@ const DropOff = () => {
   return (
     <div>
       <h2>Completed Booking</h2>
-      {loading && <p>Loading...</p>}
+      {loading && <Loading />}
       {booked && booked.length === 0 && <p>No Drop Off found</p>}
         {booked &&
           booked.map((booking) => (

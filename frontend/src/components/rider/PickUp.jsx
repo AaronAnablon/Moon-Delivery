@@ -17,6 +17,7 @@ import { HiOutlineClipboardDocumentCheck } from "react-icons/hi2";
 import { Button, Card } from "react-bootstrap";
 import CurrencyFormat from "../formatters/CurrencyFormat";
 import DateFormat from "../formatters/DateFormat";
+import Loading from "../Loading";
 
 const PickUp = () => {
   const auth = useSelector((state) => state.auth);
@@ -75,7 +76,7 @@ const PickUp = () => {
   return (
     <div>
       <h2>Pick Up</h2>
-      {loading && <p>Loading...</p>}
+      {loading && <Loading />}
       {orders && orders.length === 0 && <p>No booking found</p>}
 
       {orders && orders.map((order) => (

@@ -16,6 +16,7 @@ import {
   FcAssistant,
   FcAcceptDatabase
 } from "react-icons/fc";
+import Loading from "../Loading";
 
 const Booked = () => {
   const [booked, setBooked] = useState([]);
@@ -129,7 +130,7 @@ const Booked = () => {
   return (
     <div>
       <h2>Booked</h2>
-      {loading && <p>Loading...</p>}
+      {loading && <Loading />}
       {booked && booked.length === 0 && <p>No booking found</p>}
       {booked &&
         booked.map((booking) => (

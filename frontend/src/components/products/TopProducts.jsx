@@ -6,6 +6,7 @@ import { setHeaders, url } from "../../slices/api";
 import axios from "axios";
 import { Card } from "react-bootstrap";
 import StarRating from "./StarRating";
+import Loading from "../Loading";
 
 const TopProducts = ({ toProductDetails }) => {
   const [loading, setLoading] = useState(false);
@@ -53,7 +54,7 @@ const TopProducts = ({ toProductDetails }) => {
 
   return (
     <div className="d-flex m-3 justify-content-center">
-           {loading && <p>Loading...</p>}
+           {loading &&  <Loading />}
       <div className="carousel-container">
         <Slider {...settings}>
           {data.map((product) => (

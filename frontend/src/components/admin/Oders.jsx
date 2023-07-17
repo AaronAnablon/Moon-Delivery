@@ -16,6 +16,7 @@ import {
   FcDeployment,
   FcViewDetails,
 } from "react-icons/fc";
+import Loading from "../Loading";
 
 const Orders = () => {
   const auth = useSelector((state) => state.auth);
@@ -87,7 +88,7 @@ const Orders = () => {
         </div>
       </Nav>
       <div>
-        {loading && <p>Loading..</p>}
+        {loading && <Loading />}
         {filteredData && filteredData === 0 && <p>No Order found</p>}
         <ul>
           {filteredData.length == 0 && <p>No {sortedBrand} orders were found</p>}

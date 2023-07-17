@@ -24,6 +24,7 @@ import {
 } from "react-icons/fc";
 import { GiFullMotorcycleHelmet } from "react-icons/gi";
 import { toast } from "react-toastify";
+import Loading from "../Loading";
 
 
 const RateRider = () => {
@@ -128,7 +129,7 @@ const RateRider = () => {
           <FaArrowAltCircleLeft />
           <span>Book a Ride</span>
         </Link></>}
-      {loading && <div>Loading...</div>}
+      {loading && <Loading />}
       {booked &&
         booked.map((booking, index) => (
           <Card className="shadow mb-2 p-3" key={booking._id}>

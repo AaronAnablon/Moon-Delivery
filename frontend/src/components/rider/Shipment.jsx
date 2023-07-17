@@ -13,9 +13,8 @@ import {
   FcGlobe,
   FcAssistant
 } from "react-icons/fc";
-import { GiFullMotorcycleHelmet } from "react-icons/gi";
-import { HiOutlineClipboardDocumentCheck } from "react-icons/hi2";
 import { IoTrashBinOutline } from "react-icons/io5";
+import Loading from "../Loading";
 
 const Shipment = () => {
   const auth = useSelector((state) => state.auth);
@@ -73,7 +72,7 @@ const Shipment = () => {
   return (
     <div>
       <h2>Shipped</h2>
-      {loading && <p>Loading...</p>}
+      {loading && <Loading />}
       {orders && orders.length === 0 && <p>No booking found</p>}
       {orders && orders.map((order) => (
         <div className="p-3 border-bottom mb-2 shadow" key={order._id}>

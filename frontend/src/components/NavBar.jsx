@@ -123,13 +123,13 @@ const NavBar = ({ setSearchData }) => {
                                 }
                             </div>
                             <Form
-                                className="d-flex col-7 d-none d-md-block justify-content-center"
+                                className="d-flex col-7 rounded-5 d-none d-md-block justify-content-center"
                                 onSubmit={(e) => {
                                     e.preventDefault()
                                     handleSearch()
                                 }}
                             >
-                                <div style={{ position: 'relative', width: '100%', borderRadius: '100%' }}>
+                                <div style={{ position: 'relative', width: '100%' }}>
                                     <Form.Control
                                         id="search"
                                         type="text"
@@ -209,7 +209,7 @@ const NavBar = ({ setSearchData }) => {
                                         </Nav.Link>
 
                                     </Nav> : <Nav.Link as={Link} to="/login" className="d-flex align-items-center"
-                                        >
+                                    >
                                         <BiLogIn size={24} />
                                         <div className="px-3">Please Log In!</div>
                                     </Nav.Link>}

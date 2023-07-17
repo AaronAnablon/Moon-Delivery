@@ -22,6 +22,7 @@ import {
   FcAssistant
 } from "react-icons/fc";
 import { GiFullMotorcycleHelmet } from "react-icons/gi";
+import Loading from "../Loading";
 
 const BookingHistory = () => {
   const [booked, setBooked] = useState([]);
@@ -102,7 +103,7 @@ const BookingHistory = () => {
   return (
     <div>
       <h2>Booking History</h2>
-      {loading && <p>Loading...</p>}
+      {loading && <Loading />}
       {!loading && booked.length === 0 && <><p>No history found
       </p>
         <Link to="/booking/pabili">

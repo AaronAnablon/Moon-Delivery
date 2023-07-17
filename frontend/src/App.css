@@ -328,6 +328,34 @@ a.nav-link {
   }
 }
 
+.bg-grey {
+  background: #dddcdc;
+}
+
+.skeleton-loading {
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-loading::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #dddcdc, #ffffff, #dddcdc);
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
 
 
 /*************** TO BE KEPT ***************/
