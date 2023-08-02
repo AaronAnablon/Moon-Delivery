@@ -7,7 +7,7 @@ import axios from "axios";
 import { Card } from "react-bootstrap";
 import StarRating from "./StarRating";
 import Loading from "../Loading";
-
+import { toast } from "react-toastify";
 const TopProducts = ({ toProductDetails }) => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
@@ -20,7 +20,8 @@ const TopProducts = ({ toProductDetails }) => {
         setData(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        toast.error("Something went wrong")
+        //console.log(error);
       })
       .finally(() => {
         setLoading(false);
@@ -37,7 +38,7 @@ const TopProducts = ({ toProductDetails }) => {
     arrows: true,
     slidesToScroll: 2,
     responsive: [
-        {
+      {
         breakpoint: 1024,
         settings: {
           slidesToShow: 8,
@@ -50,29 +51,31 @@ const TopProducts = ({ toProductDetails }) => {
         },
       },
     ],
-   };
+  };
 
   return (
     <div className="d-flex m-3 justify-content-center">
-           {loading &&  <Loading />}
+      {loading && <Loading />}
       <div className="carousel-container">
         <Slider {...settings}>
           {data.map((product) => (
             <div key={product._id}>
               <Card className="col-9" onClick={() => toProductDetails(product)}>
                 {product.image && (
-                    <img
-                      src={product.image[0]}
-                      alt={product.name}
-                      style={{
-                        height: "90px",
-                        objectFit: "cover",
-                      }}
-                    />
-                   )}
-              <div style={{fontSize: '8px', display: 'flex', flexDirection: 'row',
-               whiteSpace: 'nowrap' }}>
-                 <StarRating rating={product.rating.rating} overAll={product.rating.count}/>
+                  <img
+                    src={product.image[0]}
+                    alt={product.name}
+                    style={{
+                      height: "90px",
+                      objectFit: "cover",
+                    }}
+                  />
+                )}
+                <div style={{
+                  fontSize: '8px', display: 'flex', flexDirection: 'row',
+                  whiteSpace: 'nowrap'
+                }}>
+                  <StarRating rating={product.rating.rating} overAll={product.rating.count} />
                 </div>
               </Card>
             </div>

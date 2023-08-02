@@ -25,7 +25,7 @@ const HighRating = () => {
 
   const handleClick = (location) => {
     navigate(location)
-    console.log(location)
+    //console.log(location)
   }
 
   return (

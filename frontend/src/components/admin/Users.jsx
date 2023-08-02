@@ -30,7 +30,7 @@ const User = () => {
   .then((response) => {
     const decryptedPassword = response.data;   
     if (decryptedPassword === true) {
-      console.log(verifiedPassword, auth.password)
+     // console.log(verifiedPassword, auth.password)
       setShowPasswordModal(false);
       handleSubmit();
       toast.success("Updated successfully");
@@ -39,7 +39,7 @@ const User = () => {
     console.error(error);
     toast.error("Invalid password")
     errorCount++;
-    console.log(errorCount)
+   // console.log(errorCount)
     if (errorCount === 3) {
       setDisabled(true);
       toast.warning("You have attempted 3 invalid entries! Try again after 12 hours");
@@ -58,7 +58,7 @@ const User = () => {
     e.preventDefault();
     try {
       const response = await axios.put(`${url}/user/${auth._id}`, user, setHeaders());
-      console.log(response.data);
+     // console.log(response.data);
       } catch (error) {
       console.error(error);
     }

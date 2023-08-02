@@ -31,7 +31,7 @@ const PickUp = () => {
       setOrders((res.data).reverse());
       setLoading(false)
     } catch (err) {
-      console.log(err)
+      //console.log(err)
       toast.error("Something went wrong!!")
       setLoading(false)
     }
@@ -68,7 +68,7 @@ const PickUp = () => {
       await axios.put(`${url}/orders/${auth._id}/${orderId}`, updatedOrder, setHeaders());
       fetchOrders();
     } catch (err) {
-      console.log(err)
+      //console.log(err)
     }
   };
   

@@ -52,7 +52,7 @@ const PahatidSundo = () => {
   const handleSubmitBooking = () => {
     axios.post(`${url}/booking`, booked, setHeaders())
       .then(response => {
-        console.log('success', response.data);
+        //console.log('success', response.data);
         toast.success('Booked successfully!');
         const socket = io.connect(server);
         socket.emit('booking', response.data);
@@ -60,7 +60,7 @@ const PahatidSundo = () => {
       })
       .catch(error => {
         toast.error('Something went wrong!');
-        console.log(error);
+        //console.log(error);
       });
   }
 

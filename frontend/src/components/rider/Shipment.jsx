@@ -28,7 +28,7 @@ const Shipment = () => {
       setOrders((res.data).reverse());
       setLoading(false)
     } catch (err) {
-      console.log(err)
+      //console.log(err)
     }
   }, [auth.token]);
 
@@ -48,7 +48,7 @@ const Shipment = () => {
       await axios.put(`${url}/orders/${auth._id}/${orderId}`, updatedOrder, setHeaders());
       fetchOrders();
     } catch (err) {
-      console.log(err)
+      //console.log(err)
     }
   };
 

@@ -7,7 +7,7 @@ const WebSocket = () => {
 
     // Handle socket events
     socket.on('new booking', (booking) => {
-      console.log('Received new booking:', booking);
+     // console.log('Received new booking:', booking);
       // Update your React state or perform any necessary actions with the new booking data
     });
 

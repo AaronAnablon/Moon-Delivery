@@ -33,7 +33,7 @@ const ToRate = () => {
       setOrders((res.data).reverse());
       setLoading(false)
     } catch (err) {
-      console.log(err.response.data);
+      //console.log(err.response.data);
       toast.error('Something Went Wrong!!')
       setLoading(false)
     }
@@ -58,7 +58,7 @@ const ToRate = () => {
       fetchOrders();
     } catch (err) {
       toast.error('Something Went Wrong!!')
-      console.log(err);
+      //console.log(err);
     }
   };
   const submitRating = async (_id , orderId) => {
@@ -71,7 +71,7 @@ const ToRate = () => {
         fetchOrders();
     } catch (error) {
       toast.error('Something Went Wrong!!')
-      console.log(error);
+      //console.log(error);
     }
   };
 

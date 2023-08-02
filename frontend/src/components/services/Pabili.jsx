@@ -117,13 +117,13 @@ const Pabili = () => {
     const handleBooking = () => {
         axios.post(`${url}/booking`, booked, setHeaders)
             .then(response => {
-                console.log(response.data);
+                //console.log(response.data);
                 const socket = io.connect(server);
                 socket.emit('booking', response.data);
                 toast('Booked successfully!');
                 navigate('/user/userBooking');
             }).catch(error => {
-                console.log(error);
+                //console.log(error);
             });
     }
     return (

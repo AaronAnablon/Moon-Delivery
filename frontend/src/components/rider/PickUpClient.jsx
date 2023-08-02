@@ -38,7 +38,7 @@ const PickUpClient = () => {
         setBooked((response.data).reverse());
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       })
       .finally(() => {
         setLoading(loading)
@@ -47,7 +47,7 @@ const PickUpClient = () => {
 
   useEffect(() => {
     getBooking();
-    console.log(booked)
+    //console.log(booked)
   }, []);
 
   const sendNotif = async (bookerId) => {
@@ -60,9 +60,9 @@ const PickUpClient = () => {
            Click here to rate rider https://moon-delivery.vercel.app/user/rateRider`,
         payLoad: { read: false },
       });
-      console.log(response.data);
+      //console.log(response.data);
     } catch (error) {
-      console.error(error);
+      //console.error(error);
     }
   };
 
@@ -107,7 +107,7 @@ const PickUpClient = () => {
         }
       };
       await axios.put(`${url}/booking/${booking._id}`, updatedBooking, setHeaders()).then((response) => {
-        console.log(response.data)
+        //console.log(response.data)
         const socket = io.connect(server);
         socket.emit('notification', response.data);
         sendMail({ recipientEmail, subject, text })
@@ -117,7 +117,7 @@ const PickUpClient = () => {
         toast.success("Completed!")
       });
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   };
 

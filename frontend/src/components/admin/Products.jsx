@@ -84,9 +84,9 @@ const Products = () => {
       toast.success("Product deleted successfully");
       fetchData();
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
-    console.log('Action confirmed!');
+    // console.log('Action confirmed!');
   };
 
   return (

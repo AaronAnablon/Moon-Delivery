@@ -39,7 +39,7 @@ const Checkout = () => {
       setPreviewUrl(reader.result);
     };
     reader.onerror = () => {
-      console.error('Error reading file');
+      //console.error('Error reading file');
     };
   };
 
@@ -83,7 +83,7 @@ const Checkout = () => {
     axios
       .post(`${url}/orders/${auth._id}`, data, setHeaders())
       .then((response) => {
-        console.log(response);
+        //console.log(response);
         navigate('/user/order');
         toast('Order placed successfully!');
         const socket = io.connect(server);
@@ -91,7 +91,7 @@ const Checkout = () => {
         dispatch(clearCart());
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
   };
   

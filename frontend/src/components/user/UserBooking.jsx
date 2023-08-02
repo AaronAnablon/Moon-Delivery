@@ -34,7 +34,7 @@ const UserBooking = () => {
     setBooked((response.data).reverse());
        })
   .catch((error) => {
-    console.log(error);
+    //console.log(error);
   })
   .finally(() => {
     setLoading(false); 
@@ -63,11 +63,11 @@ const UserBooking = () => {
           }, service: booking.booking.service}
       };
       await axios.put(`${url}/booking/${booking._id}`, updatedBooking, setHeaders()).then((response) => {
-        console.log(response.data)
+        //console.log(response.data)
         getBooking()
       });
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   };
   const handleCallRider = (riderNumber) => {

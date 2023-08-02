@@ -30,10 +30,10 @@ const Orders = () => {
     try {
       const res = await axios.get(`${url}/orders/seller-orders/${auth._id}/Pending`, setHeaders());
       setOrders((res.data).reverse());
-      console.log('orders', res.data)
+      // console.log('orders', res.data)
       setLoading(false)
     } catch (err) {
-      console.log(err)
+      // console.log(err)
       toast.error("Something went wrong!")
     }
   }, []);
@@ -69,7 +69,7 @@ const Orders = () => {
       await axios.put(`${url}/orders/${auth._id}/${orderId}`, updatedOrder, setHeaders());
       fetchOrders();
     } catch (err) {
-      console.log(err)
+      // console.log(err)
     }
   };
 

@@ -24,7 +24,7 @@ ChartJS.register(
 );
 
 const LineChart = ({ date, pending, cancelled }) => {
-  console.log(date)
+  // console.log(date)
 
   const options = {
     responsive: true,

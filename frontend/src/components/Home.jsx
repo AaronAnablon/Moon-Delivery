@@ -38,7 +38,7 @@ const Home = ({ searchData }) => {
       });
     }
     catch (err) {
-      console.log(err)
+      // console.log(err)
       toast.error('Something Went Wrong!')
     }
   }, []);
@@ -51,7 +51,7 @@ const Home = ({ searchData }) => {
         setData(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
         toast.error("Something Went Wrong!")
       });
   };

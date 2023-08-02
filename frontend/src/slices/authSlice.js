@@ -40,7 +40,7 @@ export const registerUser = createAsyncThunk(
 
       return token.data;
     } catch (error) {
-      console.log(error.response.data);
+      //console.log(error.response.data);
       return rejectWithValue(error.response.data);
     }
   }
@@ -59,7 +59,7 @@ export const loginUser = createAsyncThunk(
       return token.data;
     } catch (error) {
       toast.error('Something Went Wrong!!')
-      console.log(error.response);
+      //console.log(error.response);
       return rejectWithValue(error.response.data);
     }
   }
@@ -75,7 +75,7 @@ export const getUser = createAsyncThunk(
 
       return token.data;
     } catch (error) {
-      console.log(error.response);
+      //console.log(error.response);
       return rejectWithValue(error.response.data);
     }
   }
@@ -90,7 +90,7 @@ const authSlice = createSlice({
 
       if (token) {
         const user = jwtDecode(token);
-        console.log(user)
+        //console.log(user)
         return {
           ...state,
           token,

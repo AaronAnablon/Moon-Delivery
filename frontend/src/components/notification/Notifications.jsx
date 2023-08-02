@@ -33,7 +33,7 @@ const Notification = () => {
       setNotification(notification.reverse());
     } catch (error) {
       toast.error("Something went wrong!")
-      console.log(error)
+      //console.log(error)
     }
   }
 
@@ -44,7 +44,7 @@ const Notification = () => {
       setReadNotification(notification.reverse());
     } catch (error) {
       toast.error("Something went wrong!")
-      console.log(error)
+      //console.log(error)
     }
   }
 
@@ -62,7 +62,7 @@ const updateRead = async (notifId) => {
       }
     };
    const response =  await axios.put(`${url}/notification/update/${notifId}`, updatedNotif, setHeaders());
-   console.log('Update:', response.data)
+   //console.log('Update:', response.data)
    const socket = io.connect(server);
    socket.emit('notification', response.data);
    navigate("/user/userBooking")

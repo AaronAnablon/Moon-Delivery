@@ -18,10 +18,10 @@ const Summary = () => {
     axios.get(`${url}/booking/rider/summary/${auth._id}`, setHeaders())
       .then((response) => {
         setBooked(response.data);
-        console.log(response.data);
+        //console.log(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
         toast.error("Something Went Wrong!!")
       })
       .finally(() => {
@@ -35,10 +35,10 @@ const Summary = () => {
     axios.get(`${url}/orders/riders/orderSummary/${auth._id}`, setHeaders())
       .then((response) => {
         setOrders((response.data).reverse());
-        console.log('orders:', response.data);
+        //console.log('orders:', response.data);
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
         toast.error("Something Went Wrong!!")
       })
   }

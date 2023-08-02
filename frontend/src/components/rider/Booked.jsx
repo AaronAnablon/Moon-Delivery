@@ -27,7 +27,7 @@ const Booked = () => {
   useEffect(() => {
     const socket = io.connect(server);
     socket.on('booking', (booking) => {
-      console.log('Received new booking:', booking);
+     //console.log('Received new booking:', booking);
       setNewBooking(booking)
     });
     return () => {
@@ -43,7 +43,7 @@ const Booked = () => {
         setBooked((response.data).reverse());
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       })
       .finally(() => {
         setLoading(false)
@@ -90,9 +90,9 @@ const Booked = () => {
             notification: `Good day, This is Moon Delivery. Rider ${auth.name} is ready for Pick up. Please prepare`,
             payLoad: { read: false, service: booking.booking.service },
           });
-          console.log(response.data);
+          //console.log(response.data);
         } catch (error) {
-          console.error(error);
+          //console.error(error);
         }
       };
 
@@ -103,7 +103,7 @@ const Booked = () => {
 
       await axios.put(`${url}/booking/${booking._id}`, updatedBooking, setHeaders())
         .then((response) => {
-          console.log(response.data)
+          //console.log(response.data)
           const socket = io.connect(server);
           socket.emit('notification', response.data);
           sendNotif(booking.user._id)
@@ -111,7 +111,7 @@ const Booked = () => {
           getBooking()
         });
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   };
 

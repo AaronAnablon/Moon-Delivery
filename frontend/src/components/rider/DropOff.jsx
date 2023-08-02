@@ -30,7 +30,7 @@ const DropOff = () => {
         setLoading(false)
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
         setLoading(false)
         toast.error("Something went wrong!!")
       });
@@ -69,11 +69,11 @@ const DropOff = () => {
         }
       };
       await axios.put(`${url}/booking/${booking._id}`, updatedBooking, setHeaders()).then((response) => {
-        console.log(response.data)
+        //console.log(response.data)
         getBooking()
       });
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   };
 

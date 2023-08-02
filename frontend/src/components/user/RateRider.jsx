@@ -60,7 +60,7 @@ const RateRider = () => {
       setBooked((response.data).reverse());
       setLoading(false);
     } catch (error) {
-      console.error(error);
+      //console.error(error);
       toast.error('Something went wrong!')
     }
   };
@@ -96,11 +96,11 @@ const RateRider = () => {
       };
       await axios.put(`${url}/booking/${booking._id}`, updatedBooking, setHeaders())
         .then((response) => {
-          console.log(response.data)
+          //console.log(response.data)
           getBooking()
         });
     } catch (err) {
-      console.log(err);
+      //console.log(err);
       toast.error('Something went wrong!')
     }
   };
@@ -108,7 +108,7 @@ const RateRider = () => {
   const submitRating = async (RiderId, booking) => {
     try {
       const response = await axios.put(`${url}/user/Rider/${RiderId}`, { rating, comment: [comment, auth.name, rating] }, setHeaders());
-      console.log(response.data);
+      //console.log(response.data);
       handleCompleted(booking)
       getBooking()
       setHover('')
@@ -116,7 +116,7 @@ const RateRider = () => {
       setHiddenStates('')
       toast.success('Successfully Submited!')
     } catch (error) {
-      console.error(error);
+      //console.error(error);
       toast.error('Something went wrong!')
     }
   };

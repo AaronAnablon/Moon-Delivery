@@ -16,7 +16,7 @@ const RiderRating = () => {
             const ratings = await axios.get(`${url}/ratings/riderRating/${auth._id}`, setHeaders())
             setRating(ratings.data[0].comment)
         } catch (error) {
-            console.log(error)
+            //console.log(error)
             toast.error('Something went wrong!!')
         }
     }

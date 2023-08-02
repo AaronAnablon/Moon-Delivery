@@ -69,7 +69,7 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(user)
+    //console.log(user)
     const generatedCode = generateCode();
     setCode(generatedCode);
     const recipientEmail = user.email;
@@ -85,7 +85,7 @@ const Register = () => {
   }
   const verifyCode = () => {
     if ( userCode === code ) {
-      console.log(user);
+      //console.log(user);
       setShowPasswordModal(false)
       dispatch(registerUser(user));
     } else{

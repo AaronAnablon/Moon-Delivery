@@ -50,7 +50,7 @@ const CreateProduct = () => {
   }
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(Array.isArray(productImages));
+    // console.log(Array.isArray(productImages));
     if (productImages.length === 0) {
       alert("Please upload at least one product image");
       return;

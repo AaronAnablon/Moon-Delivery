@@ -32,7 +32,7 @@ const UserSettings = () => {
       .then((response) => {
         const decryptedPassword = response.data;   
         if (decryptedPassword === true) {
-          console.log(verifiedPassword, auth.password);
+          // console.log(verifiedPassword, auth.password);
           setShowPasswordModal(false);
           handleSubmit(); // Pass the event object here
           toast.success("Updated successfully");
@@ -42,7 +42,7 @@ const UserSettings = () => {
         console.error(error);
         toast.error("Invalid password");
         errorCount++;
-        console.log(errorCount);
+        // console.log(errorCount);
         if (errorCount === 3) {
           setDisabled(true);
           toast.warning("You have attempted 3 invalid entries! Try again after 12 hours");
@@ -63,10 +63,10 @@ const UserSettings = () => {
     if (e) {
       e.preventDefault();
     }
-    console.log(user)
+    // console.log(user)
     try {
       const response = await axios.put(`${url}/user/${auth._id}`, user, setHeaders());
-      console.log(response.data);
+      // console.log(response.data);
     } catch (error) {
       console.error(error);
     }
@@ -102,10 +102,10 @@ const UserSettings = () => {
           <Form.Control type="email" name="email" maxLength={100} value={user.email} onChange={handleChange} required/>
         </Form.Group>
 
-        <Form.Group>
+        {/* <Form.Group>
           <Form.Label>Password:</Form.Label>
           <Form.Control type="password" name="password" maxLength={100} value={user.password} onChange={handleChange} required/>
-        </Form.Group>
+        </Form.Group> */}
 
         <Form.Group>
           <Form.Label>Phone Number:</Form.Label>

@@ -31,7 +31,7 @@ const ToShip = () => {
       setOrders((res.data).reverse());
       setLoading(false)
     } catch (err) {
-      console.log(err)
+      //console.log(err)
       toast.error('Something went wrong')
     }
   }, [auth.token]);
@@ -53,7 +53,7 @@ const ToShip = () => {
       fetchOrders();
       toast.success('Successfully accepted the order')
     } catch (err) {
-      console.log(err)
+      //console.log(err)
       toast.error('Something went wrong')
     }
   };

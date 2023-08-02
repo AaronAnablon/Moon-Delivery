@@ -37,7 +37,7 @@ const NavBar = ({ setSearchData }) => {
     useEffect(() => {
         const socket = io.connect(server);
         socket.on('notification', (notification) => {
-            console.log('Received Navbar new notification:', notification);
+            // console.log('Received Navbar new notification:', notification);
             setNewNotif(notification)
         });
         return () => {
@@ -49,11 +49,11 @@ const NavBar = ({ setSearchData }) => {
         try {
             const response = await axios.get(`${url}/notification/notification/${auth._id}`);
             const notification = response.data;
-            console.log('navbar fetch read', notification)
+            // console.log('navbar fetch read', notification)
             setReadNotification(notification);
         } catch (error) {
             toast.error("Something went wrong!")
-            console.log(error)
+            // console.log(error)
         }
     }
 

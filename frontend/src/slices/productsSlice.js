@@ -17,7 +17,7 @@ export const productsFetch = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   }
 );
@@ -35,7 +35,7 @@ export const productsCreate = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       toast.error("Something Went Wrong!!");
     }
   }

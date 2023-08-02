@@ -25,7 +25,7 @@ const History = () => {
       setOrders((res.data).reverse());
       setLoading(false)
     } catch (err) {
-      console.log(err.response.data);
+      //console.log(err.response.data);
       toast.error('Something Went wrong!!')
       setLoading(false)
     }
@@ -51,7 +51,7 @@ const History = () => {
         });
         fetchOrders();
       } catch (err) {
-        console.log(err)
+        //console.log(err)
         toast.error('Something Went wrong!!')
       }
     }

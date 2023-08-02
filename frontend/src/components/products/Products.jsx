@@ -23,14 +23,14 @@ const Products = () => {
     try {
       const response = await axios.get(`${url}/products/highRating`, setHeaders)
       const { data: fetchedResults, total } = response;
-      console.log(response)
+      //console.log(response)
       setResults((prevResults) =>
         currentPage === 1 ? fetchedResults : [...prevResults, ...fetchedResults]
       );
       setTotalResults(total);
       setIsLoading(false);
     } catch (err) {
-      console.error(err);
+      //console.error(err);
       setIsLoading(false);
     }
   };

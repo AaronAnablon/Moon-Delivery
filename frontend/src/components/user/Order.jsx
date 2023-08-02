@@ -35,7 +35,7 @@ const Order = () => {
       await axios.put(`${url}/orders/${auth._id}/${orderId}`, updatedOrder, setHeaders());
       fetchOrders();
     } catch (err) {
-      console.log(err)
+      //console.log(err)
     }
   };
 

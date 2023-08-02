@@ -33,17 +33,20 @@ const DistanceCalculator = ({ pickupAddress, destination, phoneNumber }) => {
                 const distanceInKm = (distanceInMeters / 1000).toFixed(2);
                 setDistance(distanceInKm);
               })
-              .catch(error => {console.log(error)
+              .catch(error => {
+                //console.log(error)
               toast.error('Something went wrong. Please try changing the address or try rewriting the address!');
           })
               .finally(() => setIsLoading(false));
           })
-          .catch(error => {console.log(error)
+          .catch(error => {
+            //console.log(error)
             toast.error('Something went wrong. Please try changing the address or try rewriting the address!');
           })
           .finally(() => setIsLoading(false));
       })
-      .catch(error => {console.log(error)
+      .catch(error => {
+        //console.log(error)
         toast.error('Something went wrong. Please try changing the address or try rewriting the address!');
       })
       .finally(() => setIsLoading(false));

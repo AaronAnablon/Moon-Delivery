@@ -37,9 +37,9 @@ const Summary = () => {
           setHeaders()
         );
         setOrders((response.data).reverse())
-        console.log('Orders', response.data)
+        // console.log('Orders', response.data)
       } catch (error) {
-        console.log(error);
+       // console.log(error);
         toast.error('Something went wrong!')
       }
     };

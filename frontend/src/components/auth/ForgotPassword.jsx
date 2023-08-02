@@ -48,7 +48,7 @@ const ForgotPassword = () => {
       } else {
         toast.error('Code invalid!')
         setErrorCount(count => count + 1)
-        console.log(errorCount)
+       // console.log(errorCount)
       }
       if (errorCount === 2) {
         setDisable(true);
@@ -68,7 +68,7 @@ const ForgotPassword = () => {
           }
           try {
             const response = await axios.put(`${url}/register/password`, {email: email, password: newPassword});
-            console.log(response.data);
+           // console.log(response.data);
             toast.success('Successfully Changed')
             navigate('/login')
           } catch (error) {

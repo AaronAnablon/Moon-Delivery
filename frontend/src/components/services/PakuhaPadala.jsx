@@ -65,7 +65,7 @@ const PakuhaPadala = () => {
     axios
       .post(`${url}/booking`, booked, setHeaders)
       .then(response => {
-        console.log('success', response.data);
+        //console.log('success', response.data);
         toast.success('Booked successfully!');
         navigate('/user/userBooking');
         const socket = io.connect(server);
@@ -73,7 +73,7 @@ const PakuhaPadala = () => {
       })
       .catch(error => {
         toast.error('Something went wrong. Please try changing the address and other related input');
-        console.log('Error:', error.response);
+        //console.log('Error:', error.response);
       });
   };
 

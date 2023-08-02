@@ -36,7 +36,7 @@ const BookingHistory = () => {
         setBooked((response.data).reverse());
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       })
       .finally(() => {
         setLoading(false); // Set loading to false after the axios call
@@ -73,11 +73,11 @@ const BookingHistory = () => {
         }
       };
       await axios.put(`${url}/booking/${booking._id}`, updatedBooking, setHeaders()).then((response) => {
-        console.log(response.data)
+        //console.log(response.data)
         getBooking()
       });
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   };
 

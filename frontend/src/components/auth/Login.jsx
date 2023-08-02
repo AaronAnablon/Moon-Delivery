@@ -18,7 +18,7 @@ const Login = () => {
 
 
   useEffect(() => {
-    console.log(auth)
+    //console.log(auth)
     if (auth._id && auth.active && !auth.isRider && !auth.isAdmin) {
       navigate("/");
     } else if (auth.isAdmin && auth.active && auth.isRider === true) {
@@ -68,15 +68,20 @@ const Login = () => {
               required
             />
           </Form.Group>
-      
-
           <Card.Text> <span onClick={handleForgot} style={{ cursor: 'pointer' }}>Forgot Password?</span></Card.Text>
           <Card.Text>Don't have an account? <span onClick={handleRegister} style={{ cursor: 'pointer' }}>Create account</span></Card.Text>
-       
             <Button className="col-11 m-3" type="submit">
               {auth.loginStatus === 'pending' ? 'Submitting...' : 'Login'}
             </Button>
             {auth.loginStatus === 'rejected' ? <p>{auth.loginError}</p> : null}
+            <Card.Text className="border p-4">Login as Customer: 
+            <p>email: customerGuest@gmail.com</p>
+            <p>Password: customerGuest</p>
+            </Card.Text>
+            <Card.Text className="border p-4">Login as Rider: 
+            <p>email: riderGuest@gmail.com</p>
+            <p>Password: riderGuest</p>
+            </Card.Text>
         </Form>
       </div>
     </div>
