@@ -25,13 +25,15 @@ const Home = ({ searchData }) => {
 
   const navigate = useNavigate();
 
-  const fetchProducts = useCallback(async () => {
+  const fetchProducts = useCallback(async (pageRequest) => {
+   
     try {
       setLoading(true)
-      const response = await axios.get(`${url}/products/increment?page=${currentPage}`);
+      const response = await axios.get(`${url}/products/increment?page=${pageRequest}`);
       const newData = response.data.products;
       setLoading(false)
       setTotalPage(response.data.totalPages)
+    
       setData(prevData => {
         const filteredData = newData.filter(product => !prevData.find(p => p._id === product._id));
         return [...prevData, ...filteredData];
@@ -66,7 +68,7 @@ const Home = ({ searchData }) => {
   }, [searchData]);
 
   useEffect(() => {
-    fetchProducts();
+    fetchProducts(currentPage);
   }, [currentPage]);
 
 
@@ -74,9 +76,7 @@ const Home = ({ searchData }) => {
     setSortedBrand(brand);
   };
 
-  const filteredData = sortedBrand
-    ? data?.filter((product) => product.category === sortedBrand)
-    : data;
+  const filteredData = sortedBrand ? data?.filter((product) => product.category === sortedBrand) : data;
 
   const handleLoadMore = () => {
     setCurrentPage((prevPage) => prevPage + 1);

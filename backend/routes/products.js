@@ -89,7 +89,7 @@ router.get("/seller/:sellerId", isAdmin, async (req, res) => {
 //GET 10 PRODUCTS
 router.get("/increment", async (req, res) => {
   const page = parseInt(req.query.page) || 1; // Current page, default to 1
-  const limit = 10; // Number of items to display per page
+  const limit = 12; // Number of items to display per page
   const qbrand = req.query.brand;
 
   try {
