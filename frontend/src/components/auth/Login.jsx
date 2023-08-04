@@ -49,7 +49,7 @@ const Login = () => {
     <div className="d-flex justify-content-center align-items-center m-md-5 m-2 mt-5">
         <div style={{background: 'linear-gradient(45deg, rgba(255,255,255,1) 71%, rgba(244,61,0,1) 71%)'}} 
         className="col-lg-5 col-md-8 col-12 d-flex shadow align-items-center justify-content-center">
-        <Form className="col-lg-8 col-10 m-md-4" onSubmit={handleSubmit}>
+        <Form className="col-lg-8 col-10 m-md-4 mb-10" onSubmit={handleSubmit}>
           <h2>Login</h2>
           <Form.Group>
             <Form.Control
@@ -78,7 +78,7 @@ const Login = () => {
             <p>email: customerGuest@gmail.com</p>
             <p>Password: customerGuest</p>
             </Card.Text>
-            <Card.Text className="border p-4 mb-10">Login as Rider: 
+            <Card.Text className="border p-4">Login as Rider: 
             <p>email: riderGuest@gmail.com</p>
             <p>Password: riderGuest</p>
             </Card.Text>
