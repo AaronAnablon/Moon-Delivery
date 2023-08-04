@@ -78,7 +78,7 @@ const Login = () => {
             <p>email: customerGuest@gmail.com</p>
             <p>Password: customerGuest</p>
             </Card.Text>
-            <Card.Text className="border p-4">Login as Rider: 
+            <Card.Text className="border p-4 mb-10">Login as Rider: 
             <p>email: riderGuest@gmail.com</p>
             <p>Password: riderGuest</p>
             </Card.Text>
