@@ -144,7 +144,7 @@ const Flow = () => {
                     </Accordion.Body>
                 </Accordion.Item>
                 <div className="mb-5" style={{ fontSize: '1.5rem' }}>
-                    <Link to={'https://sites.google.com/view/moon-delivery/home'} target="_blank">More <FaArrowAltCircleRight /></Link>
+                    <Link to={'https://sites.google.com/view/moon-delivery/home'} target="_blank">Docs <FaArrowAltCircleRight /></Link>
                 </div>
             </Accordion>
 
