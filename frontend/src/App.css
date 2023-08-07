@@ -357,5 +357,11 @@ a.nav-link {
   }
 }
 
+@media only screen and (max-width: 600px) {
+  .image-container {
+    height: 400px;
+  }
+}
+
 
 /*************** TO BE KEPT ***************/
